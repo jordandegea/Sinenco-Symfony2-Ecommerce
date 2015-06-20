@@ -1,0 +1,21 @@
+# This file is auto-generated during the composer install
+parameters:
+    database_driver: pdo_mysql
+    database_host: 127.0.0.1
+    database_port: 3306
+    database_name: sinencosymfony
+    database_user: root
+    database_password: root
+    mailer_transport: smtp
+    mailer_encryption: ssl
+    mailer_auth_mode:  login
+    mailer_port:       587
+    mailer_host: SSL0.ovh.net
+    mailer_user: webmaster@sinenco.com
+    mailer_password: bullet4my04
+    locale: en
+    secret: jmAiZCMVplqOP01xHZrw82o6a5Pfybj5
+    authorizedLocales: en|fr
+    authorizedLocalesArray:
+        - en
+        - fr

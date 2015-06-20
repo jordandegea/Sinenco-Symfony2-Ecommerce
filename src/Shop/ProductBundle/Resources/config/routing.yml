@@ -1,0 +1,13 @@
+shop_product_list:
+    path:     /products/{category}
+    defaults: { _controller: ShopProductBundle:Product:list, category: null }
+    requirements:
+        category: null|[a-z0-9\-]*
+        
+shop_product:
+    path:     /product/{product_idOrSlug}
+    defaults: { _controller: ShopProductBundle:Product:product }
+    
+shop_product.purchases:
+    path:     /purchases
+    defaults: { _controller: ShopProductBundle:Product:purchases }

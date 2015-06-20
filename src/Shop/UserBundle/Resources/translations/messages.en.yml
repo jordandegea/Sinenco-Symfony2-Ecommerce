@@ -1,0 +1,19 @@
+shop:
+    userbundle: 
+        title: My postal addresses
+        optional: Optional
+        useForAddress: Use this field for automatic address
+        editConfirm: Address modification made
+
+
+First name: First name
+Last name: Last name
+
+#Company name: 
+#Address:
+Street number: N°
+#Route:
+#City:
+State region: State/Region
+#Zip code:
+#Country:

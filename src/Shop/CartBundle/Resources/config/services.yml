@@ -1,0 +1,16 @@
+
+services:
+    shop_cart.cart:
+        class: Shop\CartBundle\Services\CartService
+        arguments: 
+            entityManager: "@doctrine.orm.entity_manager"
+            container: "@service_container"
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+            
+
+    shop_cart.twig:
+        class: Shop\CartBundle\Twig\CartExtension
+        arguments: [@service_container] #on passe le container en argument
+        tags:
+            - { name: twig.extension }

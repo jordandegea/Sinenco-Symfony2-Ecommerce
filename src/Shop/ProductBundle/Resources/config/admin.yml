@@ -1,0 +1,71 @@
+services:
+    
+    sonata.admin.category:
+        class: Shop\ProductBundle\Admin\CategoryAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "E-Commerce", label: "Categories" }
+        arguments:
+            - ~
+            - Shop\ProductBundle\Entity\Category
+            - ~
+        calls:
+            - [ setTranslationDomain, [ShopProductBundle]]
+    
+    sonata.admin.price:
+        class: Shop\ProductBundle\Admin\PriceAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "E-Commerce", label: "Prices" }
+        arguments:
+            - ~
+            - Shop\ProductBundle\Entity\Prices
+            - ~
+        calls:
+            - [ setTranslationDomain, [ShopProductBundle]]
+            
+            
+    sonata.admin.product:
+        class: Shop\ProductBundle\Admin\ProductAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "E-Commerce", label: "Products" }
+        arguments:
+            - ~
+            - Shop\ProductBundle\Entity\Product
+            - ~
+        calls:
+            - [ setTranslationDomain, [ShopProductBundle]]
+            
+            
+            
+    sonata.admin.product.option:
+        class: Shop\ProductBundle\Admin\ProductOptionAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "E-Commerce", label: "Products Options" }
+        arguments:
+            - ~
+            - Shop\ProductBundle\Entity\ProductOption
+            - ~
+        calls:
+            - [ setTranslationDomain, [ShopProductBundle]]
+            
+    sonata.admin.product.option.values:
+        class: Shop\ProductBundle\Admin\ProductOptionValuesAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "E-Commerce", label: "Products Option Values" }
+        arguments:
+            - ~
+            - Shop\ProductBundle\Entity\ProductOptionValues
+            - ~
+        calls:
+            - [ setTranslationDomain, [ShopProductBundle]]
+            
+    sonata.admin.purchases:
+        class: Shop\ProductBundle\Admin\PurchasesAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "E-Commerce", label: "Purchases" }
+        arguments:
+            - ~
+            - Shop\ProductBundle\Entity\Purchases
+            - "ShopProductBundle:PurchasesAdmin"
+        calls:
+            - [ setTranslationDomain, [ShopProductBundle]]
+            

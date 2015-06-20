@@ -1,0 +1,13 @@
+sinenco_core_profile:
+    path:     /profile/
+    defaults: { _controller: SinencoCoreBundle:Core:profile }
+
+sinenco_core_addAddressToProfile:
+    path:     /profile/addAddress
+    defaults: { _controller: SinencoCoreBundle:Core:addAddress }
+    
+    
+    
+sinenco_core_imprint:
+    path:     /imprint
+    defaults: { _controller: SinencoCoreBundle:Core:imprint }

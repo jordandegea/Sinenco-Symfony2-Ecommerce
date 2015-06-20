@@ -1,0 +1,40 @@
+
+next_step: Prochaine étape
+
+updateCart: Actualiser
+continueCart: Continuer les achats
+checkoutCart: Commander
+applyDiscountCart: Appliquer la réduction
+discountCode: Code de réduction
+totalPrice: "Total price: %price%"
+noProductAvailable: Aucun produit dans le panier
+need_addresses: "Nous avons besoin d'au moins une adresse. Cliquez sur le boutton suivant, completez votre adresse, puis revenez à cette étape avec le bouton panier. "
+
+
+cart:
+    title: Panier
+    success.added: Produit ajouté au panier
+    danger.not_added: Impossible d'ajouter le produit au panier
+
+    your_cart: "Votre panier"
+    identification: "Votre compte"
+    addresses: "Adresses"
+    checkout: "Commander"
+
+    top.advert: "Attention : vous n'avez peut être pas configuré toutes les options dans le panier." 
+
+
+    warning.step_checkout_addresses: Adresse de facturation manquante. Redirigé vers cette page. 
+    warning.step_checkout_cart_fields: Champs requis manquant. Redirigé vers cette page. 
+
+    prices: Prix
+    options: Options
+    attributes: Attributs
+    text_about_TVA_bottom_view: TVA non applicable, art. 293 B du CGI
+    billing_address: Adresse de Facturation
+    invoice_transform: Transformer en facture
+    price_row:
+        unit: "/u"
+    option_price: 
+        monthly: " - <strong>%total% </strong>(%base%/m)"
+        one_time: " - <strong>%total% </strong>(%base%/u)"

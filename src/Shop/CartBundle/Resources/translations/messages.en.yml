@@ -1,0 +1,51 @@
+
+next_step: Next step
+
+updateCart: Update
+continueCart: Continue Shopping
+checkoutCart: Checkout
+applyDiscountCart: Apply the discount
+discountCode: Discount code
+totalPrice: "Prix total : %price%"
+noProductAvailable: No product in the cart
+need_addresses: "We need at least one address. Click on the button, complete your address and then return to this step with the \"Cart\" button."
+
+cart: 
+    title: Cart
+    your_cart: "Your Cart"
+
+    success: 
+        added: Product added to the cart
+    danger: 
+        not_added: Product can't be added to the cart
+
+    
+    identification: "Identification"
+    addresses: "Addresses"
+    checkout: "Checkout"
+
+    top:
+        advert: "Warning: may be you have not set all the options in the basket."
+
+
+    warning: 
+        step_checkout_addresses: Missing billing address. Redirected to this page.
+        step_checkout_cart_fields: Missing required fields. Redirected to this page.
+
+    prices: Prices
+    options: Options
+    attributes: Attributes
+    text_about_TVA_bottom_view: TVA non applicable, art. 293 B du CGI
+    billing_address: Billing Address
+    invoice_transform: Transform to invoice
+    
+    price_row:
+        unit: "/u"
+    option_price: 
+        monthly: " - <strong>%total% </strong>(%base%/m)"
+        one_time: " - <strong>%total% </strong>(%base%/u)"
+
+
+    
+    
+

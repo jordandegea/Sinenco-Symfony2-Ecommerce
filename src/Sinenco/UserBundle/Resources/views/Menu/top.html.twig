@@ -1,0 +1,7 @@
+<li><a href="http://builtwithbootstrap.com/" target="_blank">
+        {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+            {{ app.user.username }} 
+        {% else %}
+            Invité
+        {% endif %}
+    </a></li>

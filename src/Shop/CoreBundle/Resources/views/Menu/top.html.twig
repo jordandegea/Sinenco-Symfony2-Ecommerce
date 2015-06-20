@@ -1,0 +1,11 @@
+<li class="dropdown">
+    <a class="dropdown-toggle" data-toggle="dropdown" href="" id="members_area">{{ currency_service.getCurrency() }}<span class="caret"></span></a>
+    <ul class="dropdown-menu" aria-labelledby="members_area">
+        {% for currency in currency_service.getChoiceCurrency %}
+        <li> <a onClick="editCurrency('{{ path('shop_edit_currency', {'currency' : currency }) }}' );"
+                href="#"
+                >{{ currency }}</a></li>
+        {% endfor %}
+        <li class="divider"></li>
+    </ul>
+</li>

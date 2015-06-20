@@ -1,0 +1,113 @@
+{# src/OC/PlatformBundle/Resources/views/Advert/edit.html.twig #}
+    
+{% extends "SinencoCoreBundle::layout.html.twig" %}
+    
+{% block title %}
+    Modifier une annonce - {{ parent() }}
+{% endblock %}
+    
+{% block javascripts %}
+    {{ parent() }}
+        
+    <script src="http://maps.google.com/maps/api/js?sensor=false"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+        
+    {% javascripts filter='?yui_css' 
+        "@ShopUserBundle/Resources/js/jquery.ui.addresspicker.js" 
+        "@ShopUserBundle/Resources/js/directaddresspicker.js"
+        "@SinencoCoreBundle/Resources/js/addAndDeleteAddresses.js" %}
+            
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+        
+{% endblock %}
+    
+    
+    
+{% block stylesheets %}
+    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/mint-choc/jquery-ui.css">
+        
+    {{ parent() }}
+{% endblock %}
+    
+{% block body %}
+    
+    
+    <h2>{{ 'sinenco.core.editMyAccount'|trans }}</h2>
+    <div class="col-lg-6">
+        <div class="well bs-component"> 
+            {{ form_start(formUser, {'attr': 
+            {'class': 'form-horizontal' } }) }}
+            <fieldset>
+                
+                <legend>{{ "sinenco.userbundle.myAccount"|trans }}</legend>
+                    
+                {% if not formUser.vars.valid %}
+                    <div class="alert alert-error">
+                        {{ form_errors(formUser) }}
+                    </div>
+                {% endif %}
+                {#% if formUser.message != "" %}
+                    <div class="alert alert-dismissable alert-info">
+                        {{ formUser.message }}
+                    </div>
+                {% endif %#}
+                {% for row in formUser %}
+                    {% if row.vars.block_prefixes[0] == "button" %}
+                        {{ form_row(row, {'attr': 
+                            {'class': 'btn btn-lg btn-primary btn-block' } }) }}
+                    {% else %}
+                        {{ form_row(row) }}
+                    {% endif %}
+                    {% if row.vars.name in separator %}<hr />{% endif %}
+                {% endfor %}
+            </fieldset>
+            </form>
+            <div class="alert alert-dismissible alert-info">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                {{ "balanceAndCurrencyInformation"|trans }}
+              </div>
+        </div>
+    </div>
+        
+        
+        
+    <div class="col-lg-6">
+        <div class="well bs-component">   
+            <fieldset>
+                
+                <legend>{{ "shop.userbundle.title"|trans }}</legend>
+                {% for form in formsUserAddresses %}
+                    <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#address_{{ loop.index }}">
+                        Address {{ loop.index }} 
+                    </button>
+                {% endfor %}
+                <a type="button" class="btn btn-info"  
+                   href="{{ path("sinenco_core_addAddressToProfile") }}" >
+                    New address
+                </a>
+                    
+                {% for form in formsUserAddresses %}
+                    <div id="address_{{ loop.index }}" class="collapse">
+                        <br />
+                        <legend> Address {{ loop.index }} </legend>
+                            
+                        <hr />
+                        {{ form_start(form, {'attr': 
+                        {'class': 'form-horizontal' } }) }}
+                        {% for row in form %}
+                            {% if row.vars.block_prefixes[0] == "button" %}
+                                {{ form_row(row, {'attr': 
+                                    {'class': 'btn btn-lg btn-primary btn-block' } }) }}
+                            {% else %}
+                                {{ form_row(row) }}
+                            {% endif %}
+                            {% if row.vars.name in separator %}<hr />{% endif %}
+                        {% endfor %}
+                    </form>
+                    </div> 
+                {% endfor %}
+        </div>
+    </div>
+{% endblock %}

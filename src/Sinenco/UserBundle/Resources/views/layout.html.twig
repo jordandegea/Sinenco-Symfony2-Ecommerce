@@ -1,0 +1,13 @@
+{# src/Sinenco/UserBundle/Resources/views/layout.html.twig #}
+    
+{# On étend notre layout #}
+{% extends "SinencoCoreBundle::layout.html.twig" %}
+    
+{# Dans notre layout, il faut définir le block body #}
+{% block body %}
+    
+    {# On définit ce block, dans lequel vont venir s'insérer les autres vues du bundle #}
+    {% block fos_user_content %}
+    {% endblock fos_user_content %}
+      
+{% endblock %}

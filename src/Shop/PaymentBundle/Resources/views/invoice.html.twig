@@ -1,0 +1,262 @@
+{% if pdf is defined %}
+    {% set prefix = app.request.scheme ~'://' ~ app.request.httpHost %}
+{% else %}
+    {% set prefix = '' %}
+{% endif %}
+
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Sample Invoice</title>
+        <link rel="stylesheet" href="{{ prefix ~ asset('bundles/shoppayment/css/bootstrap.css') }}">
+
+        <style>
+            @import url(http://fonts.googleapis.com/css?family=Bree+Serif);
+            body, h1, h2, h3, h4, h5, h6{
+                font-family: 'Bree Serif', serif;
+            }
+        </style>
+    </head>
+
+    <body>
+
+        {% if pdf is not defined %}
+            <nav class="navbar navbar-default navbar-fixed-top">
+                <div class="container">
+                    <div class="navbar-header">
+                        <a href="../" class="navbar-brand">{{ 'shop.payment.invoice.gateway_select'|trans }}</a>
+                        <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                    </div>
+                    <div class="navbar-collapse collapse" id="navbar-main">
+                        {{ form_start(payments, {'attr':{ 'class':'navbar-form navbar-left', 'role':'select'} }) }}
+                        <div class="form-group">
+                            {{ form_widget(payments.payments, {'attr':{ 'class':'form-control', 'style':'padding-left:50px;padding-right:50px;'} }) }}
+                        </div>
+                        <button type="submit" class="btn btn-default ">{{ 'shop.payment.invoice.gateway_select_btn'|trans }}</button>
+                        </form>
+                    </div>
+                </div>
+            </nav>
+
+
+        {% endif %}
+
+        <div class="container" {% if pdf is not defined %}style="margin-top:50px;"{% endif %}>
+            {% if pdf is not defined %}
+                {% set items = { 0:'warning', 1:'success', 2:'danger', 3:'info' } %}
+                {% for item in items %}
+                    {% for flashMessage in app.session.flashbag.get(item) %}
+                        <div class="alert alert-dismissable alert-{{ item }}">{{ flashMessage }}</div>
+                    {% endfor %}
+                {% endfor %}
+            {% endif %}
+            <div class="row">
+                <div class="col-xs-6">
+                    <h1>
+                        <a href="https://twitter.com/tahirtaous">
+                            {# <img src="logo.png"> #}
+                            Sinenco
+                        </a>
+                    </h1>
+                </div>
+                <div class="col-xs-6 text-right">
+                    <h1>
+                        {{ 'shop.payment.invoice.invoice_'|trans }} 
+                        {% if invoice.number > 0 %}
+                            {{ invoice.number }}
+                        {% endif %}
+                    </h1>
+                </div>
+            </div>
+
+            {# On creer la barre Emetteur/ Recepteur #}
+            <div class="row">
+                {% set addressSenderArray = invoice.addressSender|split("\n") %}
+                <div class="col-xs-5">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4>{{ 'shop.payment.invoice.from'|trans }}<a href="#">{{ addressSenderArray[0] }}</a></h4>
+                        </div>
+                        <div class="panel-body">
+                            <p>
+                                {% for line in addressSenderArray %}
+                                    {% if loop.index > 1 %} 
+                                        {{ line }} <br />
+                                    {% endif %}
+                                {% endfor %}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                {% set addressReceiverArray = invoice.addressReceiver|split("\n") %}
+                <div class="col-xs-5 col-xs-offset-2 text-right">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4>{{ 'shop.payment.invoice.to'|trans }}<a href="#">{{ addressReceiverArray[0] }}</a></h4>
+                        </div>
+                        <div class="panel-body">
+                            <p>
+                                {% for line in addressReceiverArray %}
+                                    {% if loop.index > 1 %} 
+                                        {{ line }} <br />
+                                    {% endif %}
+                                {% endfor %}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {# Maintenant on liste tous les articles #}
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>
+                <h4>{{ 'shop.payment.invoice.description'|trans }}</h4>
+                </th>
+                <th>
+                <h4>{{ 'shop.payment.invoice.unit_price'|trans }}</h4>
+                </th>
+                <th>
+                <h4>{{ 'shop.payment.invoice.quantity'|trans }}</h4>
+                </th>
+                <th>
+                <h4>{{ 'shop.payment.invoice.total'|trans }}</h4>
+                </th>
+                </tr>
+                </thead>
+                <tbody>
+                    {% for item in invoice.cart.products %}
+
+                        <tr>
+                            <td>
+                                <h5>{{ item.product.translate.name }}<br />
+                                    {% for key, value in item.optionsValues %}
+                                        {% if not value is empty %} 
+                                            <small>{{ key }} : {{ value }} </small><br />
+                                        {% endif %}
+                                    {% endfor %}</h5>
+                                    {% if item.product.price|getFieldPrice('oneTime') == 0 %}
+                                        {% set fields=['monthly', 'annually'] %}
+                                    <h5>
+                                        {% for field in fields %}
+                                            <small>{{ field|trans }} : {{ attribute(item.prices,field) }} * {{ item.product.price|getFormattedFieldPrice(field) }}</small><br />
+                                        {% endfor %}
+                                    </h5>
+                                {% endif %}
+                            </td> 
+                            <td class="text-right"> 
+                                {% if item.product.price|getFieldPrice('oneTime') == 0 %}
+                                    {{ invoicing_service.getTotalPriceCartItem(item, true) }}
+                                {% else %}
+                                    {{ item.product.price|getFormattedFieldPrice('oneTime')|FormatPrice  }}
+                                {% endif %}
+                            </td>
+                            <td class="text-right"> 
+                                {% if item.product.price|getFieldPrice('oneTime') == 0 %}
+                                    1
+                                {% else %}
+                                    {{ item.prices.oneTime }}
+                                {% endif %}
+                            </td>
+                            <td class="text-right"> 
+                                {% if item.product.price|getFieldPrice('oneTime') == 0 %}
+                                    {{ invoicing_service.getTotalPriceCartItem(item, false) }}
+                                {% else %}
+                                    {{ (item.product.price.oneTime*item.prices.oneTime)|FormatPrice  }}
+                                {% endif %}
+                            </td>
+                        </tr>
+
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="row text-right">
+                <div class="col-xs-6">
+                    <p class="text-center">
+                        {{ "cart.text_about_TVA_bottom_view"|trans() }}
+                    </p>
+                </div>
+
+                <div class="col-xs-3">
+                    <p>
+                        <strong>
+                            {{ 'shop.payment.invoice.subTotalHT'|trans }}<br>
+                            {{ 'shop.payment.invoice.TAX'|trans }}<br>
+                            {% if invoicing_service.getCredit(invoice) > 0 %}
+                                {{ 'shop.payment.invoice.subTotalTTC'|trans }} <br>
+                                {{ 'shop.payment.invoice.credit'|trans }}<br />
+                            {% endif %}
+                            {{ 'shop.payment.invoice.totalTTC'|trans }}<br>
+                            {% if pdf is not defined %}
+                                {{ 'shop.payment.invoice.balance'|trans }}<br>
+                            {% endif %}
+                        </strong>
+                    </p>
+                </div>
+                <div class="col-xs-3">
+                    <strong>
+                        {{ invoicing_service.getSubTotalPriceHT(invoice)|FormatPrice }}<br>
+                        N/A <br>
+
+                        {% if invoicing_service.getCredit(invoice) > 0 %}
+                            {{ invoicing_service.getSubTotalPriceTTC(invoice)|FormatPrice }}<br>
+                            {{ invoicing_service.getCredit(invoice)|FormatPrice }}<br>
+                            {{ invoicing_service.getTotalPriceTTC(invoice)|FormatPrice }}<br>
+                        {% else %}
+                            {{ invoicing_service.getTotalPriceTTC(invoice)|FormatPrice }}<br> 
+                        {% endif %}
+                        {% if pdf is not defined %}
+                            {{ invoicing_service.getRemainingPrice(invoice)|FormatPrice }}<br>
+                        {% endif %}
+                    </strong>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h4>{{ 'shop.payment.transaction.transactions'|trans }}</h4>
+                        </div>
+                        <div class="panel-body">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                <h4>{{ 'shop.payment.transaction.service'|trans }}</h4>
+                                </th>
+                                <th>
+                                <h4>{{ 'shop.payment.transaction.transaction'|trans }}</h4>
+                                </th>
+                                <th>
+                                <h4>{{ 'shop.payment.transaction.date'|trans }}</h4>
+                                </th>
+                                <th>
+                                <h4>{{ 'shop.payment.transaction.value'|trans }}</h4>
+                                </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    {% for transaction in invoice.transactions %}
+                                        <tr>
+                                            <td class="text-center">{{ transaction.service }}</td>
+                                            <td class="text-center">{{ transaction.txnId }}</td>
+                                            <td class="text-center">{{ transaction.date|date('Y-m-d H:i:s') }}</td>
+                                            <td class="text-right">{{ transaction.value }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

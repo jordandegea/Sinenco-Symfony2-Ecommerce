@@ -1,0 +1,18 @@
+shop:
+    userbundle:
+        title: Mes adresses postales
+        optional: Facultatif
+        useForAddress: Utiliser ce champ pour générer votre adresse
+        editConfirm: Modification de l'adresse effectué
+
+    
+First name: Prénom
+Last name: Nom
+Company name: Entreprise
+Address: Adresse
+Street number: N°
+Route: Rue/Voie
+City: Ville
+State region: Région
+Zip code: Code postal
+Country: Pays

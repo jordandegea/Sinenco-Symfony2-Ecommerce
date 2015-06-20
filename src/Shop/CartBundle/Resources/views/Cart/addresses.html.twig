@@ -1,0 +1,68 @@
+{# src/Shop/ProductBundle/Resources/views/Products/list.html.twig #}
+
+{% extends "ShopCartBundle::layout.html.twig" %}
+
+{% block title %}
+    {{ parent() }}
+{% endblock %}
+
+{% block shop_cart %}
+    <hr />
+    
+    {{ include("ShopCartBundle:Cart/Top:step.html.twig") }}
+    
+    <hr />
+    
+    {% if form.addresses is empty %}
+        <div class="row">
+            <div class="col-xs-12 text-center text-warning">
+                {{ "need_addresses"|trans }}
+            </div>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-xs-12
+                 col-sm-8 col-sm-offset-2
+                 col-md-6 col-md-offset-3
+                 col-lg-4 col-lg-offset-4">
+                <a href="{{ path("sinenco_core_profile") }}" class="btn btn-md btn-primary btn-block">{{ "shop.userbundle.title"|trans }}</a>
+            </div>
+        </div>
+        
+    {% else %}
+        <form method="POST" >
+            <div class="col-lg-12">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">{{ "cart.billing_address"|trans }}</h3>
+                    </div>
+                    <div class="panel-body">
+                        {% for address in form.addresses %}
+                            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+                            <div class="well well-sm">
+                                {% if cartAddress is not null %}
+                                <input name="billingAddress" id="deliveryAddress{{ loop.index }}" 
+                                       value="{{ address.id }}" {% if cartAddress.id == address.id %}checked{% endif %} type="radio">
+                                {% else %}
+                                <input name="billingAddress" id="deliveryAddress{{ loop.index }}" 
+                                       value="{{ address.id }}" {% if loop.index == 1 %}checked{% endif %} type="radio">
+                                {% endif %}
+                                {{ address|nl2br }}
+                            </div></div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <input type="submit" class="btn btn-md btn-primary btn-block">
+            </div>
+        </form>
+        
+    {% endif %}
+{% endblock %}
+
+
+
+
+
+

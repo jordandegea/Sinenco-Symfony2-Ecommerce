@@ -1,0 +1,23 @@
+parameters:
+    service.services_available:
+         - allopass_renting
+         - allopass_commission
+         
+services:
+    services_core.core_services:
+        class: Services\CoreBundle\Services\CoreServices
+        arguments: 
+            entityManager: "@doctrine.orm.entity_manager"
+            container: "@service_container"
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+            - { name: kernel.event_listener, event: sonata.admin.event.persistence.post_update, method: updateDetailsOfRentings }
+#        arguments: [@service_id, "plain_value", %parameter%]
+
+    service.completeinvoice_listener:
+        class:     Services\CoreBundle\Listeners\CompleteInvoiceListener
+        arguments: 
+            entityManager: "@doctrine.orm.entity_manager"
+            container: "@service_container"
+        tags:
+            - { name: kernel.event_listener, event: shop.invoiceevent.complete, method: onInvoiceComplete }

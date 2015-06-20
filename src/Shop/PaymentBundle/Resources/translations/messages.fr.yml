@@ -1,0 +1,28 @@
+
+shop.payment.pay.balance_complete: Paiement par solde terminé
+shop.payment.pay.balance_partial: Paiement par solde terminé
+shop.payment.pay.balance_failure: Impossible de payer avec votre solde
+
+shop.payment.invoice.gateway_select: Choisissez votre moyen de paiement
+shop.payment.invoice.gateway_select_btn: Go
+shop.payment.invoice.invoice_ : "Facture : "
+shop.payment.invoice.from: "De : "
+shop.payment.invoice.to: "Vers : "
+shop.payment.invoice.description: Description
+shop.payment.invoice.quantity: Quantité
+shop.payment.invoice.unit_price: Prix Unitaire
+shop.payment.invoice.total: Total
+shop.payment.invoice.subTotalHT: Sous Total HT
+shop.payment.invoice.subTotalTTC: Sous Total TTC
+shop.payment.invoice.TAX: Taxe
+shop.payment.invoice.credit: Credit
+shop.payment.invoice.totalTTC: Total TTC
+shop.payment.invoice.balance: Restant
+
+shop.payment.transactiontransactions: Transactions
+shop.payment.transactiontransaction: Transaction
+shop.payment.transactionservice: Service
+shop.payment.transactiondate : Date
+shop.payment.transactionvalue: Valeur
+            
+                

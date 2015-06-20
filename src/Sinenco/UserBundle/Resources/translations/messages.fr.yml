@@ -1,0 +1,9 @@
+security.login.forgottenPassword: Mot de passe oublié
+sinenco:
+    userbundle:
+        myAccount: Mon Compte
+        editConfirm: Modification de l'utilisateur effectué
+
+
+First name: Prénom
+Last name: Nom

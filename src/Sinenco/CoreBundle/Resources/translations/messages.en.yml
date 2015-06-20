@@ -1,0 +1,24 @@
+balanceAndCurrencyInformation: Inforamtion trafqdsf
+sinenco.core:
+    editMyAccount: Edit my account
+    imprint: Imprint
+    manager: Manager
+    manager_text: |
+        Sinenco is a service provided by Jordan DE GEA
+        
+        Address: %address%
+        
+        SIRET: %siret%
+        
+        Phone: %phone%
+        
+        Skype: %skype%
+    hosting: Hosting
+    hosting_text: |
+        Name : %name%
+
+        Address : %address%
+    
+    top_menu:
+        shop: Shop
+        services: Services

@@ -1,0 +1,57 @@
+
+{% extends "ServicesCoreBundle::layout.html.twig" %}
+
+
+{% block title %}
+    {{ 'services.services'|trans }} - {{ parent() }}
+{% endblock %}
+
+
+{% block services_body %}
+    <div class="container">
+        <div class="col col-xs-12 col-sm-6 col-md-6 col-lg-6">
+            <h2>{{ 'services.my_services'|trans }}</h2>
+            {{ 'services.my_services_text'|trans }}
+            
+
+            <div id="accordion" class="panel-group">
+                {% for category in services %}
+                <div class="panel panel-default">
+                    
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{ loop.index }}">
+                                {% for step in category[0]|reverse %}
+                                    {{ step }}
+                                    {% if not loop.last %}
+                                        > 
+                                    {% endif %}
+                                {% endfor %}
+                                </a>
+                        </h4>
+                    </div>
+                    <div id="collapse{{ loop.index }}" class="panel-collapse collapse">
+                        <div class="panel-body">
+                            {% for service in category %}
+                                {% if loop.index > 1 %}
+                                    <a href="{{ path("shop_product", {'product_idOrSlug':service.product.canonicalName}) }}" 
+                                       class="btn btn-block btn-primary">
+                                        {{ service.translate.name }}
+                                    </a>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+    
+        </div>
+        <div class="col col-xs-12 col-sm-6 col-md-6 col-lg-6">
+            <h2>{{ 'service.my_services'|trans }}</h2>
+            {#Vous avez X services dont X actifs. ;#}
+            
+            <a href="{{ path("services_mine_list") }}" class="btn btn-block btn-primary">Accéder à mes services</a>
+        </div>
+    </div>
+{% endblock %}

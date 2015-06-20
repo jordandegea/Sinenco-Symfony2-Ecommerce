@@ -1,0 +1,36 @@
+parameters:
+    payum.class_order: 'Shop\PaymentBundle\Entity\Order'
+    payum.done_route: 'shop_payment_done'
+    
+payum:
+    security:
+        token_storage:
+            Shop\PaymentBundle\Entity\PaymentToken: { doctrine: orm }
+
+    storages:
+        Shop\PaymentBundle\Entity\Order: { doctrine: orm }
+        Shop\PaymentBundle\Entity\PaymentDetails: { doctrine: orm }
+
+    payments:
+        offline:
+            offline: ~
+            
+        paypal:
+            paypal_pro_checkout_nvp:
+                username: 'EDIT ME'
+                password: 'EDIT ME'
+                partner:  'EDIT ME'
+                vendor:   'EDIT ME'
+                sandbox: true
+        
+        paypal_express:
+            paypal_express_checkout_nvp:
+                #username:  'heavencash_api1.hotmail.fr'
+                #password:  'GJYMQ4M9XKX5P42R'
+                #signature: 'AFcWxV21C7fd0v3bYYYRCpSSRl31AXKjDQGh1uy1qKs.70bumH4mpB7y'
+                #sandbox: false
+                username:  'company_api1.hotmail.fr'
+                password:  '1395167446'
+                signature: 'AXwG.ZweTH7GajuS34FJgNW5x1QaAYt5FYXs-XRaoObQ.q-.2oipDcwP'
+                sandbox: true
+            

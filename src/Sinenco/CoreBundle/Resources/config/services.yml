@@ -1,0 +1,24 @@
+services:
+#    sinenco_core.example:
+#        class: Sinenco\CoreBundle\Example
+#        arguments: [@service_id, "plain_value", %parameter%]
+
+    sinenco_core.sponsor:
+        class: Sinenco\CoreBundle\Services\SponsorService
+        arguments: 
+            entityManager: "@doctrine.orm.entity_manager"
+            container: "@service_container"
+        tags:
+            - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
+            - { name: kernel.event_listener, event: fos_user.registration.completed, method: onCompleteRegistration }
+            
+    mail_service:
+        class: Sinenco\CoreBundle\Services\MailerService
+        
+    sinenco_core.completeinvoice_listener:
+        class:     Sinenco\CoreBundle\Listeners\CompleteInvoiceListener
+        arguments: 
+            entityManager: "@doctrine.orm.entity_manager"
+            container: "@service_container"
+        tags:
+            - { name: kernel.event_listener, event: shop.invoiceevent.complete, method: onInvoiceComplete }

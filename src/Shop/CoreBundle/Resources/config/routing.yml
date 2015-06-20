@@ -1,0 +1,7 @@
+shop_edit_currency:
+    path:     /edit_currency/{currency}
+    defaults: { _controller: ShopCoreBundle:Currency:editCurrency }
+    
+shop_homepage:
+    path:     /
+    defaults: { _controller: ShopCoreBundle:Front:index }

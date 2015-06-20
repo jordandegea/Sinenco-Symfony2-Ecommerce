@@ -1,0 +1,20 @@
+
+{% extends "::email_layout.html.twig" %}
+
+{% block core_mail %}
+    <table>
+        <tr>
+            <td>
+                <p>{{"shop.purchases.email.text"|trans({"%name%":purchase.user.firstName,"%id%":purchase.id})|raw}} </p>
+                <table>
+                    <tr>
+                        <td class="padding">
+                            <p><a href="{{ path("shop_product.purchases") }}" class="btn-primary">
+                                    {{"shop.purchases.email.link"|trans|raw}}</a></p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+{% endblock %}

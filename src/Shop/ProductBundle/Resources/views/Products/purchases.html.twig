@@ -1,0 +1,68 @@
+
+{% extends "ShopProductBundle::layout.html.twig" %}
+
+
+{% block title %}
+    {{ 'shop.my_purchases'|trans }}  - {{ parent() }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}
+
+
+{% block shop_product %}
+    <div class="container">
+        <div class="col col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <h2>{{ "shop.my_purchases"|trans }}</h2>
+
+            <table class="table table-striped table-hover ">
+                <thead>
+                    <tr>
+                        <th>{{ "shop.purchases.id"|trans }}</th>
+                        <th>{{ "shop.purchases.purchase_date"|trans }}</th>
+                        <th>{{ "shop.purchases.file"|trans }}</th>
+                        <th>{{ "shop.purchases.optionsAndComment"|trans }}</th>
+                        <th>{{ "shop.purchases.state"|trans }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for purchase in purchases %}
+                        <tr>
+                            <td>{{ purchase.id }}</td>
+                            <td>{{ purchase.purchasedAt|date }}</td>
+                            <td>
+                                {% if not purchase.file is empty %}
+                                    <a href="{{ path('sonata_media_download', {'id': purchase.file|sonata_urlsafeid }) }}" 
+                                       type="button" 
+                                       class="btn btn-sucess">
+                                        <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>
+                                    </a>
+                                {% else %}
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if not purchase.comment is empty %}
+                                    {{ purchase.comment|raw }} <br />
+                                {% endif %}
+                                {% for key,value in purchase.optionsValues %}
+                                    {% if not value is empty %}
+                                        {{ key }} : {{ value }} <br />
+                                    {% endif %}
+                                {% endfor %}
+
+                            </td>
+                            {% if purchase.state == 0 %}
+                                <th>{{ "shop.purchases.pending"|trans }}</th>
+                                {% else %}
+                                <th>{{ "shop.purchases.complete"|trans }}</th>
+                                {% endif %}
+                        </tr>
+                    {% endfor %}
+
+                </tbody>
+            </table> 
+        </div>
+    </div>
+
+{% endblock %}

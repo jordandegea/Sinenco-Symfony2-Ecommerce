@@ -1,0 +1,33 @@
+# Assetic Configuration
+assetic:
+    debug:          "%kernel.debug%"
+    use_controller: false
+    bundles:        [SinencoCoreBundle, ShopProductBundle, ServicesCoreBundle]
+    java: "C:\Program Files (x86)\Java\jre7\bin\java.exe"
+    filters:        
+        cssrewrite: ~
+        yui_js:
+            jar: %kernel.root_dir%/Resources/java/yuicompressor-2.4.8.jar
+        yui_css:
+            jar: %kernel.root_dir%/Resources/java/yuicompressor-2.4.8.jar
+    assets:
+        bootstrap_glyphicons_ttf:
+            inputs:
+                - '@SinencoCoreBundle/Resources/fonts/glyphicons-halflings-regular.ttf'
+            output: "fonts/glyphicons-halflings-regular.ttf"
+        bootstrap_glyphicons_eot:
+            inputs:
+                - '@SinencoCoreBundle/Resources/fonts/glyphicons-halflings-regular.eot'
+            output: "fonts/glyphicons-halflings-regular.eot"
+        bootstrap_glyphicons_svg:
+            inputs:
+                - '@SinencoCoreBundle/Resources/fonts/glyphicons-halflings-regular.svg'
+            output: "fonts/glyphicons-halflings-regular.svg"
+        bootstrap_glyphicons_woff:
+            inputs:
+                - '@SinencoCoreBundle/Resources/fonts/glyphicons-halflings-regular.woff'
+            output: "fonts/glyphicons-halflings-regular.woff"
+
+#        jquery:
+#            inputs:
+#                - %kernel.root_dir%/../vendor/components/jquery/jquery.js

@@ -1,0 +1,20 @@
+imports:
+    - { resource: parameters.yml }
+    - { resource: security.yml }
+    - { resource: services.yml }
+    - { resource: configs/framework.yml }
+    - { resource: configs/twig.yml }
+    - { resource: configs/assetic.yml }
+    - { resource: configs/doctrine.yml }
+    - { resource: configs/swiftmailer.yml }
+    - { resource: configs/FOS.yml }
+    - { resource: configs/stof_doctrine_extensions.yml }
+    - { resource: configs/sonata.yml }
+    - { resource: configs/a2lix.yml }
+    - { resource: configs/shop.yml }
+    - { resource: ../../vendor/knplabs/doctrine-behaviors/config/orm-services.yml }
+    - { resource: configs/website_configuration.yml }
+    - { resource: configs/payum.yml }
+    - { resource: configs/knp_snappy.yml }
+    - { resource: configs/payments.yml }
+  

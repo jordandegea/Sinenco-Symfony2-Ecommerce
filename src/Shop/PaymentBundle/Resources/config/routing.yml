@@ -1,0 +1,19 @@
+shop_payment_invoice:
+    path:     /invoice/{id}
+    defaults: { _controller: ShopPaymentBundle:Payment:invoice }
+    requirements:
+        id: \d+
+
+
+shop_payment_prepare:
+    path:     /prepare
+    defaults: { _controller: ShopPaymentBundle:Payment:prepare}
+    
+shop_payment_prepare_offline:
+    path:     /prepareoffline
+    defaults: { _controller: ShopPaymentBundle:Payment:prepareOffline}
+    
+    
+shop_payment_done:
+    path:     /done
+    defaults: { _controller: ShopPaymentBundle:Payment:done}

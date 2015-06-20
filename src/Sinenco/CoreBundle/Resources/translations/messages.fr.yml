@@ -1,0 +1,29 @@
+balanceAndCurrencyInformation: Lorsque vous changez de devises, votre credit est automatiquement converti. Durant la conversion, nous prenons une petite commission de 1% afin d'eviter tout abus. 
+
+sinenco.core:
+    editMyAccount: Modifier mon compte
+    imprint: Mentions légales
+    manager: Gérant
+    manager_text: |
+        Sinenco est un service proposé par Jordan DE GEA
+        
+        Adresse : %address%
+        
+        SIRET: %siret%
+        
+        Téléphone : %phone%
+        
+        Skype : %skype%
+    hosting: Hebergeur
+    hosting_text: |
+        Nom de l'hébergeur : %name%
+
+        Adresse : %address%
+
+    top_menu:
+        shop: Boutique
+        services: Services
+        
+        
+        
+Contact Us : Contactez-nous

@@ -1,0 +1,79 @@
+{# src/Shop/ProductBundle/Resources/views/Products/list.html.twig #}
+
+{% extends "ShopProductBundle::layout.html.twig" %}
+
+{% block title %}
+    {% if category %}
+        {{ category.translate.name }} - 
+    {% endif %}
+    {{ parent() }}
+{% endblock %}
+
+{% block shop_product %}
+    
+    {% if category == null %}
+        {{ render(controller('ShopProductBundle:Product:categories') )  }}
+        
+    {% else %}
+        {{ render(controller('ShopProductBundle:Product:categories',{'category': category.id } ) )  }}
+        {% if products %}
+            <div class="row">
+                <div class="col-lg-12" >
+                    {#
+                    {% for product in products %}
+                        {{ dump(product) }}<br /><br />
+                    {% endfor %}
+                    #}
+                    {% for product in products %}
+                        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4"  id="prodCol{{loop.index}}">
+                            <div class="thumbnail" id="prodColThumb{{loop.index}}" >
+                                <a href="{{ path("shop_product", {"product_idOrSlug":product.canonicalName} ) }}">
+                                    {% if product.image %}
+                                        {% media product.image, '350' with {
+                                            'class': 'img-responsive', 
+                                            'style':(shop_product_image_style)?shop_product_image_style } 
+                                        %}
+                                    {% else %}
+                                        {{ include("ShopProductBundle:Products/Includes:ProductNotAvailable.html.twig") }}
+                                    {% endif %}
+                                </a>
+                                <div class="caption">
+                                    <h4 class="pull-right">{{ product.prices|getFirstPrice }}</h4>
+                                    <h4><a href="{{ path("shop_product", {"product_idOrSlug":product.canonicalName} ) }}">{{ product.translate.name }}</a>
+                                    </h4>
+                                    <p>{{ product.translate.shortDescription }}</p>
+                                    {% if canAddToCart(product.prices) %}
+                                        <a class="btn btn-sm btn-success" 
+                                           onClick="addToCart('{{ path('shop_cart_rest_add') }}/{{ product.id }}');"
+                                           style="width:100%;"
+                                           href="#">
+                                            {{ "add_to_cart"|trans }}
+                                        </a>
+                                    {% endif %}
+                                </div>
+                                {#
+                                <div class="ratings">
+                                    <p class="pull-right">15 reviews</p>
+                                    <p>
+                                        <span class="glyphicon glyphicon-star"></span>
+                                        <span class="glyphicon glyphicon-star"></span>
+                                        <span class="glyphicon glyphicon-star"></span>
+                                        <span class="glyphicon glyphicon-star"></span>
+                                        <span class="glyphicon glyphicon-star"></span>
+                                    </p>
+                                </div>
+                                #}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+    {% endif %}
+{% endblock %}
+
+
+
+
+
+

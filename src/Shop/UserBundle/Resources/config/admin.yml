@@ -1,0 +1,13 @@
+services:
+    
+    sonata.admin.user.address:
+        class: Shop\UserBundle\Admin\UserAddressAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Users", label: "Users Addresses" }
+        arguments:
+            - ~
+            - Shop\UserBundle\Entity\UserAddress
+            - ~
+        calls:
+            - [ setTranslationDomain, [ShopUserBundle]]
+            

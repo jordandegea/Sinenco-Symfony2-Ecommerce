@@ -1,0 +1,53 @@
+sonata_admin:
+    title:      Sinenco Admin
+    #title_logo: bundles/acmedemo/img/fancy_acme_logo.png
+    templates:
+        layout:              %kernel.root_dir%/Resources/views/sonata_admin_base_layout.html.twig
+        search:              SonataAdminBundle:Core:search.html.twig
+        search_result_block: SonataAdminBundle:Block:block_search_result.html.twig
+    dashboard:
+        blocks:
+            -
+                position: left
+                type: sonata.block.service.text
+                settings:
+                    content: >
+                        <h2>Welcome to the Sonata Admin</h2>
+                        <p>This is a <code>sonata.block.service.text</code> from the Block
+                        Bundle, you can create and add new block in these area by configuring
+                        the <code>sonata_admin</code> section.</p> <br /> For instance, here
+                        a RSS feed parser (<code>sonata.block.service.rss</code>):
+            -
+                position: right
+                type: sonata.block.service.rss
+                settings:
+                    title: Sonata Project's Feeds
+                    url: http://sonata-project.org/blog/archive.rss
+        
+        groups:
+            Users:
+                items:
+                    - sonata.admin.user.user
+                    - sonata.admin.user.address
+            ECommerce:
+                items:
+                    - sonata.admin.purchases
+                    - sonata.admin.product
+                    - sonata.admin.category
+                    - sonata.admin.price
+                    - sonata.admin.currencies
+                    - sonata.admin.product.option
+                    - sonata.admin.product.option.values
+            Services:
+                items:
+                    - sonata.admin.service.services
+                    - sonata.admin.service.detail_name
+                    - sonata.admin.service.renting
+            Medias:
+                items:
+                    - sonata.media.admin.media
+         
+twig:
+    form:
+        resources:
+            - 'SonataCoreBundle:Form:datepicker.html.twig'

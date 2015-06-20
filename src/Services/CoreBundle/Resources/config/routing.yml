@@ -1,0 +1,20 @@
+services_core_homepage:
+    path:     /
+    defaults: { _controller: ServicesCoreBundle:Services:homepage }
+    
+services_mine_list:
+    path:     /mine/
+    defaults: { _controller: ServicesCoreBundle:Services:mineList }
+    
+services_mine_edit:
+    path:     /mine/{id}
+    defaults: { _controller: ServicesCoreBundle:Services:mineEdit }
+    requirements:
+        id: \d+
+        
+services_addcart:
+    path:     /addcart/{id_renting}
+    defaults: { _controller: ServicesCoreBundle:Services:addCart }
+    requirements:
+        id: \d+
+

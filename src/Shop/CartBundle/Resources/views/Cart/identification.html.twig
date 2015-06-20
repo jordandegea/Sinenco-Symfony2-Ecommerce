@@ -1,0 +1,31 @@
+{# src/Shop/ProductBundle/Resources/views/Products/list.html.twig #}
+
+{% extends "ShopCartBundle::layout.html.twig" %}
+
+{% block title %}
+    {{ parent() }}
+{% endblock %}
+
+{% block shop_cart %}
+    
+    <hr />
+
+    {{ include("ShopCartBundle:Cart/Top:step.html.twig") }}
+    
+    <hr />
+    <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+        <a class="btn btn-primary btn-block" href="{{ loginPath }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>
+    </div>
+    
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+        <a class="btn btn-primary btn-block" href="{{ registerPath }}">{{ 'layout.register'|trans({}, 'FOSUserBundle') }}</a>
+    </div>
+    </div>
+{% endblock %}
+
+
+
+
+
+

@@ -1,0 +1,151 @@
+
+{% extends "ServicesCoreBundle::layout.html.twig" %}
+
+
+{% block title %}
+    {{ 'services.my_services'|trans }}  - {{ parent() }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}
+
+
+{% block services_body %}
+    <div class="container">
+        <div class="col col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <h2>Liste de vos services traduction</h2>
+            <div id="accordion" class="panel-group">
+                {% for key, rentings in rentingsGrouped %} 
+                    <div class="panel panel-default">
+
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{ loop.index }}">
+                                    {{ key }}
+                                    <div class="pull-right">
+                                        <span class="label label-success">{{ rentings[0][0] }}</span>
+                                        <span class="label label-primary">{{ rentings[0][1] }}</span>
+                                        <span class="label label-warning">{{ rentings[0][2] }}</span>
+                                        <span class="label label-danger">{{ rentings[0][3] }}</span>
+                                    </div>
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapse{{ loop.index }}" class="panel-collapse collapse">
+                            <div class="panel-body">
+                                <table class="table table-striped table-hover ">
+                                    <thead>
+                                        <tr>
+                                            {% for detailName in rentings[1] %}
+                                                <th>{{ detailName }}</th>
+                                                {% endfor %}
+                                            <th>{{ 'service.expiration'|trans }}</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for renting in rentings %}
+                                            {% if loop.index0 > 1 %}
+                                                <tr class="{{renting.state}}">
+                                                    {% for detail in renting.object.details %}
+                                                        {% if detail.detailName.isDisplayedOnList %}
+                                                            <td style="vertical-align: middle;">{{ detail.value }}</td> 
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                    <td style="vertical-align: middle;">{{ renting.object.expiration|date('Y-m-d') }}</td>
+                                                    <td style="vertical-align: middle;">
+                                                        <div class="btn-group btn-group-md" role="group" aria-label="actions">
+                                                            {% if not renting.object.service.product.file is empty%}
+                                                                <a href="{{ path('sonata_media_download', {'id': renting.object.service.product.file|sonata_urlsafeid }) }}" 
+                                                                   type="button" 
+                                                                   class="btn btn-sucess">
+                                                                    <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>
+                                                                </a>
+                                                            {% endif %}
+                                                            <a href="{{ path("services_mine_edit",{'id':renting.object.id})}}" 
+                                                               type="button" 
+                                                               class="btn btn-primary">
+                                                                <span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span>
+                                                            </a>
+                                                            <a href="#"
+                                                               onClick="addToCart('{{ path('services_addcart', {'id_renting' :renting.object.id }) }}');"
+                                                               type="button" 
+                                                               class="btn btn-success">
+                                                                <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>
+                                                            </a>
+                                                            <button type="button" 
+                                                                    class="btn btn-danger">
+                                                                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                                            </button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </tbody>
+                                </table>   
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            {#
+            <table class="table table-striped table-hover ">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Column heading</th>
+      <th>Column heading</th>
+      <th>Column heading</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>Column content</td>
+      <td>Column content</td>
+      <td>Column content</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Column content</td>
+      <td>Column content</td>
+      <td>Column content</td>
+    </tr>
+    <tr class="info">
+      <td>3</td>
+      <td>Column content</td>
+      <td>Column content</td>
+      <td>Column content</td>
+    </tr>
+    <tr class="success">
+      <td>4</td>
+      <td>Column content</td>
+      <td>Column content</td>
+      <td>Column content</td>
+    </tr>
+    <tr class="danger">
+      <td>5</td>
+      <td>Column content</td>
+      <td>Column content</td>
+      <td>Column content</td>
+    </tr>
+    <tr class="warning">
+      <td>6</td>
+      <td>Column content</td>
+      <td>Column content</td>
+      <td>Column content</td>
+    </tr>
+    <tr class="active">
+      <td>7</td>
+      <td>Column content</td>
+      <td>Column content</td>
+      <td>Column content</td>
+    </tr>
+  </tbody>
+</table> #}
+        </div>
+    </div>
+
+{% endblock %}

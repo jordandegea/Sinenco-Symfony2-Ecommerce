@@ -1,0 +1,64 @@
+{# src/Sinenco/CoreBundle/Resources/views/layout.html.twig #}
+
+{% extends "::layout.html.twig" %}
+
+{% block stylesheets %}
+    
+    {{ parent() }}
+    
+    {# Attention bien supprimer les \xxx dans cerulean #}
+    {% stylesheets filter='?cssrewrite, ?yui_css' 
+        "@SinencoCoreBundle/Resources/css/bootswatch.min.css" 
+        "@SinencoCoreBundle/Resources/css/bootstrap_cerulean.css"
+        "@SinencoCoreBundle/Resources/css/style.css" %}
+
+        <link rel="stylesheet" href="{{ asset_url }}" type="text/css">
+    {% endstylesheets %}
+
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+{% endblock %}
+    
+    
+{% block javascripts_head %}
+    {{ parent() }}
+{% endblock %}
+
+
+{% block core_body %}
+    <div class="container">
+        
+        {{ include("SinencoCoreBundle::top_menu.html.twig") }}
+        
+            
+        <div class="row">
+           
+            <div id="content" class="col-md-12">
+                {# On affiche les messages flash que définissent les contrôleurs du bundle #}
+                {% set items = { 0:'warning', 1:'success', 2:'danger', 3:'info' } %}
+                {% for item in items %}
+                    {% for flashMessage in app.session.flashbag.get(item) %}
+                        <div class="alert alert-dismissable alert-{{ item }}">{{ flashMessage }}</div>
+                    {% endfor %}
+                {% endfor %}
+                {% block body %}
+                {% endblock %}
+            </div>
+        </div>
+        
+        <hr>
+        
+    </div>
+            
+    {{ include("SinencoCoreBundle::footer.html.twig") }}
+            
+    {{ include("ShopCartBundle:Cart/Modal:topMenuCart.html.twig") }}
+
+{% endblock %}

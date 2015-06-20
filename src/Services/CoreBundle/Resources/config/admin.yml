@@ -1,0 +1,46 @@
+services:
+    
+    sonata.admin.service.services:
+        class: Services\CoreBundle\Admin\ServiceAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Services", label: "Services" }
+        arguments:
+            - ~
+            - Services\CoreBundle\Entity\Service
+            - ~
+        calls:
+            - [ setTranslationDomain, [ServicesCoreBundle]]
+            
+    sonata.admin.service.detail_name:
+        class: Services\CoreBundle\Admin\DetailNameAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Services", label: "Detail Names" }
+        arguments:
+            - ~
+            - Services\CoreBundle\Entity\DetailName
+            - ~
+        calls:
+            - [ setTranslationDomain, [ServicesCoreBundle]]
+            
+    sonata.admin.service.renting:
+        class: Services\CoreBundle\Admin\RentingAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Services", label: "Rentings" }
+        arguments:
+            - ~
+            - Services\CoreBundle\Entity\Renting
+            - ~
+        calls:
+            - [ setTranslationDomain, [ServicesCoreBundle]]
+            
+    sonata.admin.service.detail:
+        class: Services\CoreBundle\Admin\DetailAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Services", label: "Details Rentings" }
+        arguments:
+            - ~
+            - Services\CoreBundle\Entity\Detail
+            - ~
+        calls:
+            - [ setTranslationDomain, [ServicesCoreBundle]]
+     

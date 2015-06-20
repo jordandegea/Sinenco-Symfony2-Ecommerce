@@ -1,0 +1,31 @@
+shop:
+    payment: 
+        pay:
+            balance_complete: Balance payment complete
+            balance_partial: Balance payment complete
+            balance_failure: Balance payment failed
+        invoice:
+            gateway_select: Choose your payment method
+            gateway_select_btn: Go
+            invoice_ : "Invoice: "
+            from: "From: "
+            to: "To: " 
+            description: Description
+            quantity: Quantity
+            unit_price: Unit Price
+            total: Total
+            subTotalHT: Sub Total HT
+            subTotalTTC: Sub Total TTC
+            TAX: TAX
+            credit: Credit
+            totalTTC: Total TTC
+            balance: Restant
+        transaction:
+            transactions: Transactions
+            transaction: Transaction
+            service: Service
+            date : Date
+            value: Value
+            
+            
+            

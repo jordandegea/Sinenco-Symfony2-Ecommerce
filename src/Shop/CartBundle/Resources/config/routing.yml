@@ -1,0 +1,26 @@
+shop_cart_view:
+    path:     /view
+    defaults: { _controller: ShopCartBundle:Cart:view }
+    
+shop_cart_remove_item:
+    path:     /remove/{id}
+    defaults: { _controller: ShopCartBundle:Cart:removeItem }
+    requirements:
+        id: \d+
+    
+shop_cart_identification:
+    path:     /identification
+    defaults: { _controller: ShopCartBundle:Cart:identification }
+
+shop_cart_addresses:
+    path:     /addresses
+    defaults: { _controller: ShopCartBundle:Cart:addresses }
+    
+shop_cart_checkout:
+    path:     /checkout/{invoicing}
+    defaults: { _controller: ShopCartBundle:Cart:checkout, invoicing:false }
+
+shop_cart_rest_add:
+    path:     /addToCart/{product_id}
+    defaults: { _controller: ShopCartBundle:Cart:addToCart, product_id: null }
+    

@@ -1,0 +1,24 @@
+{# src/Shop/ProductBundle/Resources/views/layout.html.twig #}
+
+{% extends "ShopCoreBundle::layout.html.twig" %}
+
+{% block title %}
+    {{ "products_list"|trans }} - {{ parent() }}
+{% endblock %}
+
+{% block javascripts %}
+    
+    {{ parent() }}
+    
+{% endblock %}
+
+{% block shop_body %}
+    {% block shop_product %}
+    {% endblock %}
+{% endblock %}
+
+
+
+
+
+

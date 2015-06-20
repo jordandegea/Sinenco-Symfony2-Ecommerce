@@ -1,0 +1,3 @@
+twig:
+    globals:
+        shop_product_image_style: -moz-border-radius:7px;-webkit-border-radius:7px;border-radius:7px;

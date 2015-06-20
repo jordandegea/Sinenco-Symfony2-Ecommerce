@@ -1,0 +1,10 @@
+# @Sinenco//UserBundle/Resources/config/services.yml
+
+services:
+    sinenco_user.registration.form.type:
+        class: Sinenco\UserBundle\Form\Type\RegistrationFormType
+        tags:
+            - { name: form.type, alias: sinenco_user_registration }
+#    sinenco_user.example:
+#        class: Sinenco\UserBundle\Example
+#        arguments: [@service_id, "plain_value", %parameter%]

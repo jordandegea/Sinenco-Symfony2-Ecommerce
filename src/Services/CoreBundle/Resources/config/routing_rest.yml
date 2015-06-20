@@ -1,0 +1,5 @@
+
+users : 
+  type: rest
+  resource:     "ServicesCoreBundle:ServicesRest"
+  name_prefix:  api_

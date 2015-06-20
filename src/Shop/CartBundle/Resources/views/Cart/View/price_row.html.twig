@@ -1,0 +1,32 @@
+{% if cartItem.children is defined %}
+    {% if cartItem.children.product.vars.value.price|getFieldPrice(field) > 0 %}
+        <div class="form-group col-xs-12">
+            <label class="control-label col-xs-7 col-sm-4 col-md-2">{{ field|trans }}</label>
+            <div class="input-group col-xs-5 col-sm-8 col-md-10">
+                {{ form_widget(cartItem.prices[field]) }}
+                <span class="input-group-addon">
+                    {{ cartItem.children.product.vars.value.price|getFormattedFieldPrice(field) }}
+                </span>
+            </div>
+        </div>
+    {% endif %}
+{% else %}
+
+    {% if cartItem.product.price|getFieldPrice(field) > 0 and attribute(cartItem.prices,field) > 0 %}
+        <li>
+            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 text-center">
+                {{ field|trans }} : {{ attribute(cartItem.prices,field) }} 
+                - 
+                <strong>
+                    {{ cartItem.product.price|getFormattedFieldPrice(
+                    field,
+                    attribute(cartItem.prices,field)
+                ) }}
+                </strong>
+                ({{ cartItem.product.price|getFormattedFieldPrice(
+                    field
+                ) }}{{ "cart.price_row.unit"|trans }})
+            </div>
+        </li>
+    {% endif %}
+{% endif %}

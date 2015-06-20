@@ -1,0 +1,9 @@
+security.login.forgottenPassword: Forgotten password
+sinenco: 
+    userbundle:
+        myAccount: My Account
+        editConfirm: User modification made
+
+
+First name: First name
+Last name: Last name

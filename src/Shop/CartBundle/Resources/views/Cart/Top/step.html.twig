@@ -1,0 +1,30 @@
+
+<div class="row bs-wizard" style="border-bottom:0;">
+    
+    {% set step = shop_cart_service.getCartStep %}
+    
+    <div class="col-xs-3 bs-wizard-step {% if step == 1 %}active{% elseif step > 1 %}complete{% else %}disabled{%endif%}">
+        <div class="text-center bs-wizard-stepnum">{{ "cart.your_cart"|trans }}</div>
+        <div class="progress"><div class="progress-bar"></div></div>
+        <a href="{{ path("shop_cart_view") }}" class="bs-wizard-dot"></a>
+        </div>
+        
+    <div class="col-xs-3 bs-wizard-step {% if step == 2 %}active{% elseif step > 2 %}complete{% else %}disabled{%endif%}"><!-- complete -->
+        <div class="text-center bs-wizard-stepnum">{{ "cart.identification"|trans }}</div>
+        <div class="progress"><div class="progress-bar"></div></div>
+        <a href="{% if step > 1 %}{{ path("shop_cart_identification") }}{%endif%}" class="bs-wizard-dot"></a>
+        {# <div class="bs-wizard-info text-center">Nam mollis tristique erat vel tristique. Aliquam erat volutpat. Mauris et vestibulum nisi. Duis molestie nisl sed scelerisque vestibulum. Nam placerat tristique placerat</div> #}
+    </div>
+        
+    <div class="col-xs-3 bs-wizard-step {% if step == 3 %}active{% elseif step > 3 %}complete{% else %}disabled{%endif%}"><!-- complete -->
+        <div class="text-center bs-wizard-stepnum">{{ "cart.addresses"|trans }}</div>
+        <div class="progress"><div class="progress-bar"></div></div>
+        <a href="{% if step > 2 %}{{ path("shop_cart_addresses") }}{%endif%}" class="bs-wizard-dot"></a>
+    </div>
+        
+    <div class="col-xs-3 bs-wizard-step {% if step == 4 %}active{% elseif step > 4 %}complete{% else %}disabled{%endif%}"><!-- active -->
+        <div class="text-center bs-wizard-stepnum">{{ "cart.checkout"|trans }}</div>
+        <div class="progress"><div class="progress-bar"></div></div>
+        <a href="{% if step > 3 %}{{ path("shop_cart_checkout") }}{%endif%}" class="bs-wizard-dot"></a>
+        </div>
+</div>

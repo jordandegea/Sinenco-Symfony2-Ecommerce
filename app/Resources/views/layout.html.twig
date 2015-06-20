@@ -1,0 +1,39 @@
+{# app/Resources/views/layout.html.twig #}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>{% block title %}Sinenco{% endblock %}</title>
+
+        {% block stylesheets %}
+        {% endblock %}
+
+        {% block javascripts_head %}
+        {% endblock %}
+    </head>
+
+    <body>
+
+        {% block core_body %}
+        {% endblock %}
+
+
+           {# On ajoute les modales #}
+        {{ include("ShopProductBundle:Modals:modals.html.twig") }}
+        {{ include("ShopCoreBundle:Modals:modals.html.twig") }}
+
+        {% block javascripts %}
+           {# On ajoute les modales #}
+            {% javascripts filter='?yui_css' 
+            "@ShopProductBundle/Resources/Public/js/modals.js" 
+            "@ShopCoreBundle/Resources/Public/js/modals.js"
+            "@ShopCartBundle/Resources/Public/js/modals.js"  %}
+            <script src="{{ asset_url }}"></script>
+            {% endjavascripts %}
+        {% endblock %}
+
+    </body>
+</html>

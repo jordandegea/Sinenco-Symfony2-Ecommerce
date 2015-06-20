@@ -1,0 +1,9 @@
+imports:
+    - { resource: sonata/block.yml }
+    - { resource: sonata/doctrine_orm_admin.yml }
+    - { resource: sonata/admin.yml }
+    - { resource: sonata/media.yml }
+            
+
+   
+     

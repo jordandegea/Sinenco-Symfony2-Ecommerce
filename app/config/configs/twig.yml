@@ -1,0 +1,10 @@
+# Twig Configuration
+twig:
+    debug:            "%kernel.debug%"
+    strict_variables: "%kernel.debug%"
+    form:
+        resources:
+            - 'SinencoCoreBundle:Form:fields.html.twig'
+    globals:
+        shop_cart_service: "@shop_cart.cart"
+        langsArray: %authorizedLocalesArray%

@@ -1,0 +1,7 @@
+parameters:
+    payments:
+        available:
+            payum:
+                - paypal_express
+            others:
+                - balance

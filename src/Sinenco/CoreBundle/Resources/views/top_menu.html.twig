@@ -1,0 +1,85 @@
+    
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a href="../" class="navbar-brand">SINENCO</a>
+            <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <div class="navbar-collapse collapse" id="navbar-main">
+            <ul class="nav navbar-nav">
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="themes">
+                        <img src="{{ asset('bundles/sinencocore/images/countries_flags/' ~ app.request.locale ~ '_'  ~ app.request.locale|upper ~ '.png') }}" height="16"/>
+                        <span class="caret"></span></a>
+                    <ul class="dropdown-menu" aria-labelledby="themes">
+                        {% for lang in langsArray %}
+                            {% set params = app.request.attributes.get('_route_params')|merge(app.request.query.all()) %}
+                            {% set params = params|merge({'_locale': lang}) %}
+                            <li><a href="{{ path(app.request.attributes.get('_route'), params) }}">
+                                    <center>
+                                        <img src="{{ asset('bundles/sinencocore/images/countries_flags/' ~ lang ~ '_'  ~ lang|upper ~ '.png') }}" height="32"/>
+                                    </center>
+                                </a></li>
+                            {% endfor %}
+                    </ul>
+                </li>
+                
+                <li>
+                    <a href="{{ path('shop_homepage') }}">{{ "sinenco.core.top_menu.shop"|trans }}</a>
+                </li>
+                <li>
+                    <a href="{{ path('services_core_homepage') }}">{{ "sinenco.core.top_menu.services"|trans }}</a>
+                </li>
+                    
+                    
+                    
+                    
+                {#
+                <li>
+                  <a href="../help/">Help</a>
+                </li>
+                #}
+                    
+                {#
+                <li>
+                  <a href="http://news.bootswatch.com">Blog</a>
+                </li>
+                #}
+                    
+                    
+                {#
+                <li class="dropdown">
+                  <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="download">Download <span class="caret"></span></a>
+                  <ul class="dropdown-menu" aria-labelledby="download">
+                    <li><a href="./bootstrap.min.css">bootstrap.min.css</a></li>
+                    <li class="divider"></li>
+                    <li><a href="./variables.less">variables.less</a></li>
+                  </ul>
+                </li>
+                #}
+            </ul>
+                
+            <ul class="nav navbar-nav navbar-right">
+                
+                <li>
+                    <a onClick="displayCart();" class="" href="{#{ path("shop_cart_view") }#}#">
+                        {{ shop_cart_service.getNumberItems() }}<span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>
+                    </a>
+                </li>
+                    
+                {{ include("ShopCoreBundle:Menu:top.html.twig") }}
+                
+                {{ include("SinencoUserBundle:Menu:top.html.twig") }}
+                    
+                {{ include("SinencoUserBundle:Menu:dropdown.html.twig") }}
+                    
+            </ul>
+        </div>
+    </div>
+</nav>
+    
+    

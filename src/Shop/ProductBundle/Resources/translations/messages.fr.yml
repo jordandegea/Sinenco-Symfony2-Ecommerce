@@ -1,0 +1,47 @@
+shop:
+    purchases:
+        email:
+            text: Bonjour %name%, <br /> Votre achat numéro %id% à changé. 
+            link: Aller à mes achats
+        id: Id
+        purchase_date: Date d'achat
+        file: Fichier
+        state: Etat
+        options: Options / Commentaire
+        pending: Pending
+        complete: Complete
+        
+
+
+product.price_: "prix : "
+product.fees_: "frais : "
+
+calendar.month: mois
+calendar.quarter: trimestre
+calendar.semiannual: semestre
+calendar.year: année
+
+product_dont_exist: Le produit demandé n'existe pas
+category_dont_exist: La catégorie demandée n'existe pas
+
+
+products_list: Produits
+
+
+leave_review: Donner un avis
+
+add_to_cart : Ajouter au panier
+
+not_available: "Indisponible"
+
+adding_to_cart: "Ajout au panier"
+adding_to_cart_text: "S'il vous plait, attendez jusqu'au prochain message"
+
+added_to_cart: "Produit ajouté au panier"
+added_to_cart_text: "Produit ajouté au Panier, voulez-vous accéder au panier"
+
+not_added_to_cart: "Erreur"
+not_added_to_cart_text: "Il y a eut un problème, le produit n'a pas été ajouté au Panier."
+
+Close: "Fermer"
+go_to_cart: "Aller au panier"

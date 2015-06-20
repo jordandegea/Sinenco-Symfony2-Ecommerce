@@ -1,0 +1,11 @@
+services:
+    renting_edited: The renting has been changed
+    renting_forbidden_fields: You changed the prohibited fields
+    expiration: expire
+    my_services : My services
+    my_services_text : Here is the list of services offered . By clicking on a service, you will be redirected to its product. Click on a category to unroll it services.
+    not_yours: This renting does not belong to you .
+    
+    
+rentings: 
+    allopass_renting : Allopass Renting

@@ -1,0 +1,11 @@
+# Swiftmailer Configuration
+swiftmailer:
+    transport: "%mailer_transport%"
+    auth_mode: "%mailer_auth_mode%"
+    host:      "%mailer_host%"
+    port:      "%mailer_port%"
+    username:  "%mailer_user%"
+    password:  "%mailer_password%"
+    spool:     
+        type: file
+        path: "%kernel.root_dir%/spool"

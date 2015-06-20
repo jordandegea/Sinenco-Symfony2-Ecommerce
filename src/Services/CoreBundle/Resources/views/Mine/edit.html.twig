@@ -1,0 +1,65 @@
+
+{% extends "ServicesCoreBundle::layout.html.twig" %}
+
+
+{% block title %}
+    {{ form.vars.data.service.name|trans() }} - {{ 'services.my_services'|trans }}  - {{ parent() }}
+{% endblock %}
+
+
+{% block services_body %}
+    
+    <div class="container">
+        <div class="col col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <h2>{{ form.vars.data.service.name|trans() }}</h2>
+            {% if form is defined %}
+                <form name="user" method="post" action="" class="form-horizontal">
+
+                    <div class="form-group">                
+                        <label for="expiration" class="col-lg-4 control-label">
+                            {{ 'services.expiration'|trans }}
+                        </label><div class="col-lg-8">
+                            <input class="form-control" id="expiration" disabled 
+                                   value="{{ form.children.expiration.vars.data|date('d / m / Y') }}" type="text">
+                        </div>
+                    </div>
+
+                    {% for detail in form.children.details.children %}
+                        {% set detailName = detail.vars.value.detailName %}
+                        {% set detailValue = detail.children.value %}
+                        <div class="form-group">                
+                            <label for="{{ detail.vars.id }}" class="col-lg-4 control-label">
+                                {{ detailName.translate.name }} 
+                            </label><div class="col-lg-8">
+                                {# si nous avons des options #}
+                                {% if detailName.attribute.values|length > 0 %}
+                                    <select id="{{ detailValue.vars.id }}" 
+                                            name="{{ detailValue.vars.full_name }}" 
+                                            class="form-control" >
+                                        {% for option in detailName.attribute.values %}
+                                            <option value="{{ option.canonicalName }}" {% if option.canonicalName == detailValue.vars.value %}selected="selected"{% endif %}>
+                                                {{ option.translate.value }}
+                                            </option>
+                                        {% endfor %}
+
+                                    </select>
+                                {% else %}
+                                    {% if detailName.attribute.isEditable %}
+                                        {{ form_widget(detailValue, {'attr':{ } } ) }}
+                                    {% else %}
+                                        {{ form_widget(detailValue, {'attr':{ } }) }}
+                                    {% endif %}
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                    <hr>
+                    {{ form_widget(form._token) }}
+                    {{ form_widget(form.save, {'attr':{'class':'btn btn-block btn-success'} }) }}
+                {% else %}
+                    {{ 'services.not_yours'|trans() }}
+                {% endif %}
+            </form>
+        </div>
+    </div>
+{% endblock %}

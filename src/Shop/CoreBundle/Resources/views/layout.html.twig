@@ -1,0 +1,13 @@
+{# src/Shop/CoreBundle/Resources/views/Shop/index.html.twig #}
+    
+{% extends "SinencoCoreBundle::layout.html.twig" %}
+    
+{% block title %}
+    {{ 'shop.core.shop'|trans }} - {{ parent() }}
+{% endblock %}
+
+
+{% block body %}
+    {% block shop_body %}
+    {% endblock %}
+{% endblock %}

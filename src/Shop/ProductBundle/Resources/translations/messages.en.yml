@@ -1,0 +1,42 @@
+shop:
+    purchases:
+        email:
+            text:  Hi %name%, <br /> Your purchase number %id% has changed. 
+            link: Go to my purchases
+        id: Id
+        purchase_date: Purchase date
+        file: File
+        state: State
+        optionsAndComment: Options / Comment
+        pending: En attente
+        complete: Terminé
+
+product.price_: "price: "
+product.fees_: "fees: "
+
+calendar.month: month
+calendar.quarter: quarter
+calendar.semiannual: semiannual
+calendar.year: year
+
+product_dont_exist: The product does not exist
+category_dont_exist: The category does not exist
+
+products_list: Products
+
+leave_review: Leave a Review
+
+add_to_cart: Add to Cart
+
+not_available: "Not Available"
+
+adding_to_cart: "Adding to Cart"
+adding_to_cart_text: "Please wait until the next message. "
+
+added_to_cart: "Product added to Cart"
+added_to_cart_text: "The product is added to Cart, do you want to see your basket"
+
+not_added_to_cart: "Error"
+not_added_to_cart_text: "There was a problem. The product is not added to the Cart"
+
+go_to_cart: "Go to cart"

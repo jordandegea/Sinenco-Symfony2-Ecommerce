@@ -1,0 +1,27 @@
+# FOS Configuration
+fos_user:
+    db_driver: orm 
+    firewall_name: main
+    user_class: Sinenco\UserBundle\Entity\User
+    registration:
+        form:
+            type: sinenco_user_registration
+    
+fos_rest:
+    param_fetcher_listener: true
+    body_listener: true
+    format_listener: false
+    view:
+        view_response_listener: 'force'
+        formats:
+            xml: true
+            json : true
+        templating_formats:
+            html: true
+        force_redirects:
+            html: true
+        failed_validation: HTTP_BAD_REQUEST
+        default_engine: twig
+    routing_loader:
+        include_format: false
+        default_format: json

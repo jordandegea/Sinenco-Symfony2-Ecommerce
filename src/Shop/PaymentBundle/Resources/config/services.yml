@@ -1,0 +1,9 @@
+services:
+    invoicing:
+        class: Shop\PaymentBundle\Services\InvoiceService
+        arguments: 
+            entityManager: "@doctrine.orm.entity_manager"
+            container: "@service_container"
+#    shop_payment.example:
+#        class: Shop\PaymentBundle\Example
+#        arguments: [@service_id, "plain_value", %parameter%]
