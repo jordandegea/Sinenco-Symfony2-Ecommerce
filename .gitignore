@@ -1,0 +1,12 @@
+/vendor/*
+/app/cache/*
+/app/logs/*
+/nbproject/*
+*~
+/UPGRADE*.md
+/LICENSE
+/web/bundles/*
+/web/css/*
+/web/js/*
+/web/bundles/*
+/web/uploads/*app/spool/*
