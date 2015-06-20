@@ -9,4 +9,5 @@
 /web/css/*
 /web/js/*
 /web/bundles/*
-/web/uploads/*app/spool/*
+/web/uploads/*
+/app/spool/*
