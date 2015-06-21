@@ -71,9 +71,13 @@ class ProductExtension extends \Twig_Extension {
                 ->findOneByCode($currency);
 
         if ($currencyObject == null) {
-            $currencyObject = $em
+            $currencyObjects = $em
                     ->getRepository('ShopCoreBundle:Currencies')
-                    ->findAll()[0];
+                    ->findAll();
+            foreach($currencyObjects as $object ){
+                $currencyObject = $object ;
+                break ; 
+            }
         }
 
         return $this->service->getFormattedPrice($currencyObject, $price);
