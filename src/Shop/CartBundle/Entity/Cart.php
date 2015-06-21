@@ -7,8 +7,7 @@ use Shop\CartBundle\Entity\CartItem;
 use Shop\ProductBundle\Entity\Category;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
-use Sinenco\UserBundle\Entity\User ;
-
+use Sinenco\UserBundle\Entity\User;
 
 /**
  * Cart
@@ -28,14 +27,13 @@ class Cart {
      */
     private $id;
 
-    
     /**
      *  @ORM\ManyToOne(targetEntity="Sinenco\UserBundle\Entity\User", cascade={"persist"})
      *  @ORM\JoinTable()
      *  @ORM\JoinColumn(nullable=null)
      * */
     private $user;
-    
+
     /**
      * @ORM\Column(type="datetime")
      */
@@ -61,18 +59,18 @@ class Cart {
      * @ORM\Column(name="comment", type="text")
      */
     private $comment;
-    
+
     /**
      * @ORM\PrePersist
      * @ORM\PreUpdate
      */
     public function updateLastTime() {
+        if ($this->comment == null) {
+            $this->comment = "";
+        }
         $this->lastUpdate = new \DateTime();
     }
 
-    
-
-    
     /**
      * Constructor
      */
@@ -162,15 +160,13 @@ class Cart {
         return $this->billingAddress;
     }
 
-
     /**
      * Set user
      *
      * @param \Shop\UserBundle\Entity\User $user
      * @return Cart
      */
-    public function setUser(User $user = null)
-    {
+    public function setUser(User $user = null) {
         $this->user = $user;
 
         return $this;
@@ -181,8 +177,7 @@ class Cart {
      *
      * @return \Shop\UserBundle\Entity\User 
      */
-    public function getUser()
-    {
+    public function getUser() {
         return $this->user;
     }
 
@@ -193,8 +188,7 @@ class Cart {
      *
      * @return Cart
      */
-    public function setComment($comment)
-    {
+    public function setComment($comment) {
         $this->comment = $comment;
 
         return $this;
@@ -205,8 +199,8 @@ class Cart {
      *
      * @return string
      */
-    public function getComment()
-    {
+    public function getComment() {
         return $this->comment;
     }
+
 }
