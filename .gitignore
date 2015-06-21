@@ -11,3 +11,5 @@
 /web/bundles/*
 /web/uploads/*
 /app/spool/*
+
+app/config/parameters.yml
