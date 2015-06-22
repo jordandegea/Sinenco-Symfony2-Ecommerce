@@ -20,19 +20,19 @@ assetic:
     assets:
         bootstrap_glyphicons_ttf:
             inputs:
-                - '@SinencoCoreBundle/Resources/public/fonts/glyphicons-halflings-regular.ttf'
+                - 'fonts/glyphicons-halflings-regular.ttf'
             output: "fonts/glyphicons-halflings-regular.ttf"
         bootstrap_glyphicons_eot:
             inputs:
-                - '@SinencoCoreBundle/Resources/public/fonts/glyphicons-halflings-regular.eot'
+                - 'fonts/glyphicons-halflings-regular.eot'
             output: "fonts/glyphicons-halflings-regular.eot"
         bootstrap_glyphicons_svg:
             inputs:
-                - '@SinencoCoreBundle/Resources/public/fonts/glyphicons-halflings-regular.svg'
+                - 'fonts/glyphicons-halflings-regular.svg'
             output: "fonts/glyphicons-halflings-regular.svg"
         bootstrap_glyphicons_woff:
             inputs:
-                - '@SinencoCoreBundle/Resources/public/fonts/glyphicons-halflings-regular.woff'
+                - 'fonts/glyphicons-halflings-regular.woff'
             output: "fonts/glyphicons-halflings-regular.woff"
 
 #        jquery:
