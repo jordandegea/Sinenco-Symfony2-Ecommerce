@@ -3,7 +3,7 @@ assetic:
     debug:          "%kernel.debug%"
     use_controller: false
     bundles:        [SinencoCoreBundle, ShopProductBundle, ServicesCoreBundle]
-    java: "C:\Program Files (x86)\Java\jre7\bin\java.exe"
+    #java: "C:\Program Files (x86)\Java\jre7\bin\java.exe"
     filters:        
         cssrewrite: ~
         yui_js:
