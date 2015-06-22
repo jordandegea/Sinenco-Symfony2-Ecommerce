@@ -13,3 +13,7 @@
 /app/spool/*
 
 app/config/parameters.yml
+
+web/uploads/*
+
+*.bak
