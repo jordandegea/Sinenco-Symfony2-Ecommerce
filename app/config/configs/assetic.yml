@@ -2,7 +2,14 @@
 assetic:
     debug:          "%kernel.debug%"
     use_controller: false
-    bundles:        [SinencoCoreBundle, ShopProductBundle, ServicesCoreBundle]
+    bundles:
+         - SinencoCoreBundle
+         - ShopCartBundle
+         - ShopCoreBundle
+         - ShopProductBundle
+         - ShopUserBundle
+         - ShopPaymentBundle
+         - ServicesCoreBundle
     #java: "C:\Program Files (x86)\Java\jre7\bin\java.exe"
     filters:        
         cssrewrite: ~
@@ -13,19 +20,19 @@ assetic:
     assets:
         bootstrap_glyphicons_ttf:
             inputs:
-                - '@SinencoCoreBundle/Resources/fonts/glyphicons-halflings-regular.ttf'
+                - '@SinencoCoreBundle/Resources/public/fonts/glyphicons-halflings-regular.ttf'
             output: "fonts/glyphicons-halflings-regular.ttf"
         bootstrap_glyphicons_eot:
             inputs:
-                - '@SinencoCoreBundle/Resources/fonts/glyphicons-halflings-regular.eot'
+                - '@SinencoCoreBundle/Resources/public/fonts/glyphicons-halflings-regular.eot'
             output: "fonts/glyphicons-halflings-regular.eot"
         bootstrap_glyphicons_svg:
             inputs:
-                - '@SinencoCoreBundle/Resources/fonts/glyphicons-halflings-regular.svg'
+                - '@SinencoCoreBundle/Resources/public/fonts/glyphicons-halflings-regular.svg'
             output: "fonts/glyphicons-halflings-regular.svg"
         bootstrap_glyphicons_woff:
             inputs:
-                - '@SinencoCoreBundle/Resources/fonts/glyphicons-halflings-regular.woff'
+                - '@SinencoCoreBundle/Resources/public/fonts/glyphicons-halflings-regular.woff'
             output: "fonts/glyphicons-halflings-regular.woff"
 
 #        jquery:
