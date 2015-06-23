@@ -41,7 +41,7 @@
                                     <h4 class="pull-right">{{ product.prices|getFirstPrice }}</h4>
                                     <h4><a href="{{ path("shop_product", {"product_idOrSlug":product.canonicalName} ) }}">{{ product.translate.name }}</a>
                                     </h4>
-                                    <p>{{ product.translate.shortDescription }}</p>
+                                    <p>{{ product.translate.shortDescription|raw }}</p>
                                     {% if canAddToCart(product.prices) %}
                                         <a class="btn btn-sm btn-success" 
                                            onClick="addToCart('{{ path('shop_cart_rest_add') }}/{{ product.id }}');"
