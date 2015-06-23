@@ -30,7 +30,10 @@ class ServiceAdmin extends Admin {
                     'required' => false
                 ))
                 ->add('detailsName')
-                ->add('useIoncube')
+                ->add('useIoncube', null, 
+                        array(
+                            'required' => false
+                        ))
         ;
     }
 
