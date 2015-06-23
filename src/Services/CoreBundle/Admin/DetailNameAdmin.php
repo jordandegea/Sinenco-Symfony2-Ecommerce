@@ -22,7 +22,9 @@ class DetailNameAdmin extends Admin {
                     ->add('isDisplayedOnList', null, array(
                         'required' => false
                     ))
-                    ->add('attribute')
+                    ->add('attribute', null, array(
+                        'required' => false
+                    ))
                     ->add('translations', 'a2lix_translations')
                 ->end()
         ;
