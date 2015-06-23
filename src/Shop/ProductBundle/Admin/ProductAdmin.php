@@ -13,14 +13,30 @@ class ProductAdmin extends Admin {
     protected function configureFormFields(FormMapper $formMapper) {
 
         $formMapper
-                ->with('Defaults', array('tab' => false, 'class'       => 'col-md-6'))
-                ->add('image', 'sonata_type_model_list', array(), array(
-                    'link_parameters' => array('context' => 'products_image')
-                ))
+                ->with('Contents', array('tab' => false, 'class' => 'col-md-6'))
+                ->add('translations', 'a2lix_translations', array(
+                    'fields' => array(
+                        'name' => array(),
+                        'short_description' => array(
+                            'field_type' => 'textarea',
+                            'attr' => array(
+                                'class' => 'ckeditor'
+                            )
+                        ),
+                        'long_description' => array(
+                            'field_type' => 'textarea',
+                            'attr' => array(
+                                'class' => 'ckeditor'
+                            )
+                        )
+                    )
+                        )
+                )
+                ->end()
+                ->end()
                 
-                ->add('file', 'sonata_type_model_list', array(), array(
-                    'link_parameters' => array('context' => 'products_file')
-                ))
+                ->with('Defaults', array('tab' => false, 'class' => 'col-md-6'))
+                
                 ->add('canonicalName')
                 ->add(
                         'category', 'entity', array(
@@ -28,23 +44,15 @@ class ProductAdmin extends Admin {
                         )
                 )
                 
-                ->end()
-                ->with('Languages', array('tab' => false, 'class'       => 'col-md-6'))
-                ->add('translations', 'a2lix_translations')
-                
-                
-                ->end()
-                
-                ->end()
-                ->with('Prices', array('tab' => false, 'class'       => 'col-md-6'))
-                ->add('price', 'sonata_type_admin',array(), array('edit' => 'inline','edit' => 'inline'))
-                ->setHelps(array(
-                    'canonicalName' => 'pattern : /^[a-z0-9\-]+$/',
+                ->add('image', 'sonata_type_model_list', array(), array(
+                    'link_parameters' => array('context' => 'products_image')
+                ))
+                ->add('file', 'sonata_type_model_list', array(), array(
+                    'link_parameters' => array('context' => 'products_file')
                 ))
                 ->end()
-                ->end()
                 
-                ->with('Options', array('tab' => false, 'class'       => 'col-md-6'))
+                ->with('Options', array('tab' => false, 'class' => 'col-md-6'))
                 ->add('options', 'sonata_type_model', array(
                     'multiple' => true,
                     'by_reference' => false,
@@ -53,6 +61,15 @@ class ProductAdmin extends Admin {
                 )
                 ->end()
                 ->end()
+                
+                ->with('Prices', array('tab' => false, 'class' => 'col-md-6'))
+                ->add('price', 'sonata_type_admin', array(), array('edit' => 'inline', 'edit' => 'inline'))
+                ->setHelps(array(
+                    'canonicalName' => 'pattern : /^[a-z0-9\-]+$/',
+                ))
+                ->end()
+                ->end()
+                
 
         ;
     }
