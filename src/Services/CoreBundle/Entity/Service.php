@@ -57,7 +57,7 @@ class Service {
     private $rentings;
 
     /**
-     * @ORM\Column(name="ioncube", type="boolean")
+     * @ORM\Column(name="ioncube", type="boolean", nullable=true)
      */
     private $useIoncube ;
     
