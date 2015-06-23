@@ -1,13 +1,21 @@
 parameters:
-    service.services_available:
-         - whmcs_allopass_commission
-         - whmcs_allopass
-         - whmcs_allopass_credit
-         - whmcs_starpass
-         - whmcs_movefunds
-         - whmcs_contribute
-         - hostbill_movefunds
-         - hostbill_contribute
+    core_service.services_available:
+            whmcs_allopass_commission:
+                passphrase: oNFq1xFIxbnYmcWVM2n9goV3S388bBaR
+            whmcs_allopass:
+                passphrase: LY99rFYjZgwpMyVrVowrbDKSnjNBoGVK
+            whmcs_allopass_credit:
+                passphrase: ejhGBa35rgtqfUwVxLUoj5mobbv5L676
+            whmcs_starpass:
+                passphrase: ORfHhhUByo0LJ226zHX6tNwwvhjDkh9x
+            whmcs_movefunds:
+                passphrase: zhhNslSLsFByrV4SYq0qDJNWKbTJyWwj
+            whmcs_contribute:
+                passphrase: 80Yf67e4H2o17zaT8DDHmBipSmzc4a62
+            hostbill_movefunds:
+                passphrase: gOYVqSAIzl80rOVIE53VWnjNNS9gO40Y
+            hostbill_contribute:
+                passphrase: MqRkboFMH5O8B7NjoSHp6XT3lywzEjn
          
 services:
     services_core.core_services:

@@ -12,9 +12,11 @@ class ServiceAdmin extends Admin {
     // Fields to be shown on create/edit forms
     protected function configureFormFields(FormMapper $formMapper) {
         $container = $this->getConfigurationPool()->getContainer();
-        $servicesAvailable = $container->getParameter('service.services_available');
-        $servicesAvailable = array_combine($servicesAvailable, $servicesAvailable); // On change les index par leurs valeurs
-
+        $servicesAvailableParameters = $container->getParameter('core_service.services_available');
+        $servicesAvailable= [] ;
+        foreach ( $servicesAvailableParameters as $key => $value){
+            $servicesAvailable[$key] = $key ;
+        }
         $formMapper
                 ->add('name', 'choice', array(
                     'choices' => $servicesAvailable
