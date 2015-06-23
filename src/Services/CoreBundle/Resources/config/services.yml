@@ -1,7 +1,13 @@
 parameters:
     service.services_available:
-         - allopass_renting
-         - allopass_commission
+         - whmcs_allopass_commission
+         - whmcs_allopass
+         - whmcs_allopass_credit
+         - whmcs_starpass
+         - whmcs_movefunds
+         - whmcs_contribute
+         - hostbill_movefunds
+         - hostbill_contribute
          
 services:
     services_core.core_services:
