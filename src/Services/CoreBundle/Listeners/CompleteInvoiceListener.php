@@ -43,6 +43,7 @@ class CompleteInvoiceListener {
 
             // Le service existe, on a donc des choses à faire
             if ($cartItem->getConfiguration()[CartOptionsInterface::FIRST_TIME]) {
+
                 //Alors on doit crée le renting associé au service
                 $renting = new Renting();
                 $renting->setService($service);
@@ -61,6 +62,7 @@ class CompleteInvoiceListener {
                         ->getRepository('ServicesCoreBundle:Renting')
                 ;
                 $hiddenValues = $cartItem->getHiddenValues();
+
                 if ($hiddenValues == null || !is_numeric($hiddenValues["renting"])) {
                     continue;
                 }
@@ -113,43 +115,6 @@ class CompleteInvoiceListener {
             $this->em->persist($renting);
             $this->em->persist($cartItem);
         }
-        $this->em->flush();
-    }
-
-    private function createLicense(Renting $renting) {
-
-        foreach ($renting->getDetails() as $detail) {
-            if ( strstr ( $detail->getDetailName() , "domain-name" ) ) {
-                $server = $detail->getValue();
-                break;
-            }
-        }
-        
-        if ( !isset($server) ){
-            die();
-        }
-        
-        $passphrase = $this->container->getParameter(
-                'core_service.'
-                .'services_available.'
-                .$renting->getService()->getName().'.'
-                .'passphrase');
-        
-        $expire = $renting->getExpiration()->format('Y-m-d');
-        
-        $cmd = "make_license --passphrase $passphrase " 
-            . "--header-line '<?php exit(0); ?>' "
-            . "--property \"Server = '$server'\" "
-            . "--allowed-server $server "
-            . "--expire-on $expire "
-            . "--expose-expiry" ;
-        
-        $ret = shell_exec($cmd) ;
-        
-        // On peut faire un test sur ret
-        
-        return $ret ; 
-        
     }
 
 }

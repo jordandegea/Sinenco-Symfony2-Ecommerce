@@ -144,7 +144,7 @@ class ServicesController extends Controller {
         }
         $service = $renting->getService();
         
-        $product = $service->getProduct();
+        $product = $service->getRentingProduct();
         
         if ( $product == null ){
             $response->setContent('-4');
@@ -174,7 +174,7 @@ class ServicesController extends Controller {
     
     private function addConfigurationToCartItem($productCartItem, $renting){
         $service = $renting->getService() ;
-        $product = $service->getProduct();
+        $product = $service->getRentingProduct();
         
         $productCartItem->setFirstTime(false);
         

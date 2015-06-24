@@ -38,7 +38,13 @@ class Service {
      * @ORM\OneToOne(targetEntity="Shop\ProductBundle\Entity\Product", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      */
-    private $product;
+    private $PurchaseProduct;
+    
+    /**
+     * @ORM\OneToOne(targetEntity="Shop\ProductBundle\Entity\Product", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $RentingProduct;
 
     /**
      * @ORM\ManyToOne(targetEntity="Shop\ProductBundle\Entity\Category")
@@ -127,27 +133,6 @@ class Service {
      */
     public function getRentings() {
         return $this->rentings;
-    }
-
-    /**
-     * Set product
-     *
-     * @param Product $product
-     * @return Service
-     */
-    public function setProduct(Product $product = null) {
-        $this->product = $product;
-
-        return $this;
-    }
-
-    /**
-     * Get product
-     *
-     * @return Product 
-     */
-    public function getProduct() {
-        return $this->product;
     }
 
     /**
@@ -245,5 +230,53 @@ class Service {
     public function getUseIoncube()
     {
         return $this->useIoncube;
+    }
+
+    /**
+     * Set purchaseProduct
+     *
+     * @param \Shop\ProductBundle\Entity\Product $purchaseProduct
+     *
+     * @return Service
+     */
+    public function setPurchaseProduct(\Shop\ProductBundle\Entity\Product $purchaseProduct = null)
+    {
+        $this->PurchaseProduct = $purchaseProduct;
+
+        return $this;
+    }
+
+    /**
+     * Get purchaseProduct
+     *
+     * @return \Shop\ProductBundle\Entity\Product
+     */
+    public function getPurchaseProduct()
+    {
+        return $this->PurchaseProduct;
+    }
+
+    /**
+     * Set rentingProduct
+     *
+     * @param \Shop\ProductBundle\Entity\Product $rentingProduct
+     *
+     * @return Service
+     */
+    public function setRentingProduct(\Shop\ProductBundle\Entity\Product $rentingProduct = null)
+    {
+        $this->RentingProduct = $rentingProduct;
+
+        return $this;
+    }
+
+    /**
+     * Get rentingProduct
+     *
+     * @return \Shop\ProductBundle\Entity\Product
+     */
+    public function getRentingProduct()
+    {
+        return $this->RentingProduct;
     }
 }

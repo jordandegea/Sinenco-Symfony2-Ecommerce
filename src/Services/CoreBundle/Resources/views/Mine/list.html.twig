@@ -56,8 +56,8 @@
                                                     <td style="vertical-align: middle;">{{ renting.object.expiration|date('Y-m-d') }}</td>
                                                     <td style="vertical-align: middle;">
                                                         <div class="btn-group btn-group-md" role="group" aria-label="actions">
-                                                            {% if not renting.object.service.product.file is empty%}
-                                                                <a href="{{ path('sonata_media_download', {'id': renting.object.service.product.file|sonata_urlsafeid }) }}" 
+                                                            {% if not renting.object.service.rentingProduct.file is empty%}
+                                                                <a href="{{ path('sonata_media_download', {'id': renting.object.service.rentingProduct.file|sonata_urlsafeid }) }}" 
                                                                    type="button" 
                                                                    class="btn btn-sucess">
                                                                     <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>
