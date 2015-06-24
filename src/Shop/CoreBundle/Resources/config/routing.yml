@@ -4,4 +4,7 @@ shop_edit_currency:
     
 shop_homepage:
     path:     /
-    defaults: { _controller: ShopCoreBundle:Front:index }
+    defaults:
+        _controller: FrameworkBundle:Redirect:redirect
+        route: shop_product_list
+        permanent: true 

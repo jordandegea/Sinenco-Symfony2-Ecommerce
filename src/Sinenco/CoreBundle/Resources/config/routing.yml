@@ -11,3 +11,7 @@ sinenco_core_addAddressToProfile:
 sinenco_core_imprint:
     path:     /imprint
     defaults: { _controller: SinencoCoreBundle:Core:imprint }
+    
+sinenco_core_news:
+    path:     /news
+    defaults: { _controller: SinencoCoreBundle:Core:news }
