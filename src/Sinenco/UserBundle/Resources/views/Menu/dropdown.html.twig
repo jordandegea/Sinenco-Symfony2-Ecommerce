@@ -3,12 +3,13 @@
     <ul class="dropdown-menu" aria-labelledby="members_area">
         {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
             <li> <a href="{{ path('sinenco_core_profile') }}">{{ 'sinenco.userbundle.myAccount'|trans }}</a></li>
+            <li> <a href="{{ path('shop_product.purchases') }}">{{ 'shop.purchases.title'|trans() }}</a></li>
             <li> <a href="{{ path('fos_user_security_logout') }}">{{ 'layout.logout'|trans({}, 'FOSUserBundle') }}</a></li>
+            
             {% else %}
             <li> <a href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a></li>
             <li> <a href="{{ path('fos_user_registration_register') }}">{{ 'layout.register'|trans({}, 'FOSUserBundle') }}</a></li>
             {% endif %}
         <li class="divider"></li>
-        <li><a href="./variables.less">variables.less</a></li>
     </ul>
 </li>

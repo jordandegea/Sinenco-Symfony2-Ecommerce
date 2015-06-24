@@ -9,7 +9,7 @@ use Doctrine\ORM\EntityManager,
 
 class MailerService {
 
-    public function sendMail($controller, $subject, $address, $plain, $params = null, $renderPlain = false, $html = null,  $renderHTML = false ) {
+    public function sendMail(Container $controller, $subject, $address, $plain, $params = null, $renderPlain = false, $html = null,  $renderHTML = false ) {
         $message = \Swift_Message::newInstance()
                 ->setSubject($subject)
                 ->setFrom('webmaster@sinenco.com')
@@ -18,7 +18,7 @@ class MailerService {
 
         if ($renderPlain) {
             $message->setBody(
-                    $controller->renderView($plain, $params), 
+                    $controller->get('templating')->render($plain, $params), 
                     'text/plain'
             );
         }else{
@@ -29,12 +29,12 @@ class MailerService {
         if ( $html != null ){
             if ($renderHTML) {
                 $message->setBody(
-                        $controller->renderView($html, $params), 
+                        $controller->get('templating')->render($html, $params), 
                         'text/html'
                 );
             } else {
                 $message->setBody(
-                        $controller->renderView($html, $params), 
+                        $controller->get('templating')->render($html, $params), 
                         'text/html');
             }
         }

@@ -1,5 +1,6 @@
 shop:
     purchases:
+        title: My purchases
         email:
             text:  Hi %name%, <br /> Your purchase number %id% has changed. 
             link: Go to my purchases

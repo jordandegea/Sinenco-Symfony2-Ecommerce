@@ -1,5 +1,6 @@
 shop:
     purchases:
+        title: Mes achats
         email:
             text: Bonjour %name%, <br /> Votre achat numéro %id% à changé. 
             link: Aller à mes achats

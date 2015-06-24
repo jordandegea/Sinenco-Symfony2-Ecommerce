@@ -1,0 +1,23 @@
+
+{% extends "::email_layout.html.twig" %}
+
+{% block core_mail %}
+    <table>
+        <tr>
+            <td>
+                <p>Hello {{ user.username }} !</p>
+                <table>
+                    <tr>
+                        <td class="padding">
+                            <p>You can reset your password by clicking 
+                                <a href="{{ confirmationUrl }}" class="btn-primary">
+                                    here
+                                </a>
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+{% endblock %}
