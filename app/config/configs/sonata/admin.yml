@@ -2,11 +2,32 @@ sonata_admin:
     title:      Sinenco Admin
     #title_logo: bundles/acmedemo/img/fancy_acme_logo.png
     templates:
+        dashboard:           SonataAdminBundle:Core:dashboard.html.twig
         layout:              %kernel.root_dir%/Resources/views/sonata_admin_base_layout.html.twig
         search:              SonataAdminBundle:Core:search.html.twig
         search_result_block: SonataAdminBundle:Block:block_search_result.html.twig
+        list:                       SonataAdminBundle:CRUD:list.html.twig
+        action:                     SonataAdminBundle:CRUD:action.html.twig
+        select:                     SonataAdminBundle:CRUD:list__select.html.twig
+        list_block:                 SonataAdminBundle:Block:block_admin_list.html.twig
+        short_object_description:   SonataAdminBundle:Helper:short-object-description.html.twig
+        batch:                      SonataAdminBundle:CRUD:list__batch.html.twig
+        inner_list_row:             SonataAdminBundle:CRUD:list_inner_row.html.twig
+        base_list_field:            SonataAdminBundle:CRUD:base_list_field.html.twig
+        pager_links:                SonataAdminBundle:Pager:links.html.twig
+        pager_results:              SonataAdminBundle:Pager:results.html.twig
     dashboard:
         blocks:
+            -
+                position: left
+                type: sonata.admin.block.admin_list
+                settings:
+                    groups: [Users, Services]
+            -
+                position: right
+                type: sonata.admin.block.admin_list
+                settings:
+                    groups: [ECommerce, Medias]
             -
                 position: left
                 type: sonata.block.service.text

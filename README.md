@@ -17,6 +17,12 @@ Application to be installed :
 http://wkhtmltopdf.org/downloads.html 
 for html2Pdf conversion
 
+Cron Requirements :
+---- 
+Send mail
+
+
+
 Usefull command :
 ---- 
 php app/console assets:install web/
