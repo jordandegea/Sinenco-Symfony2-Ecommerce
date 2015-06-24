@@ -2,7 +2,6 @@ balanceAndCurrencyInformation: Lorsque vous changez de devises, votre credit est
 
 sinenco.core:
     editMyAccount: Modifier mon compte
-    imprint: Mentions légales
     manager: Gérant
     manager_text: |
         Sinenco est un service proposé par Jordan DE GEA
@@ -25,5 +24,9 @@ sinenco.core:
         services: Services
         
         
-        
-Contact Us : Contactez-nous
+    footer:
+        imprint: Mentions légales
+        information: Informations
+        contact_us: Contactez-Nous
+        contacts: Contacts
+        social_networks: Réseaux Sociaux

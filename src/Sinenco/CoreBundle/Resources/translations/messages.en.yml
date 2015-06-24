@@ -1,7 +1,7 @@
 balanceAndCurrencyInformation: Inforamtion trafqdsf
+
 sinenco.core:
     editMyAccount: Edit my account
-    imprint: Imprint
     manager: Manager
     manager_text: |
         Sinenco is a service provided by Jordan DE GEA
@@ -22,3 +22,10 @@ sinenco.core:
     top_menu:
         shop: Shop
         services: Services
+        
+    footer:
+        imprint: Imprint
+        information: Information
+        contact_us: Contact Us
+        contacts: Contacts
+        social_networks: Social Networks

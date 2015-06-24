@@ -3,7 +3,7 @@
 
 
 {% block title %}
-    {{ 'services.services'|trans }} - {{ parent() }}
+    {{ parent() }}
 {% endblock %}
 
 
@@ -54,7 +54,7 @@
 
         </div>
         <div class="col col-xs-12 col-sm-6 col-md-6 col-lg-6">
-            <h2>{{ 'service.my_services'|trans }}</h2>
+            <h2>{{ 'services.my_services'|trans }}</h2>
             {#Vous avez X services dont X actifs. ;#}
 
             <a href="{{ path("services_mine_list") }}" class="btn btn-block btn-primary">Accéder à mes services</a>

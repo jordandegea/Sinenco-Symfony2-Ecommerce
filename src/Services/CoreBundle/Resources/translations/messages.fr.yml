@@ -1,8 +1,8 @@
 services:
+    services: Services
     renting_edited: La location a été modifié
     renting_forbidden_fields: Vous avez modifié des champs interdits
     expiration: expiration
-    services : Services
     my_services : Mes services
     my_services_text : Voici la liste des services proposés. En cliquant sur un service, vous serez redirigé vers son produit. Cliquez sur une catégorie pour y derouler les services. 
     not_yours: Cette location n'existe pas ou ne vous appartient pas. 
