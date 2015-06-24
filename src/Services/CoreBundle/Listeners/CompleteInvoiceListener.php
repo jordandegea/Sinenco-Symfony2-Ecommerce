@@ -104,7 +104,14 @@ class CompleteInvoiceListener {
 
             $renting->setLicense($this->createLicense($renting));
             
+            
+            // C'était un service et non un achat. On peut donc supprimer l'achat.
+            $this->em->remove($cartItem->getPurchase());
+            
+            $cartItem->setPurchase(NULL);
+            
             $this->em->persist($renting);
+            $this->em->persist($cartItem);
         }
         $this->em->flush();
     }

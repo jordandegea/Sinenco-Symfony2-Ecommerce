@@ -68,6 +68,13 @@ class CartItem implements CartOptionsInterface{
      */
     private $product;
 
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="Shop\ProductBundle\Entity\Purchases")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $purchase;
+    
     /**
      * @var array
      *
@@ -220,4 +227,28 @@ class CartItem implements CartOptionsInterface{
         return $this->hiddenValues;
     }
 
+
+    /**
+     * Set purchase
+     *
+     * @param \Shop\ProductBundle\Entity\Purchases $purchase
+     *
+     * @return CartItem
+     */
+    public function setPurchase(\Shop\ProductBundle\Entity\Purchases $purchase = null)
+    {
+        $this->purchase = $purchase;
+
+        return $this;
+    }
+
+    /**
+     * Get purchase
+     *
+     * @return \Shop\ProductBundle\Entity\Purchases
+     */
+    public function getPurchase()
+    {
+        return $this->purchase;
+    }
 }
