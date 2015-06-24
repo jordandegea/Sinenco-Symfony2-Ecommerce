@@ -51,7 +51,7 @@ class CartItem implements CartOptionsInterface{
 
     /**
      * @ORM\ManyToOne(targetEntity="Shop\CartBundle\Entity\Cart", inversedBy="products", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false,onDelete="CASCADE")
      */
     private $cart;
 

@@ -27,6 +27,14 @@ class Cart {
      */
     private $id;
 
+    
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $complete ; 
+    
+    
     /**
      *  @ORM\ManyToOne(targetEntity="Sinenco\UserBundle\Entity\User", cascade={"persist"})
      *  @ORM\JoinTable()
@@ -37,15 +45,19 @@ class Cart {
     /**
      * @ORM\Column(type="datetime")
      */
+    private $createdAt;
+    
+    /**
+     * @ORM\Column(name="lastUpdate", type="datetime")
+     */
     private $lastUpdate;
 
     /**
      * @ORM\OneToMany(
      *    targetEntity="Shop\CartBundle\Entity\CartItem", 
      *    mappedBy="cart", 
-     *    cascade={"persist", "remove", "merge"}, 
-     *    orphanRemoval=true)
-     * @ORM\JoinColumn(nullable=true,onDelete="cascade") 
+     *    cascade={"persist", "remove", "merge"})
+     * @ORM\JoinColumn(nullable=true,referencedColumnName="cart_id",onDelete="CASCADE") 
      */
     private $products;
 
@@ -56,7 +68,7 @@ class Cart {
     private $billingAddress;
 
     /**
-     * @ORM\Column(name="comment", type="text")
+     * @ORM\Column(name="comment", type="text", nullable=true)
      */
     private $comment;
 
@@ -69,6 +81,14 @@ class Cart {
             $this->comment = "";
         }
         $this->lastUpdate = new \DateTime();
+    }
+    
+    /**
+     * @ORM\PrePersist
+     */
+    public function onPersist() {
+        $this->complete = false ; 
+        $this->createdAt = new \DateTime();
     }
 
     /**
@@ -203,4 +223,52 @@ class Cart {
         return $this->comment;
     }
 
+
+    /**
+     * Set complete
+     *
+     * @param boolean $complete
+     *
+     * @return Cart
+     */
+    public function setComplete($complete)
+    {
+        $this->complete = $complete;
+
+        return $this;
+    }
+
+    /**
+     * Get complete
+     *
+     * @return boolean
+     */
+    public function getComplete()
+    {
+        return $this->complete;
+    }
+
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt
+     *
+     * @return Cart
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
 }

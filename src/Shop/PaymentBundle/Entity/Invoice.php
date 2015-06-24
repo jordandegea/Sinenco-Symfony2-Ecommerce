@@ -58,7 +58,7 @@ class Invoice {
 
     /**
      * @ORM\ManyToOne(targetEntity="Shop\CartBundle\Entity\Cart", inversedBy="products")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false,onDelete="CASCADE")
      */
     private $cart ;
     

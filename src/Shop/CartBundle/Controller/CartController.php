@@ -39,7 +39,9 @@ class CartController extends Controller {
 
 
         $formBuilder
-                ->add('comment', 'textarea')
+                ->add('comment', 'textarea', array(
+                    'required' => false
+                ))
         ;
 
         $form = $formBuilder->getForm();
@@ -51,6 +53,7 @@ class CartController extends Controller {
             $em->persist($cart);
             
             $invoice = $this->get('invoicing')->createInvoiceWithCart($cart);
+            $this->get('shop_cart.cart')->transformInvoice();
             
             $em->persist($invoice);
             $em->flush();

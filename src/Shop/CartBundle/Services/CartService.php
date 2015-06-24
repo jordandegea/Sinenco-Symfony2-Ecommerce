@@ -16,6 +16,8 @@ use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 
 class CartService {
 
+    const MAX_TIME = 12960000; // 15 jours
+    
     protected $container;
     protected $response;
     protected $em;
@@ -46,6 +48,16 @@ class CartService {
         return $this->cart;
     }
     
+    public function transformInvoice() {
+
+        $cart = $this->getCart();
+        $cart->setComplete(true) ;
+        
+        $this->em->persist($cart);
+        $this->em->flush() ;
+        
+        $this->findOrCreateCart() ;
+    }
     
     public function getTotalPriceHT($currency = null) {
 
@@ -275,7 +287,10 @@ class CartService {
                         ->em
                         ->getRepository('ShopCartBundle:Cart')
                         ->findOneBy(
-                            array('user'=> $token->getUser()), 
+                            array(
+                                'user'=> $token->getUser(),
+                                'complete' => false
+                                ), 
                             array('id' => 'ASC')
                 );
 
@@ -299,7 +314,7 @@ class CartService {
 
     private function setCookie($name, $value, $response) {
         $cookie = new Cookie(
-                $name, $value, time() + 3600 * 24 * 31);
+                $name, $value, time() + self::MAX_TIME);
         if ($response == null) {
             $response = new Response;
             $response->headers->setCookie($cookie);
