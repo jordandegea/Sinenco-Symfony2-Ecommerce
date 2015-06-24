@@ -80,6 +80,13 @@ class ProductService {
             $this->em->persist($purchase);
         }
         $this->em->flush();
+
+        $this->container
+                ->get("mail_service")
+                ->sendMail($this->container, "Nouvel Achat", 
+                        $this->container
+                        ->getParameter("mailer_user"), 
+                        "Nouvel Achat ( C'est peut être un service ) ");
     }
 
     private function getFormattedOptionsValues($options, $optionsValues) {
@@ -89,7 +96,7 @@ class ProductService {
                 $ret[$option->getCanonicalName()] = $optionsValues[$option->getCanonicalName()];
             }
         }
-        return $ret ; 
+        return $ret;
     }
 
 }
