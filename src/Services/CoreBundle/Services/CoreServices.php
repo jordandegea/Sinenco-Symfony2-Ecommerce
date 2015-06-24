@@ -58,7 +58,7 @@ class CoreServices {
             //Pour chaque location, on met à jour les details.
             $this->addDetailsIfNotExist($rentings, $service);
             
-            $product = $service->getRentingProduct();
+            $product = $service->getProduct();
             if ( $product != null ){
                 $this->updateAttributesOfProduct($service, $product);
             }

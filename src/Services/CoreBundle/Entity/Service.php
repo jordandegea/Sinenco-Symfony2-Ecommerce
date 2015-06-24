@@ -38,13 +38,8 @@ class Service {
      * @ORM\OneToOne(targetEntity="Shop\ProductBundle\Entity\Product", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      */
-    private $PurchaseProduct;
+    private $product;
     
-    /**
-     * @ORM\OneToOne(targetEntity="Shop\ProductBundle\Entity\Product", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=true)
-     */
-    private $RentingProduct;
 
     /**
      * @ORM\ManyToOne(targetEntity="Shop\ProductBundle\Entity\Category")
@@ -233,50 +228,27 @@ class Service {
     }
 
     /**
-     * Set purchaseProduct
+     * Set product
      *
-     * @param \Shop\ProductBundle\Entity\Product $purchaseProduct
+     * @param \Shop\ProductBundle\Entity\Product $product
      *
      * @return Service
      */
-    public function setPurchaseProduct(\Shop\ProductBundle\Entity\Product $purchaseProduct = null)
+    public function setProduct(\Shop\ProductBundle\Entity\Product $product = null)
     {
-        $this->PurchaseProduct = $purchaseProduct;
+        $this->product = $product;
 
         return $this;
     }
 
     /**
-     * Get purchaseProduct
+     * Get product
      *
      * @return \Shop\ProductBundle\Entity\Product
      */
-    public function getPurchaseProduct()
+    public function getProduct()
     {
-        return $this->PurchaseProduct;
+        return $this->product;
     }
 
-    /**
-     * Set rentingProduct
-     *
-     * @param \Shop\ProductBundle\Entity\Product $rentingProduct
-     *
-     * @return Service
-     */
-    public function setRentingProduct(\Shop\ProductBundle\Entity\Product $rentingProduct = null)
-    {
-        $this->RentingProduct = $rentingProduct;
-
-        return $this;
-    }
-
-    /**
-     * Get rentingProduct
-     *
-     * @return \Shop\ProductBundle\Entity\Product
-     */
-    public function getRentingProduct()
-    {
-        return $this->RentingProduct;
-    }
 }
