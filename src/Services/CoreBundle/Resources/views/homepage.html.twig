@@ -34,7 +34,7 @@
                         <div class="panel-body">
                             {% for service in category %}
                                 {% if loop.index > 1 %}
-                                    <a href="{{ path("shop_product", {'product_idOrSlug':service.product.canonicalName}) }}" 
+                                    <a href="{{ path("shop_product", {'product_idOrSlug':service.rentingProduct.canonicalName}) }}" 
                                        class="btn btn-block btn-primary">
                                         {{ service.translate.name }}
                                     </a>

@@ -23,25 +23,14 @@ class CompleteInvoiceListener {
         $this->container = $container;
     }
 
-    public function onInvoiceComplete(CompleteInvoiceEvent $invoiceEvent) {
-        $this->invoice = $invoiceEvent->getInvoice();
-
-        // Pour chaque produit, on regarde si un service est associé
-        $serviceRepository = $this
-                ->em
-                ->getRepository('ServicesCoreBundle:Service')
-        ;
-
-        $cart = $this->invoice->getCart();
-        $user = $cart->getUser();
-
-        foreach ($cart->getProducts() as $cartItem) {
-            $service = $serviceRepository->findOneByProduct($cartItem->getProduct());
-            if ($service == null) {
-                continue;
-            }
-
-            // Le service existe, on a donc des choses à faire
+    
+    private function onInvoiceCompleteForPurchases($cartItem, $user, $service){
+        
+    }
+    
+    
+    private function onInvoiceCompleteForRentings($cartItem, $user, $service){
+        // Le service existe, on a donc des choses à faire
             if ($cartItem->getConfiguration()[CartOptionsInterface::FIRST_TIME]) {
                 //Alors on doit crée le renting associé au service
                 $renting = new Renting();
@@ -62,7 +51,7 @@ class CompleteInvoiceListener {
                 ;
                 $hiddenValues = $cartItem->getHiddenValues();
                 if ($hiddenValues == null || !is_numeric($hiddenValues["renting"])) {
-                    continue;
+                    return ;
                 }
                 $renting = $rentingRepository->find($hiddenValues["renting"]);
 
@@ -105,6 +94,28 @@ class CompleteInvoiceListener {
             $renting->setLicense($this->createLicense($renting));
             
             $this->em->persist($renting);
+    }
+    
+    public function onInvoiceComplete(CompleteInvoiceEvent $invoiceEvent) {
+        $this->invoice = $invoiceEvent->getInvoice();
+
+        // Pour chaque produit, on regarde si un service est associé
+        $serviceRepository = $this
+                ->em
+                ->getRepository('ServicesCoreBundle:Service')
+        ;
+
+        $cart = $this->invoice->getCart();
+        $user = $cart->getUser();
+
+        foreach ($cart->getProducts() as $cartItem) {
+            $service = $serviceRepository->findOneByRentingProduct($cartItem->getProduct());
+            if ($service != null) {
+                $this->onInvoiceCompleteForRentings($cartItem, $user, $service);
+            }else{
+                $service = $serviceRepository->findOneByPurchaseProduct($cartItem->getProduct());
+                $this->onInvoiceCompleteForPurchases($cartItem, $user, $service);
+            }
         }
         $this->em->flush();
     }
