@@ -50,6 +50,11 @@ sonata_admin:
                 items:
                     - sonata.admin.user.user
                     - sonata.admin.user.address
+            News:
+                items:
+                    - sonata.admin.blog.post
+                    - sonata.admin.blog.comment
+                    - sonata.admin.blog.subcomment
             ECommerce:
                 items:
                     - sonata.admin.purchases

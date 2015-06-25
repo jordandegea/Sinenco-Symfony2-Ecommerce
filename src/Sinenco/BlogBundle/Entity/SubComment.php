@@ -11,7 +11,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @ORM\Table()
  * @ORM\Entity
  */
-class Comment
+class SubComment
 {
     /**
      * @var integer
@@ -33,23 +33,15 @@ class Comment
     /**
      *  @ORM\ManyToOne(targetEntity="Sinenco\UserBundle\Entity\User", cascade={"persist"})
      *  @ORM\JoinTable()
-     *  @ORM\JoinColumn(nullable=true)
+     *  @ORM\JoinColumn(nullable=false)
      * */
     private $user;
     
     /**
      * 
-     * @ORM\ManyToOne(targetEntity="Sinenco\BlogBundle\Entity\Post", inversedBy="comments", cascade={"persist"})
-     *  @ORM\JoinTable()
-     *  @ORM\JoinColumn(nullable=true)
+     * @ORM\ManyToOne(targetEntity="Sinenco\BlogBundle\Entity\Comment",inversedBy="comments",   cascade={"persist"})
      * */
-    private $post;
-    
-    /**
-     * 
-     * @ORM\OneToMany(targetEntity="Sinenco\BlogBundle\Entity\SubComment", mappedBy="comment", cascade={"persist"})
-     * */
-    private $comments;
+    private $comment;
     
     
     /**
@@ -71,7 +63,6 @@ class Comment
         }
         return $cut ; 
     }
-    
     /**
      * Get id
      *
@@ -110,7 +101,6 @@ class Comment
      */
     public function __construct()
     {
-        $this->createdAt = New \DateTime ;
         $this->comments = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
@@ -169,7 +159,7 @@ class Comment
      *
      * @return Comment
      */
-    public function addComment(\Sinenco\BlogBundle\Entity\SubComment $comment)
+    public function addComment(\Sinenco\BlogBundle\Entity\Comment $comment)
     {
         $this->comments[] = $comment;
 
@@ -197,26 +187,26 @@ class Comment
     }
 
     /**
-     * Set post
+     * Set comment
      *
-     * @param \Sinenco\BlogBundle\Entity\Post $post
+     * @param \Sinenco\BlogBundle\Entity\Comment $comment
      *
-     * @return Comment
+     * @return SubComment
      */
-    public function setPost(\Sinenco\BlogBundle\Entity\Post $post)
+    public function setComment(\Sinenco\BlogBundle\Entity\Comment $comment = null)
     {
-        $this->post = $post;
+        $this->comment = $comment;
 
         return $this;
     }
 
     /**
-     * Get post
+     * Get comment
      *
-     * @return \Sinenco\BlogBundle\Entity\Post
+     * @return \Sinenco\BlogBundle\Entity\Comment
      */
-    public function getPost()
+    public function getComment()
     {
-        return $this->post;
+        return $this->comment;
     }
 }

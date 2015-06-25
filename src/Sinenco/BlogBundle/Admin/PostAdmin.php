@@ -1,13 +1,13 @@
 <?php
 
-namespace Shop\ProductBundle\Admin;
+namespace Sinenco\BlogBundle\Admin;
 
 use Sonata\AdminBundle\Admin\Admin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 
-class ProductAdmin extends Admin {
+class PostAdmin extends Admin {
 
     // Fields to be shown on create/edit forms
     protected function configureFormFields(FormMapper $formMapper) {
@@ -16,14 +16,8 @@ class ProductAdmin extends Admin {
                 ->with('Contents', array('tab' => false, 'class' => 'col-md-6'))
                 ->add('translations', 'a2lix_translations', array(
                     'fields' => array(
-                        'name' => array(),
-                        'short_description' => array(
-                            'field_type' => 'textarea',
-                            'attr' => array(
-                                'class' => 'ckeditor'
-                            )
-                        ),
-                        'long_description' => array(
+                        'title' => array(),
+                        'content' => array(
                             'field_type' => 'textarea',
                             'attr' => array(
                                 'class' => 'ckeditor'
@@ -34,42 +28,35 @@ class ProductAdmin extends Admin {
                 )
                 ->end()
                 ->end()
-                
                 ->with('Defaults', array('tab' => false, 'class' => 'col-md-6'))
-                
                 ->add('canonicalName')
-                ->add(
-                        'category', 'entity', array(
-                    'class' => 'Shop\ProductBundle\Entity\Category'
-                        )
-                )
-                
+                ->add('user')
+                ->add('createdAt', 'sonata_type_datetime_picker', array(
+                    'dp_side_by_side' => true,
+                    'dp_use_current' => false,
+                    'dp_use_seconds' => false,
+                ))
+                ->add('closeCommentsAt', 'sonata_type_datetime_picker', array(
+                    'dp_side_by_side' => true,
+                    'dp_use_current' => false,
+                    'dp_use_seconds' => false,
+                ))
                 ->add('image', 'sonata_type_model_list', array(), array(
                     'link_parameters' => array('context' => 'products_image')
                 ))
-                ->add('file', 'sonata_type_model_list', array(), array(
-                    'link_parameters' => array('context' => 'products_file')
-                ))
-                ->end()
-                
-                ->with('Options', array('tab' => false, 'class' => 'col-md-6'))
-                ->add('options', 'sonata_type_model', array(
-                    'multiple' => true,
-                    'by_reference' => false,
-                    'required' => false
-                        )
-                )
                 ->end()
                 ->end()
-                
-                ->with('Prices', array('tab' => false, 'class' => 'col-md-6'))
-                ->add('price', 'sonata_type_admin', array(), array('edit' => 'inline'))
-                ->setHelps(array(
-                    'canonicalName' => 'pattern : /^[a-z0-9\-]+$/',
+                ->with('Comments', array('tab' => true))
+                ->add('comments', 'sonata_type_collection', array(
+                    'by_reference' => false
+                        ), array(
+                    'edit' => 'inline',
+                    'inline' => 'table',
+                    'sortable' => 'id',
                 ))
                 ->end()
                 ->end()
-                
+
 
         ;
     }
@@ -78,7 +65,6 @@ class ProductAdmin extends Admin {
     protected function configureDatagridFilters(DatagridMapper $datagridMapper) {
         $datagridMapper
                 ->add('canonicalName')
-                ->add('price')
 
         ;
     }

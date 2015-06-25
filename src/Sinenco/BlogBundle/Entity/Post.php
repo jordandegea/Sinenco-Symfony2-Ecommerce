@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Model as ORMBehaviors;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
+use Application\Sonata\MediaBundle\Entity\Media;
 
 /**
  * Post
@@ -13,12 +14,10 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @ORM\Table()
  * @ORM\Entity
  */
-class Post
-{
-    
-    
+class Post {
+
     use ORMBehaviors\Translatable\Translatable;
-    
+
     /**
      * @var integer
      *
@@ -27,6 +26,19 @@ class Post
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+
+    /**
+     * @ORM\Column(name="canonical_name", type="string", length=255)
+     * @Assert\Regex("/^[a-z0-9\-]+$/")
+     * @Assert\Length(min=2)
+     */
+    private $canonicalName;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Application\Sonata\MediaBundle\Entity\Media", cascade={"persist"}, fetch="LAZY" )
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $image;
 
     /**
      * @var \DateTime
@@ -42,35 +54,70 @@ class Post
      */
     private $closeCommentsAt;
 
-    
     /**
      *  @ORM\ManyToOne(targetEntity="Sinenco\UserBundle\Entity\User", cascade={"persist"})
      *  @ORM\JoinTable()
-     *  @ORM\JoinColumn(nullable=false)
      * */
     private $user;
-    
-    
+
     /**
-     * Attention, ici c'est un OneToMany associé à un ManyToMany pour eviter d'avoir 
-     * une relation bidirectionnelle.
-     * 
-     * @ORM\ManyToMany(targetEntity="Shop\BlogBundle\Entity\Comment", cascade={"persist"})
-     * @ORM\JoinTable(name="post_comments",
-     *      joinColumns={@ORM\JoinColumn(name="post_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="comment_id", referencedColumnName="id", unique=true)}
-     *      )
+     * @ORM\OneToMany(targetEntity="Sinenco\BlogBundle\Entity\Comment", mappedBy="post", cascade={"persist"})
      * */
     private $comments;
-    
+
+    public function __toString() {
+        return $this->canonicalName;
+    }
+
     /**
      * Get id
      *
      * @return integer
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
+    }
+
+    /**
+     * Set canonicalName
+     *
+     * @param string $canonicalName
+     * @return Category
+     */
+    public function setCanonicalName($canonicalName) {
+        $this->canonicalName = $canonicalName;
+
+        return $this;
+    }
+
+    /**
+     * Get canonicalName
+     *
+     * @return string 
+     */
+    public function getCanonicalName() {
+        return $this->canonicalName;
+    }
+
+    /**
+     * Set image
+     *
+     * @param \Application\Sonata\MediaBundle\Entity\Media $image
+     * @return Product
+     */
+    public function setImage(Media $image = null) {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * Get image
+     *
+     * @return \Application\Sonata\MediaBundle\Entity\Media 
+     */
+    public function getImage() {
+        return $this->image;
     }
 
     /**
@@ -80,8 +127,7 @@ class Post
      *
      * @return Post
      */
-    public function setCreatedAt($createdAt)
-    {
+    public function setCreatedAt($createdAt) {
         $this->createdAt = $createdAt;
 
         return $this;
@@ -92,8 +138,7 @@ class Post
      *
      * @return \DateTime
      */
-    public function getCreatedAt()
-    {
+    public function getCreatedAt() {
         return $this->createdAt;
     }
 
@@ -104,8 +149,7 @@ class Post
      *
      * @return Post
      */
-    public function setCloseCommentsAt($closeCommentsAt)
-    {
+    public function setCloseCommentsAt($closeCommentsAt) {
         $this->closeCommentsAt = $closeCommentsAt;
 
         return $this;
@@ -116,15 +160,14 @@ class Post
      *
      * @return \DateTime
      */
-    public function getCloseCommentsAt()
-    {
+    public function getCloseCommentsAt() {
         return $this->closeCommentsAt;
     }
+
     /**
      * Constructor
      */
-    public function __construct()
-    {
+    public function __construct() {
         $this->comments = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
@@ -135,8 +178,7 @@ class Post
      *
      * @return Post
      */
-    public function setUser(\Sinenco\UserBundle\Entity\User $user)
-    {
+    public function setUser(\Sinenco\UserBundle\Entity\User $user) {
         $this->user = $user;
 
         return $this;
@@ -147,20 +189,18 @@ class Post
      *
      * @return \Sinenco\UserBundle\Entity\User
      */
-    public function getUser()
-    {
+    public function getUser() {
         return $this->user;
     }
 
     /**
      * Add comment
      *
-     * @param \Shop\BlogBundle\Entity\Comment $comment
+     * @param \Sinenco\BlogBundle\Entity\Comment $comment
      *
      * @return Post
      */
-    public function addComment(\Shop\BlogBundle\Entity\Comment $comment)
-    {
+    public function addComment(\Sinenco\BlogBundle\Entity\Comment $comment) {
         $this->comments[] = $comment;
 
         return $this;
@@ -169,10 +209,9 @@ class Post
     /**
      * Remove comment
      *
-     * @param \Shop\BlogBundle\Entity\Comment $comment
+     * @param \Sinenco\BlogBundle\Entity\Comment $comment
      */
-    public function removeComment(\Shop\BlogBundle\Entity\Comment $comment)
-    {
+    public function removeComment(\Sinenco\BlogBundle\Entity\Comment $comment) {
         $this->comments->removeElement($comment);
     }
 
@@ -181,8 +220,8 @@ class Post
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getComments()
-    {
+    public function getComments() {
         return $this->comments;
     }
+
 }
