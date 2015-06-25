@@ -174,6 +174,7 @@ class Post {
      * Constructor
      */
     public function __construct() {
+        $this->createdAt = new \Datetime() ;
         $this->comments = new \Doctrine\Common\Collections\ArrayCollection();
     }
 

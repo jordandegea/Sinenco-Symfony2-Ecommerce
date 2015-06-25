@@ -36,11 +36,13 @@ class PostAdmin extends Admin {
                     'dp_side_by_side' => true,
                     'dp_use_current' => false,
                     'dp_use_seconds' => false,
+                    'format' => 'dd.MM.yyyy, HH:mm:ss'
                 ))
                 ->add('closeCommentsAt', 'sonata_type_datetime_picker', array(
                     'dp_side_by_side' => true,
                     'dp_use_current' => false,
                     'dp_use_seconds' => false,
+                    'format' => 'dd.MM.yyyy, HH:mm:ss'
                 ))
                 ->add('image', 'sonata_type_model_list', array(), array(
                     'link_parameters' => array('context' => 'products_image')
