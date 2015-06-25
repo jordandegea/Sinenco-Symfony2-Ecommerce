@@ -27,6 +27,7 @@ doctrine:
                     SonataMediaBundle: ~
                     SinencoCoreBundle: ~
                     SinencoUserBundle: ~
+                    SinencoBlogBundle: ~
                     ShopUserBundle: ~
                     ShopCartBundle: ~
                     ShopCoreBundle: ~

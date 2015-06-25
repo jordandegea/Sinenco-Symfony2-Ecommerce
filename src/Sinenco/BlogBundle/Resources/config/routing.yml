@@ -1,0 +1,3 @@
+sinenco_blog_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: SinencoBlogBundle:Default:index }

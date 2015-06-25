@@ -1,3 +1,7 @@
+sinenco_blog:
+    resource: "@SinencoBlogBundle/Resources/config/routing.yml"
+    prefix:   /
+
 #REST 
 rest : 
     type : rest 

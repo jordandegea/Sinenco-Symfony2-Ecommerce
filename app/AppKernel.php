@@ -58,6 +58,7 @@ class AppKernel extends Kernel
             
             new Knp\Bundle\SnappyBundle\KnpSnappyBundle(),
             new Services\CoreBundle\ServicesCoreBundle(),
+            new Sinenco\BlogBundle\SinencoBlogBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
