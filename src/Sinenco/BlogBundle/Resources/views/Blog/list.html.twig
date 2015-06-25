@@ -1,0 +1,36 @@
+{# src/OC/PlatformBundle/Resources/views/Advert/edit.html.twig #}
+
+{% extends "SinencoBlogBundle::layout.html.twig" %}
+
+{% block title %}
+    {{ parent() }}
+{% endblock %}
+
+
+{% block body %}
+
+    {% for post in posts %}
+        {% if post.image is not empty %}
+            <div class="col-xs-12">
+                {% media post.image, '350' with {'class': 'img-responsive', "style":"margin:auto" } %}
+            {% else %}
+                <div class="col-lg-6 col-xs-12">
+                {% endif %}
+
+                <h2><a href="single-post-with-right-sidebar.html">{{ post.translate.title }}</a></h2>
+                    {% if post.user is not empty %}
+                    <p class="post-meta">By <span class="text-muted">{{ post.user }}</a></span></p>
+                        {% endif %}
+                <div class="post-excerpt">
+                    <p>{{ post.translate.content|raw }}</p>
+
+                    <ul class="post-love list-inline">
+                        <li><i class="fa fa-comments-o"></i>{{ post.comments|length }}</li>
+                        <li><a href="javascript: void(0);"><i class="fa fa-twitter"></i></a></li>
+                        <li><a href="javascript: void(0);"><i class="fa fa-facebook"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        {% endfor %}
+
+    {% endblock %}

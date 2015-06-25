@@ -1,6 +1,3 @@
-sinenco_blog:
-    resource: "@SinencoBlogBundle/Resources/config/routing.yml"
-    prefix:   /
 
 #REST 
 rest : 
@@ -17,6 +14,10 @@ services_core:
 
 
 #Sinenco Bundle #
+sinenco_blog:
+    resource: "@SinencoBlogBundle/Resources/config/routing.yml"
+    prefix:   /{_locale}/news
+
 sinenco_core:
     resource: "@SinencoCoreBundle/Resources/config/routing.yml"
     prefix:   /{_locale}/

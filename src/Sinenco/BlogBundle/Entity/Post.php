@@ -28,6 +28,12 @@ class Post {
     private $id;
 
     /**
+     * @var boolean
+     * @ORM\Column( type="boolean")
+     */
+    private $enabled;
+    
+    /**
      * @ORM\Column(name="canonical_name", type="string", length=255)
      * @Assert\Regex("/^[a-z0-9\-]+$/")
      * @Assert\Length(min=2)
@@ -224,4 +230,28 @@ class Post {
         return $this->comments;
     }
 
+
+    /**
+     * Set enabled
+     *
+     * @param boolean $enabled
+     *
+     * @return Post
+     */
+    public function setEnabled($enabled)
+    {
+        $this->enabled = $enabled;
+
+        return $this;
+    }
+
+    /**
+     * Get enabled
+     *
+     * @return boolean
+     */
+    public function getEnabled()
+    {
+        return $this->enabled;
+    }
 }

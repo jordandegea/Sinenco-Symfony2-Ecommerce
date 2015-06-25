@@ -29,6 +29,7 @@ class PostAdmin extends Admin {
                 ->end()
                 ->end()
                 ->with('Defaults', array('tab' => false, 'class' => 'col-md-6'))
+                ->add('enabled')
                 ->add('canonicalName')
                 ->add('user')
                 ->add('createdAt', 'sonata_type_datetime_picker', array(
