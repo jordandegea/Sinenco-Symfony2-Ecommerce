@@ -21,6 +21,7 @@ class PurchasesAdmin extends Admin {
                     'dp_side_by_side' => true,
                     'dp_use_current' => false,
                     'dp_use_seconds' => false,
+                    'format' => 'dd.MM.yyyy, HH:mm:ss'
                 ))
                 ->add('comment', 'textarea', array('attr'=>array('class'=>'ckeditor')))
                 ->add('state', 'choice', array(
