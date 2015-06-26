@@ -44,7 +44,7 @@ class DetailName {
 
     /**
      * @ORM\OneToOne(targetEntity="Shop\ProductBundle\Entity\ProductOption", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $attribute;
 
