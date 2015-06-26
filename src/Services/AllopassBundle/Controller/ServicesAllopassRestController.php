@@ -76,15 +76,14 @@ class ServicesAllopassRestController extends Controller {
         }
 
         if ($renting->getService()->getName() == "whmcs_allopass_commission") {
-            $url = $this->getCompleteAddress($renting) . "/index.php?m=allopass";
+            $url = $this->getCompleteAddress($renting) . "/index.php?m=allopass&";
         } elseif ($renting->getService()->getName() == "hostbill_allopass_commission") {
             $url = $this->getCallbackAddress($renting) . "&";
         } else {
             echo "BAD RENTING";
             die();
         }
-
-
+        
         return new RedirectResponse(
                 $url . http_build_query($_GET), 307
         );
@@ -92,21 +91,31 @@ class ServicesAllopassRestController extends Controller {
 
     private function getCompleteAddress($renting) {
         foreach ($renting->getDetails() as $detail) {
-            if ($detail->getDetailName()->getCanonicalName == "whmcs_complete_address") {
-                return $detail->getValue();
+            if ($detail->getDetailName()->getCanonicalName() == "whmcs_complete_address") {
+                $ret = $detail->getValue() ;
+                if ( strrpos ( $ret , "/" ) == strlen($ret) ){
+                    return substr ( $ret , 0 , strlen($ret)-1 ) ;
+                }else{
+                    return $ret ; 
+                }
             }
         }
         
         foreach ($renting->getDetails() as $detail) {
-            if ($detail->getDetailName()->getCanonicalName == "hostbill_complete_address") {
-                return $detail->getValue();
+            if ($detail->getDetailName()->getCanonicalName() == "hostbill_complete_address") {
+                $ret = $detail->getValue() ;
+                if ( strrpos ( $ret , "/" ) == strlen($ret) ){
+                    return substr ( $ret , 0 , strlen($ret)-1 ) ;
+                }else{
+                    return $ret ; 
+                }
             }
         }
     }
 
     private function getCallbackAddress($renting) {
         foreach ($renting->getDetails() as $detail) {
-            if (strstr($detail->getDetailName()->getCanonicalName, "hostbill_callback_address")) {
+            if (strstr($detail->getDetailName()->getCanonicalName(), "hostbill_callback_address")) {
                 return $detail->getValue();
             }
         }
