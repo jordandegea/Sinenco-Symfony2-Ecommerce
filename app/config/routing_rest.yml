@@ -1,3 +1,7 @@
 Rest_Services : 
   type : rest
   resource: "@ServicesCoreBundle/Resources/config/routing_rest.yml"
+  
+Rest_Services_Allopass : 
+  type : rest
+  resource: "@ServicesAllopassBundle/Resources/config/routing_rest.yml"

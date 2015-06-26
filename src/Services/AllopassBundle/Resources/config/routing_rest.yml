@@ -1,0 +1,19 @@
+
+service_allopass_rest: 
+  type: rest
+  resource:     "ServicesAllopassBundle:ServicesAllopassRest"
+  name_prefix:  api_
+  
+api_return_allopass:
+    type: rest
+    pattern:  /allopass/return
+    defaults: {_controller: ServicesAllopassBundle:ServicesAllopassRest:returnAllopass, _format:json }
+    requirements:
+        _method: GET
+        
+api_callback_allopass:
+    type: rest
+    pattern:  /allopass/callback
+    defaults: {_controller: ServicesAllopassBundle:ServicesAllopassRest:callbackAllopass, _format:xml }
+    requirements:
+        _method: GET

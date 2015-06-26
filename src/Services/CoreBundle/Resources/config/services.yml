@@ -6,6 +6,7 @@ parameters:
          - whmcs_starpass
          - whmcs_movefunds
          - whmcs_contribute
+         - hostbill_allopass_commission
          - hostbill_movefunds
          - hostbill_contribute
          
