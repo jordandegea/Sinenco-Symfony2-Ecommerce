@@ -48,7 +48,7 @@ class ServicesAllopassRestController extends Controller {
 
         $id = $invoice = $renting = 0;
 
-        if ($this->getUsefullParamaters(&$id, &$invoice, &$renting) == false) {
+        if ($this->getUsefullParamaters($id, $invoice, $renting) == false) {
             die();
         }
 
@@ -71,7 +71,7 @@ class ServicesAllopassRestController extends Controller {
 
         $id = $invoice = $renting = 0;
 
-        if ($this->getUsefullParamaters(&$id, &$invoice, &$renting) == false) {
+        if ($this->getUsefullParamaters($id, $invoice, $renting) == false) {
             die();
         }
 
