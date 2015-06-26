@@ -28,15 +28,9 @@ class ServicesAllopassRestController extends Controller {
     }
 
     private function getUsefullParamaters(&$id, &$invoice, &$renting) {
-        $content = explode(";", $_GET["data"]);
-
-        if (count($content) != 2) {
-            echo "BAD FORMAT";
-            return false;
-        }
-
-        $id = $content[0];
-        $invoice = $content[1];
+        
+        $id = $_GET["data"];
+        $invoice = $_GET["user_id"];
 
         $renting = $this->getDoctrine()
                 ->getRepository('ServicesCoreBundle:Renting')
@@ -59,9 +53,9 @@ class ServicesAllopassRestController extends Controller {
         }
 
         if ($renting->getService()->getName() == "whcms_allopass_commission") {
-            $url = $this->getCompleteAddress($renting) . "/modules/gateways/callback/allopass.php";
+            $url = $this->getCompleteAddress($renting) . "/modules/gateways/callback/allopass.php?";
         } elseif ($renting->getService()->getName() == "hostbill_allopass_commission") {
-            $url = $this->getCallbackAddress($renting) . "&purchase=" . $code_fichier;
+            $url = $this->getCallbackAddress($renting) . "&";
         } else {
             echo "BAD RENTING";
             die();
@@ -69,9 +63,7 @@ class ServicesAllopassRestController extends Controller {
 
 
         return new RedirectResponse(
-                $url . http_build_query($_GET), 307, array(
-            "GET" => $_GET
-                )
+                $url . http_build_query($_GET), 307
         );
     }
 
@@ -84,30 +76,18 @@ class ServicesAllopassRestController extends Controller {
         }
 
         if ($renting->getService()->getName() == "whcms_allopass_commission") {
-            $url = $this->getCompleteAddress($renting) . '/viewinvoice.php?id=' . $invoice;
+            $url = $this->getCompleteAddress($renting) . "/index.php?m=allopass";
         } elseif ($renting->getService()->getName() == "hostbill_allopass_commission") {
-            $url = $this->getCompleteAddress($renting) . '/index.php?/clientarea/invoice/' . $invoice;
+            $url = $this->getCallbackAddress($renting) . "&";
         } else {
             echo "BAD RENTING";
             die();
         }
 
 
-        $response = new Response();
-        $response->setContent('<!doctype html>
-        <html>
-            <head>
-                <link rel="stylesheet" href="templates/default/validate.css">
-                <meta http-equiv="refresh" content="5; url=' . $url . '">
-            </head>
-	<body style="margin-top:30px;">
-            <div class="image"></div>
-            <p>Paiement valid&eacute;, redirection vers votre facture dans 5 secondes</p>
-            <p>Payment is confirmed, redirect your invoice within 5 seconds</p>
-	</body>
-	</html>');
-        $response->headers->set('Content-Type', 'application/html');
-        return $response;
+        return new RedirectResponse(
+                $url . http_build_query($_GET), 307
+        );
     }
 
     private function getCompleteAddress($renting) {
