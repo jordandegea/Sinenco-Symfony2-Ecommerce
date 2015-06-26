@@ -100,7 +100,7 @@ class ServicesAllopassRestController extends Controller {
 
     private function getCallbackAddress($renting) {
         foreach ($renting->getDetails() as $detail) {
-            if (strstr($detail->getDetailName()->getCanonicalName, "callback")) {
+            if (strstr($detail->getDetailName()->getCanonicalName, "hostbill_callback_address")) {
                 return $detail->getValue();
             }
         }

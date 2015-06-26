@@ -32,11 +32,13 @@ class DetailName {
     
     /**
      * @ORM\Column( type="boolean")
+     * @ORM\JoinColumn(nullable=true)
      */
     private $isEditableForCreation;
 
     /**
      * @ORM\Column( type="boolean")
+     * @ORM\JoinColumn(nullable=true)
      */
     private $isDisplayedOnList;
 
