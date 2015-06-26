@@ -37,10 +37,11 @@
                                 <table class="table table-striped table-hover ">
                                     <thead>
                                         <tr>
+                                            <th>{{ 'services.id'|trans }}</th>
                                             {% for detailName in rentings[1] %}
                                                 <th>{{ detailName }}</th>
                                                 {% endfor %}
-                                            <th>{{ 'service.expiration'|trans }}</th>
+                                            <th>{{ 'services.expiration'|trans }}</th>
                                             <th></th>
                                         </tr>
                                     </thead>
@@ -48,6 +49,7 @@
                                         {% for renting in rentings %}
                                             {% if loop.index0 > 1 %}
                                                 <tr class="{{renting.state}}">
+                                                    <td>{{ renting.id }}</td>
                                                     {% for detail in renting.object.details %}
                                                         {% if detail.detailName.isDisplayedOnList %}
                                                             <td style="vertical-align: middle;">{{ detail.value }}</td> 
