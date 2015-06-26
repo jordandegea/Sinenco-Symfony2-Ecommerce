@@ -49,7 +49,7 @@
                                         {% for renting in rentings %}
                                             {% if loop.index0 > 1 %}
                                                 <tr class="{{renting.state}}">
-                                                    <td>{{ renting.object.id }}</td>
+                                                    <td style="vertical-align: middle;">{{ renting.object.id }}</td>
                                                     {% for detail in renting.object.details %}
                                                         {% if detail.detailName.isDisplayedOnList %}
                                                             <td style="vertical-align: middle;">{{ detail.value }}</td> 
