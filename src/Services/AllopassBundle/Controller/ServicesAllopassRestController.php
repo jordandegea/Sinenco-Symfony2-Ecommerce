@@ -92,7 +92,13 @@ class ServicesAllopassRestController extends Controller {
 
     private function getCompleteAddress($renting) {
         foreach ($renting->getDetails() as $detail) {
-            if ($detail->getDetailName()->getCanonicalName == "complete_address") {
+            if ($detail->getDetailName()->getCanonicalName == "whmcs_complete_address") {
+                return $detail->getValue();
+            }
+        }
+        
+        foreach ($renting->getDetails() as $detail) {
+            if ($detail->getDetailName()->getCanonicalName == "hostbill_complete_address") {
                 return $detail->getValue();
             }
         }
