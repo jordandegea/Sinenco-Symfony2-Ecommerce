@@ -93,7 +93,7 @@ class ServicesAllopassRestController extends Controller {
         foreach ($renting->getDetails() as $detail) {
             if ($detail->getDetailName()->getCanonicalName() == "whmcs_complete_address") {
                 $ret = $detail->getValue() ;
-                if ( strrpos ( $ret , "/" ) == strlen($ret) ){
+                if ( strrpos ( $ret , "/" ) == strlen($ret)-1 ){
                     return substr ( $ret , 0 , strlen($ret)-1 ) ;
                 }else{
                     return $ret ; 
