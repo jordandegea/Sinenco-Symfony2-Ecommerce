@@ -52,7 +52,7 @@ class ServicesAllopassRestController extends Controller {
             die();
         }
 
-        if ($renting->getService()->getName() == "whcms_allopass_commission") {
+        if ($renting->getService()->getName() == "whmcs_allopass_commission") {
             $url = $this->getCompleteAddress($renting) . "/modules/gateways/callback/allopass.php?";
         } elseif ($renting->getService()->getName() == "hostbill_allopass_commission") {
             $url = $this->getCallbackAddress($renting) . "&";
@@ -75,7 +75,7 @@ class ServicesAllopassRestController extends Controller {
             die();
         }
 
-        if ($renting->getService()->getName() == "whcms_allopass_commission") {
+        if ($renting->getService()->getName() == "whmcs_allopass_commission") {
             $url = $this->getCompleteAddress($renting) . "/index.php?m=allopass";
         } elseif ($renting->getService()->getName() == "hostbill_allopass_commission") {
             $url = $this->getCallbackAddress($renting) . "&";
