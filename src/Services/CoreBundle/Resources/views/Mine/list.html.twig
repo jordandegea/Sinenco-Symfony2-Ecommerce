@@ -41,7 +41,7 @@
                                     <thead>
                                         <tr>
                                             <th>{{ 'services.id'|trans }}</th>
-                                            {% for detailName in rentings[1] %}
+                                                {% for detailName in rentings[1] %}
                                                 <th>{{ detailName }}</th>
                                                 {% endfor %}
                                             <th>{{ 'services.expiration'|trans }}</th>
@@ -73,12 +73,14 @@
                                                                class="btn btn-primary">
                                                                 <span class="glyphicon glyphicon-zoom-in" aria-hidden="true"></span>
                                                             </a>
-                                                            <a href="#"
-                                                               onClick="addToCart('{{ path('services_addcart', {'id_renting' :renting.object.id }) }}');"
-                                                               type="button" 
-                                                               class="btn btn-success">
-                                                                <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>
-                                                            </a>
+                                                            {% if renting.object.expiration|date('Y') < "2100" %}
+                                                                <a href="#"
+                                                                   onClick="addToCart('{{ path('services_addcart', {'id_renting' :renting.object.id }) }}');"
+                                                                   type="button" 
+                                                                   class="btn btn-success">
+                                                                    <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>
+                                                                </a>
+                                                            {% endif %}
                                                             <button type="button" 
                                                                     class="btn btn-danger">
                                                                 <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
