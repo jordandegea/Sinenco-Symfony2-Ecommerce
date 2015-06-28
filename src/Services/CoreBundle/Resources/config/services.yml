@@ -1,15 +1,33 @@
 parameters:
-    service.services_available:
-         - whmcs_allopass_commission
-         - whmcs_allopass
-         - whmcs_allopass_credit
-         - whmcs_starpass
-         - whmcs_movefunds
-         - whmcs_contribute
-         - hostbill_allopass_commission
-         - hostbill_starpass
-         - hostbill_movefunds
-         - hostbill_contribute
+    service:
+        services_available:
+            whmcs_allopass_commission:
+                passphrase: oNFq1xFIxbnYmcWVM2n9goV3S388bBaR
+                expire: false
+            whmcs_allopass:
+                passphrase: LY99rFYjZgwpMyVrVowrbDKSnjNBoGVK
+                expire: true
+            whmcs_allopass_credit:
+                passphrase: ejhGBa35rgtqfUwVxLUoj5mobbv5L676
+                expire: true
+            whmcs_starpass:
+                passphrase: ORfHhhUByo0LJ226zHX6tNwwvhjDkh9x
+                expire: true
+            whmcs_movefunds:
+                passphrase: zhhNslSLsFByrV4SYq0qDJNWKbTJyWwj
+                expire: true
+            whmcs_contribute:
+                passphrase: 80Yf67e4H2o17zaT8DDHmBipSmzc4a62
+                expire: true
+            hostbill_starpass:
+                passphrase: g0KB2fZbokeNoKkr6FYvqIczfQYT3RrZ
+                expire: true
+            hostbill_movefunds:
+                passphrase: gOYVqSAIzl80rOVIE53VWnjNNS9gO40Y
+                expire: true
+            hostbill_contribute:
+                passphrase: MqRkboFMH5O8B7NjoSHp6XT3lywzEjn
+                expire: true
          
 services:
     services_core.core_services:
