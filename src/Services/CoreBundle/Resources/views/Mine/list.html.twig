@@ -14,7 +14,7 @@
 {% block services_body %}
     <div class="container">
         <div class="col col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <h2>Liste de vos services traduction</h2>
+            <h2>{{ 'services.my_services'|trans }}</h2>
             <div id="accordion" class="panel-group">
                 {% for key, rentings in rentingsGrouped %} 
                     <div class="panel panel-default">
@@ -22,6 +22,9 @@
                         <div class="panel-heading">
                             <h4 class="panel-title">
                                 <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{ loop.index }}">
+                                    {% for category in rentings[2] %}
+                                        {{ category }} > 
+                                    {% endfor %}
                                     {{ key }}
                                     <div class="pull-right">
                                         <span class="label label-success">{{ rentings[0][0] }}</span>
@@ -47,7 +50,7 @@
                                     </thead>
                                     <tbody>
                                         {% for renting in rentings %}
-                                            {% if loop.index0 > 1 %}
+                                            {% if loop.index0 > 2 %}
                                                 <tr class="{{renting.state}}">
                                                     <td style="vertical-align: middle;">{{ renting.object.id }}</td>
                                                     {% for detail in renting.object.details %}

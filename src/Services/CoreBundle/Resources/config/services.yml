@@ -1,6 +1,5 @@
 parameters:
-    service:
-        services_available:
+    core_service.services_available:
             whmcs_allopass_commission:
                 passphrase: oNFq1xFIxbnYmcWVM2n9goV3S388bBaR
                 expire: false

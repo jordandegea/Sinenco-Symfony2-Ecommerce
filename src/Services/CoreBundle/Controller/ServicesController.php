@@ -49,6 +49,7 @@ class ServicesController extends Controller {
 
         foreach ($rentingstemp as $renting) {
             $rentingServiceName = $renting->getService()->translate($request->getLocale())->getName();
+            
             // La premiere ligne doit contenir le nombre de chaque ( success, danger, warning ) 
             if (!array_key_exists($rentingServiceName, $rentings)) {
                 //Dans l'ordre [Success, Info, Warning, Danger]
@@ -60,6 +61,13 @@ class ServicesController extends Controller {
                         $rentings[$rentingServiceName][1][] = $detailName->translate($request->getLocale())->getName();
                     }
                 }
+            }
+            
+            $rentings[$rentingServiceName][2] = [] ;
+            $category = $renting->getService()->getCategory(); 
+            while($category != null ){
+                $rentings[$rentingServiceName][2][] = $category->translate($request->getLocale())->getName();
+                $category = $category->getParentCategory() ; 
             }
 
             $rentings[$rentingServiceName][] = array();
