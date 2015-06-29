@@ -94,7 +94,7 @@
                         </div>
                     </div>
                 </div>
-                {% set addressReceiverArray = invoice.addressReceiver|split("\n") %}
+                {% set addressReceiverArray = invoice.cart.user|split("\n")|merge(invoice.addressReceiver|split("\n")) %}
                 <div class="col-xs-5 col-xs-offset-2 text-right">
                     <div class="panel panel-default">
                         <div class="panel-heading">

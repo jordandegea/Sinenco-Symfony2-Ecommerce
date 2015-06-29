@@ -90,6 +90,12 @@ class User extends BaseUser {
      */
     private $rentings;
 
+    
+    public function __toString() {
+        $response = $this->firstName . " " . $this->lastName . "\n";
+        $response .= ($this->company != "" ) ? $this->company . "\n" : "";
+        return $response ; 
+    }
     /**
      * @param decimal(10,2) $balance
      * @return User

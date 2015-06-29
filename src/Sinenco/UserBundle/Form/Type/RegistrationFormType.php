@@ -16,7 +16,12 @@ class RegistrationFormType extends AbstractType {
                 ->remove('username')
                 ->add('first_name', 'text', array('required' => true))
                 ->add('last_name', 'text', array('required' => true))
-                ->add('company', 'text', array('required' => false))
+                ->add('company', 'text', array(
+                    'required' => false,
+                    'attr' => array(
+                        'placeholder' => 'shop.userbundle.optional',
+                    )
+                ))
         ;
         foreach ($builder as $value) {
             $builder->add($value);

@@ -10,14 +10,7 @@ class UserAddressType extends AbstractType {
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
-                ->add('firstName', 'text', array('required' => true))
-                ->add('lastName', 'text', array('required' => true))
-                ->add('companyName', 'text', array(
-                    'required' => false,
-                    'attr' => array(
-                        'placeholder' => 'shop.userbundle.optional',
-                    )
-                ))
+               
                 ->add('address', 'text', array(
                     "mapped" => false,
                     'attr' => array(

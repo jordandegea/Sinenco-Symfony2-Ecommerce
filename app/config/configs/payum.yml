@@ -25,12 +25,12 @@ payum:
         
         paypal_express:
             paypal_express_checkout_nvp:
-                #username:  'heavencash_api1.hotmail.fr'
-                #password:  'GJYMQ4M9XKX5P42R'
-                #signature: 'AFcWxV21C7fd0v3bYYYRCpSSRl31AXKjDQGh1uy1qKs.70bumH4mpB7y'
+                username:  'heavencash_api1.hotmail.fr'
+                password:  'GJYMQ4M9XKX5P42R'
+                signature: 'AFcWxV21C7fd0v3bYYYRCpSSRl31AXKjDQGh1uy1qKs.70bumH4mpB7y'
                 #sandbox: false
-                username:  'company_api1.hotmail.fr'
-                password:  '1395167446'
-                signature: 'AXwG.ZweTH7GajuS34FJgNW5x1QaAYt5FYXs-XRaoObQ.q-.2oipDcwP'
-                sandbox: true
+                #username:  'company_api1.hotmail.fr'
+                #password:  '1395167446'
+                #signature: 'AXwG.ZweTH7GajuS34FJgNW5x1QaAYt5FYXs-XRaoObQ.q-.2oipDcwP'
+                #sandbox: true
             

@@ -72,7 +72,10 @@ class CoreController extends Controller {
                     'separator' => array('companyName', 'country', 'plainPassword')
         ));
     }
-
+    
+    /**
+     * @Security("has_role('ROLE_USER')")
+     */
     public function addAddressAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
 
