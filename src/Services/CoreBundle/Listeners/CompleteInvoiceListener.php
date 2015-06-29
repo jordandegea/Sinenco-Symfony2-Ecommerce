@@ -124,6 +124,8 @@ class CompleteInvoiceListener {
             
             $this->em->persist($renting);
             $this->em->persist($cartItem);
+            
+            $this->container->get('services_core.core_services')->renewLicense($renting) ;
         }
     }
     

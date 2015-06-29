@@ -18,3 +18,10 @@ services_addcart:
     requirements:
         id: \d+
 
+services_renewlicense:
+    path:     /renew/{renting}
+    defaults: { _controller: ServicesCoreBundle:Services:renewLicense }
+    requirements:
+        id: \d+
+    
+    

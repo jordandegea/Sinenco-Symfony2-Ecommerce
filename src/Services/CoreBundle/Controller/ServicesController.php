@@ -8,10 +8,20 @@ use DateTime;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Services\CoreBundle\Form\RentingType;
 use Symfony\Component\HttpFoundation\Response;
-use Shop\CartBundle\Entity\CartItem;
+use Shop\CartBundle\Entity\CartItem,
+    Services\CoreBundle\Entity\Renting;
 
 class ServicesController extends Controller {
 
+    /**
+     * @Security("has_role('ROLE_USER')")
+     */
+    public function renewLicenseAction(Renting $renting){
+        $this->get('services_core.core_services')->renewLicense($renting) ;
+        return $this->redirect($this->generateUrl('services_mine_list'));
+    }
+    
+    
     public function homepageAction(Request $request) {
 
         $repository = $this->getDoctrine()->getManager()->getRepository('ServicesCoreBundle:Service');

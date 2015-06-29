@@ -7,8 +7,8 @@ use Doctrine\ORM\EntityManager,
  //Sonata\AdminBundle\Event\PersistenceEvent,
     Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Services\CoreBundle\Entity\Detail,
-    Services\CoreBundle\Entity\DetailName;
-
+    Services\CoreBundle\Entity\DetailName,
+    Services\CoreBundle\Entity\Renting;
 
 class CoreServices {
 
@@ -57,38 +57,38 @@ class CoreServices {
 
             //Pour chaque location, on met à jour les details.
             $this->addDetailsIfNotExist($rentings, $service);
-            
+
             $product = $service->getProduct();
-            if ( $product != null ){
+            if ($product != null) {
                 $this->updateAttributesOfProduct($service, $product);
             }
         }
         return true;
     }
 
-    private function updateAttributesOfProduct($service, $product){
+    private function updateAttributesOfProduct($service, $product) {
         /* Product n'est pas null, on a vérifier avant 
          * Service non plus */
-        
-        $productOptions = $product->getOptions() ; 
-        $serviceDetailNames = $service->getDetailsName() ;
-        
-        foreach ( $serviceDetailNames as $detailName){
-            $present = false ;
-            foreach ( $productOptions as $attribute ){
-                if ( $detailName->getAttribute() == $attribute ){
-                    $present = true ; 
+
+        $productOptions = $product->getOptions();
+        $serviceDetailNames = $service->getDetailsName();
+
+        foreach ($serviceDetailNames as $detailName) {
+            $present = false;
+            foreach ($productOptions as $attribute) {
+                if ($detailName->getAttribute() == $attribute) {
+                    $present = true;
                 }
             }
-            if ( !$present ){
+            if (!$present) {
                 $product->addAttribute($detailName->getAttribute());
             }
         }
-        
+
         $this->em->persist($product);
         $this->em->flush();
     }
-    
+
     private function addDetailsIfNotExist($rentings, $service) {
 
         foreach ($rentings as $renting) {
@@ -111,6 +111,59 @@ class CoreServices {
         foreach ($renting->getDetails() as $detailOnRenting) {
             if ($detailOnRenting->getDetailName() == $detailOnService) {
                 return true;
+            }
+        }
+        return false;
+    }
+
+    public function renewLicense(Renting $renting) {
+        if ($renting == null) {
+            return null;
+        }
+        $address = $this->getCompleteAddress($renting);
+        if ($address == false) {
+            $this->container->get('session')->getFlashBag()->add('danger', 'services.renew.fail.address');
+            return;
+        }
+
+        $url = $address . $this
+                        ->container
+                        ->getParameter(
+                                'core_service.'
+                                . 'services_available.'
+                                . $renting->getService()->getName() . '.'
+                                . 'renew_url');
+
+        $result = file_get_contents($url);
+        if ( $result == "OK"){
+            $this->container->get('session')->getFlashBag()->add('success', 'services.renew.successbad_address');
+        }elseif($result == "STATE FAILED"){
+            $this->container->get('session')->getFlashBag()->add('danger', 'services.renew.fail.state');
+        }elseif($result == "FOPEN FAILED"){
+            $this->container->get('session')->getFlashBag()->add('danger', 'services.renew.fail.fopen');
+        }
+    }
+
+    private function getCompleteAddress($renting) {
+        foreach ($renting->getDetails() as $detail) {
+            if ($detail->getDetailName()->getCanonicalName() == "whmcs_complete_address") {
+                $ret = $detail->getValue();
+                if (strrpos($ret, "/") == strlen($ret) - 1) {
+                    return substr($ret, 0, strlen($ret) - 1);
+                } else {
+                    return $ret;
+                }
+            }
+        }
+
+        foreach ($renting->getDetails() as $detail) {
+            if ($detail->getDetailName()->getCanonicalName() == "hostbill_complete_address") {
+                $ret = $detail->getValue();
+                if (strrpos($ret, "/") == strlen($ret) - 1) {
+                    return substr($ret, 0, strlen($ret) - 1);
+                } else {
+                    return $ret;
+                }
             }
         }
         return false;
