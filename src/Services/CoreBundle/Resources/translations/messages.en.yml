@@ -6,7 +6,14 @@ services:
     my_services : My services
     my_services_text : Here is the list of services offered . By clicking on a service, you will be redirected to its product. Click on a category to unroll it services.
     not_yours: This renting does not belong to you .
-    
-    
+    renew: 
+        fail:
+            address: Impossible to join the file. Please be sure you entered the good "complete address"
+            state: If your service is not expired, please contact us. There is a problem with your license. 
+            fopen: You did not give the good right to the folder "licenses", please give 777 to the folder. 
+            custom: Unknown error during the renewal of the license. Please contact us.
+        success: License renewal successfull
+            
+            
 rentings: 
     allopass_renting : Allopass Renting

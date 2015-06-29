@@ -6,7 +6,13 @@ services:
     my_services : Mes services
     my_services_text : Voici la liste des services proposés. En cliquant sur un service, vous serez redirigé vers son produit. Cliquez sur une catégorie pour y derouler les services. 
     not_yours: Cette location n'existe pas ou ne vous appartient pas. 
-        
+    renew: 
+        fail:
+            address: Impossible de joindre le fichier. Vérifiez le champs "Adresse Complete"
+            state: Si votre service n'est pas expiré, contactez-nous. Il y a un problème avec le fichier de licence. 
+            fopen: Vous n'avez pas donner les bons droits au dossier "licenses", donnez 777. 
+            custom: Erreur inconnue, contactez-nous
+        success: Renouvellement de la licence reussi.
     
 rentings: 
     allopass_renting : Location Allopass
