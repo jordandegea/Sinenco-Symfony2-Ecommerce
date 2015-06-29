@@ -1,42 +1,41 @@
 parameters:
-    core_service:
-        services_available:
-            whmcs_allopass_commission:
-                passphrase: oNFq1xFIxbnYmcWVM2n9goV3S388bBaR
-                expire: false
-                renew_url: "/modules/licenses/allopass_commission.php"
-            whmcs_allopass:
-                passphrase: LY99rFYjZgwpMyVrVowrbDKSnjNBoGVK
-                expire: true
-                renew_url: "/modules/licenses/allopass.php"
-            whmcs_allopass_credit:
-                passphrase: ejhGBa35rgtqfUwVxLUoj5mobbv5L676
-                expire: true
-                renew_url: "/modules/licenses/allopass_credit.php"
-            whmcs_starpass:
-                passphrase: ORfHhhUByo0LJ226zHX6tNwwvhjDkh9x
-                expire: true
-                renew_url: "/modules/licenses/starpass.php"
-            whmcs_movefunds:
-                passphrase: zhhNslSLsFByrV4SYq0qDJNWKbTJyWwj
-                expire: true
-                renew_url: "/modules/licenses/movefunds.php"
-            whmcs_contribute:
-                passphrase: 80Yf67e4H2o17zaT8DDHmBipSmzc4a62
-                expire: true
-                renew_url: "/modules/licenses/contribute.php"
-            hostbill_starpass:
-                passphrase: g0KB2fZbokeNoKkr6FYvqIczfQYT3RrZ
-                expire: true
-                renew_url: "/includes/modules/licenses/starpass.php"
-            hostbill_movefunds:
-                passphrase: gOYVqSAIzl80rOVIE53VWnjNNS9gO40Y
-                expire: true
-                renew_url: "/includes/modules/licenses/movefunds.php"
-            hostbill_contribute:
-                passphrase: MqRkboFMH5O8B7NjoSHp6XT3lywzEjn
-                expire: true
-                renew_url: "/includes/modules/licenses/contribute.php"
+    core_service.services_available: 
+        whmcs_allopass_commission:
+            passphrase: oNFq1xFIxbnYmcWVM2n9goV3S388bBaR
+            expire: false
+            renew_url: "/modules/licenses/allopass_commission.php"
+        whmcs_allopass:
+            passphrase: LY99rFYjZgwpMyVrVowrbDKSnjNBoGVK
+            expire: true
+            renew_url: "/modules/licenses/allopass.php"
+        whmcs_allopass_credit:
+            passphrase: ejhGBa35rgtqfUwVxLUoj5mobbv5L676
+            expire: true
+            renew_url: "/modules/licenses/allopass_credit.php"
+        whmcs_starpass:
+            passphrase: ORfHhhUByo0LJ226zHX6tNwwvhjDkh9x
+            expire: true
+            renew_url: "/modules/licenses/starpass.php"
+        whmcs_movefunds:
+            passphrase: zhhNslSLsFByrV4SYq0qDJNWKbTJyWwj
+            expire: true
+            renew_url: "/modules/licenses/movefunds.php"
+        whmcs_contribute:
+            passphrase: 80Yf67e4H2o17zaT8DDHmBipSmzc4a62
+            expire: true
+            renew_url: "/modules/licenses/contribute.php"
+        hostbill_starpass:
+            passphrase: g0KB2fZbokeNoKkr6FYvqIczfQYT3RrZ
+            expire: true
+            renew_url: "/includes/modules/licenses/starpass.php"
+        hostbill_movefunds:
+            passphrase: gOYVqSAIzl80rOVIE53VWnjNNS9gO40Y
+            expire: true
+            renew_url: "/includes/modules/licenses/movefunds.php"
+        hostbill_contribute:
+            passphrase: MqRkboFMH5O8B7NjoSHp6XT3lywzEjn
+            expire: true
+            renew_url: "/includes/modules/licenses/contribute.php"
          
 services:
     services_core.core_services:
