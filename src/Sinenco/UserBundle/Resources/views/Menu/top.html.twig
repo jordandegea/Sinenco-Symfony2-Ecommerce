@@ -1,4 +1,4 @@
-<li><a href="http://builtwithbootstrap.com/" target="_blank">
+<li><a href="{{ path('sinenco_core_profile') }}">
         {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
             {{ app.user.username }} 
         {% else %}
