@@ -16,12 +16,6 @@ class CoreController extends Controller {
     const CURRENCY_CHANGE_COMMISSION = 0.99 ; 
     
     
-    public function newsAction(Request $request) {
-        
-        return $this->render('SinencoCoreBundle:Core:news.html.twig', array(
-        ));
-    }
-    
     /**
      * @Security("has_role('ROLE_USER')")
      */
