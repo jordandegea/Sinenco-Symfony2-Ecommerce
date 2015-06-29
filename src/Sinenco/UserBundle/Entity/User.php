@@ -58,6 +58,12 @@ class User extends BaseUser {
      * @Assert\Length(min=2)
      */
     private $lastName;
+    
+    /**
+     * @ORM\Column(name="company", type="string", length=255)
+     * @Assert\Length(min=2)
+     */
+    private $company;
 
     /**
      * Attention, ici c'est un OneToMany associé à un ManyToMany pour eviter d'avoir 
@@ -107,6 +113,7 @@ class User extends BaseUser {
 
     public function __construct() {
         parent::__construct();
+        $this->company = '';
         $this->username = 'username';
         $this->currency = \Shop\CoreBundle\Services\Currency::DEFAULT_CURRENCY ;
     }
@@ -318,4 +325,28 @@ class User extends BaseUser {
         }
     }
 
+
+    /**
+     * Set company
+     *
+     * @param string $company
+     *
+     * @return User
+     */
+    public function setCompany($company)
+    {
+        $this->company = $company;
+
+        return $this;
+    }
+
+    /**
+     * Get company
+     *
+     * @return string
+     */
+    public function getCompany()
+    {
+        return $this->company;
+    }
 }
