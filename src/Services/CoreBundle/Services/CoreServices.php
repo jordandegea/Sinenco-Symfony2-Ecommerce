@@ -141,6 +141,8 @@ class CoreServices {
             $this->container->get('session')->getFlashBag()->add('danger', 'services.renew.fail.state');
         }elseif($result == "FOPEN FAILED"){
             $this->container->get('session')->getFlashBag()->add('danger', 'services.renew.fail.fopen');
+        }else{
+            $this->container->get('session')->getFlashBag()->add('danger', 'services.renew.fail.custom');
         }
     }
 
