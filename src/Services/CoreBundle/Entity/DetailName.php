@@ -34,7 +34,7 @@ class DetailName {
      * @ORM\Column( type="boolean")
      * @ORM\JoinColumn(nullable=true)
      */
-    private $isEditableForCreation;
+    private $isEditable;
 
     /**
      * @ORM\Column( type="boolean")
@@ -82,26 +82,7 @@ class DetailName {
         return $this->canonicalName;
     }
 
-    /**
-     * Set isEditableForCreation
-     *
-     * @param boolean $isEditableForCreation
-     * @return DetailName
-     */
-    public function setIsEditableForCreation($isEditableForCreation) {
-        $this->isEditableForCreation = $isEditableForCreation;
-
-        return $this;
-    }
-
-    /**
-     * Get isEditableForCreation
-     *
-     * @return boolean 
-     */
-    public function getIsEditableForCreation() {
-        return $this->isEditableForCreation;
-    }
+    
 
     /**
      * Set isDisplayedOnList

@@ -16,7 +16,7 @@ class DetailNameAdmin extends Admin {
                 ->with("General",
                     array('class'       => 'col-md-12'))
                     ->add('canonicalName')
-                    ->add('isEditableForCreation', null, array(
+                    ->add('isEditable', null, array(
                         'required' => false
                     ))
                     ->add('isDisplayedOnList', null, array(
@@ -34,7 +34,7 @@ class DetailNameAdmin extends Admin {
     protected function configureDatagridFilters(DatagridMapper $datagridMapper) {
         $datagridMapper
                 ->add('canonicalName')
-                ->add('isEditableForCreation')
+                ->add('isEditable')
                 ->add('isDisplayedOnList')
         ;
     }

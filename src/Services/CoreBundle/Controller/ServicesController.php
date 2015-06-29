@@ -226,7 +226,6 @@ class ServicesController extends Controller {
         //Pour chaque detail, on verifie
         foreach ($renting->getDetails() as $detail) {
             if (!($detail->getDetailName()->getIsEditable()) && ( $detail->getValue() != $oldDetails[0])) {
-                echo "return" ;
                 return false;
             }
         }
