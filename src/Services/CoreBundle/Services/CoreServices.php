@@ -136,7 +136,7 @@ class CoreServices {
 
         $result = file_get_contents($url);
         if ( $result == "OK"){
-            $this->container->get('session')->getFlashBag()->add('success', 'services.renew.successbad_address');
+            $this->container->get('session')->getFlashBag()->add('success', 'services.renew.success');
         }elseif($result == "STATE FAILED"){
             $this->container->get('session')->getFlashBag()->add('danger', 'services.renew.fail.state');
         }elseif($result == "FOPEN FAILED"){

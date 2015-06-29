@@ -13,10 +13,10 @@ class ServiceAdmin extends Admin {
     protected function configureFormFields(FormMapper $formMapper) {
         $container = $this->getConfigurationPool()->getContainer();
 
-        $servicesAvailableParameters = $container->getParameter('core_service.services_available');
+        $servicesAvailableParameters = $container->getParameter('core_service.services_available.list');
         $servicesAvailable = [];
-        foreach ($servicesAvailableParameters as $key => $value) {
-            $servicesAvailable[$key] = $key;
+        foreach ($servicesAvailableParameters as $value) {
+            $servicesAvailable[$value] = $value;
         }
         
         $formMapper

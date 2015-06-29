@@ -1,5 +1,15 @@
 parameters:
-    
+    core_service.services_available.list:
+        - whmcs_allopass_commission
+        - whmcs_allopass
+        - whmcs_allopass_credit
+        - whmcs_starpass
+        - whmcs_movefunds
+        - whmcs_contribute
+        - hostbill_starpass
+        - hostbill_movefunds
+        - hostbill_contribute
+        
     core_service.services_available.whmcs_allopass_commission.passphrase: oNFq1xFIxbnYmcWVM2n9goV3S388bBaR
     core_service.services_available.whmcs_allopass_commission.expire: false
     core_service.services_available.whmcs_allopass_commission.renew_url: "/modules/licenses/allopass_commission.php?activation=true"
