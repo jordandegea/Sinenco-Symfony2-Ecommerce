@@ -29,7 +29,7 @@ class UserMailer implements MailerInterface {
         ];
         $this->container
                 ->get("mail_service")
-                ->sendMail($this->container, "sujet", $user->getEmail(), "SinencoUserBundle:Mail:confirm.text.twig", $params, true, "SinencoUserBundle:Mail:confirm.html.twig", true);
+                ->sendMail($this->container, "Sinenco : Welcome", $user->getEmail(), "SinencoUserBundle:Mail:confirm.text.twig", $params, true, "SinencoUserBundle:Mail:confirm.html.twig", true);
     }
 
     /**
@@ -47,7 +47,7 @@ class UserMailer implements MailerInterface {
         ];
         $this->container
                 ->get("mail_service")
-                ->sendMail($this->container, "sujet", $user->getEmail(), "SinencoUserBundle:Mail:resetting.text.twig", $params, true, "SinencoUserBundle:Mail:resetting.html.twig", true);
+                ->sendMail($this->container, "Sinenco : Welcome", $user->getEmail(), "SinencoUserBundle:Mail:resetting.text.twig", $params, true, "SinencoUserBundle:Mail:resetting.html.twig", true);
     }
 
 }
