@@ -320,6 +320,9 @@ class User extends BaseUser {
      * @ORM\PrePersist
      */
     public function setCreatedValue() {
+        if ( $this->company == null ){
+            $this->company = '' ;
+        }
         if ( $this->balance == null ){
             $this->balance = 0 ; 
         }
