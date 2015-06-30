@@ -13,71 +13,71 @@ use Symfony\Component\HttpFoundation\Response,
 
 class Currency {
 
+    const CURRENCY_CHANGE_COMMISSION = 0.99;
     const DEFAULT_CURRENCY = "USD";
 
-    private $currencies ;
+    private $currency;
+    private $user;
+    private $currencies;
     protected $container;
     protected $em;
     private $response;
-    private $request ;
-    /**
-     * Return the currency choosen
-     *
-     * @return string
-     */
-    public function onKernelRequest(GetResponseEvent $event) {
-        $this->request = $event->getRequest();
+    private $request;
 
-        $value = $this->request->cookies->get('currency');
-        if ($value == null) {
+    public function onControllerRequest(\Symfony\Component\HttpKernel\Event\FilterControllerEvent $event) {
+        $this->request = $event->getRequest();
+        $userToken = $this->container->get('security.context')->getToken();
+        if ($userToken != null) {
+            $userId = $userToken
+                    ->getUser()
+                    ->getId();
+            $this->user = $this
+                    ->em
+                    ->getRepository('SinencoUserBundle:User')
+                    ->find($userId);
+            if ($this->user != null) {
+                $this->setCurrency($this->user->getCurrency());
+                return;
+            }
+        }
+        $this->currency = $this->request->cookies->get('currency');
+
+        if ($this->currency == null) {
             $this->setDefaultCurrency();
         }
     }
 
     public function setDefaultCurrency() {
-        $cookie = new Cookie(
-                'currency', self::DEFAULT_CURRENCY, time() + 3600 * 24 * 7);
-        if ($this->response == null) {
-            $this->response = new Response;
-            $this->response->headers->setCookie($cookie);
-            $this->response->send();
-        } else {
-            $this->response->headers->setCookie($cookie);
-        }
+
+        $this->setCurrency(self::DEFAULT_CURRENCY);
     }
 
-    public function convertPrice( $price, $from, $to = null ){
-        if ( !$this->isCurrencyExist($from) ){
+    public function convertPrice($price, $from, $to = null) {
+        if (!$this->isCurrencyExist($from)) {
             return $price;
         }
-        if ( $to != null ){
-            if ( !$this->isCurrencyExist($to) ){
-                return $price ;
+        if ($to != null) {
+            if (!$this->isCurrencyExist($to)) {
+                return $price;
             }
-        }else{
+        } else {
             $to = $this->getCurrency();
         }
-        return round($price * $this->currencies[$to]->getRate() / $this->currencies[$from]->getRate(), 2, PHP_ROUND_HALF_EVEN) ;
-    }
-    
-    public function getCurrency() {
-        if ($this->isCurrencyExist($this->container->get('request')->cookies->get('currency'))) {
-            return $this->container->get('request')->cookies->get('currency');
-        } else {
-            $this->setDefaultCurrency();
-            return self::DEFAULT_CURRENCY;
-        }
+        return round($price * $this->currencies[$to]->getRate() / $this->currencies[$from]->getRate(), 2, PHP_ROUND_HALF_EVEN);
     }
 
-    
-    public function getChoiceCurrency(){
-        $choiceCurrency = array() ;
-        foreach ( $this->currencies as $key => $currency ){
-            $choiceCurrency[$key] = $key ;
-        }
-        return $choiceCurrency ; 
+    public function getCurrency() {
+        return $this->currency;
     }
-    
+
+    public function getChoiceCurrency() {
+        $choiceCurrency = array();
+        foreach ($this->currencies as $key => $currency) {
+            $choiceCurrency[$key] = $key;
+        }
+        return $choiceCurrency;
+    }
+
     public function getCurrencyObject() {
         return $this
                         ->em
@@ -95,23 +95,46 @@ class Currency {
                         ->getRepository('ShopCoreBundle:Currencies')
                         ->findOneByCode($this->getCurrency());
     }
-    
-    public function setResponse($response){
-        $this->response = $response ; 
+
+    public function setResponse($response) {
+        $this->response = $response;
     }
-    
+
+    public function changeUserBalance($oldCurrency, $newCurrency, $user) {
+        if ($oldCurrency != $user->getCurrency()) {
+            $user->setBalance(
+                    $this->convertPrice(
+                            $user->getBalance(), $oldCurrency, $newCurrency
+                    ) * self::CURRENCY_CHANGE_COMMISSION
+            );
+        }
+    }
+
     public function setCurrency($currency, $response = null) {
-        if ( $response != null ){
+        if ($response != null) {
             $this->setResponse($response);
         }
         if (!$this->isCurrencyExist($currency)) {
             return false;
         }
+        if ($this->user != null) {
+            if ( !empty($this->currency) && $this->currency != $currency ){
+                $this->changeUserBalance($this->currency, $currency, $this->user) ;
+            }
+            $this->user->setCurrency($currency);
+
+            $this->em->persist($this->user);
+            $this->em->flush();
+        }
+        
+        $this->currency = $currency;
         $cookie = new Cookie(
                 'currency', $currency, time() + 3600 * 24 * 7);
 
-        $this->response->headers->setCookie($cookie);
-        return true ; 
+        if ($response != null) {
+            $this->response->headers->setCookie($cookie);
+        }
+        return true;
     }
 
     public function isCurrencyExist($currency) {
@@ -126,6 +149,8 @@ class Currency {
                 ->em
                 ->getRepository('ShopCoreBundle:Currencies')
                 ->findAll();
+
+
 
         foreach ($currencies as $currency) {
             $this->currencies[$currency->getCode()] = $currency;

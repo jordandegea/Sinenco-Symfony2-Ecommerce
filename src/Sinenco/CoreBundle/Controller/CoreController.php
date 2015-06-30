@@ -13,9 +13,6 @@ use Sinenco\CoreBundle\Form\ProfileType;
 
 class CoreController extends Controller {
 
-    const CURRENCY_CHANGE_COMMISSION = 0.99 ; 
-    
-    
     /**
      * @Security("has_role('ROLE_USER')")
      */
@@ -26,31 +23,30 @@ class CoreController extends Controller {
 
         $user = $em->getRepository('SinencoUserBundle:User')->find($id);
         $userAddresses = $user->getUserAddress();
-        
+
         $oldCurrency = $user->getCurrency();
-        
+
         $formUser = $this->get('form.factory')->createNamed(
                 'user', new ProfileEditType($this->get('service_container')), $user);
 
         $formUser->handleRequest($request);
 
-        
+
         if ($formUser->isValid()) {
-            
-            $user->setBalance(
-                    $this->get("shop_core.currency")->convertPrice(
-                            $user->getBalance(), $oldCurrency, $user->getCurrency()
-                    ) * self::CURRENCY_CHANGE_COMMISSION
-            );
+            if ($oldCurrency != $user->getCurrency()) {
+
+                $this
+                        ->get('shop_core.currency')
+                        ->changeUserBalance($oldCurrency, $user->getCurrency(), $user);
+            }
 
             $em->persist($user);
             $em->flush();
-            
+
             $url = $this->get('router')->generate('sinenco_core_profile');
             return $this->redirect($url);
-            
         }
-        
+
 
 
 
@@ -72,7 +68,7 @@ class CoreController extends Controller {
                     'separator' => array('companyName', 'country', 'plainPassword')
         ));
     }
-    
+
     /**
      * @Security("has_role('ROLE_USER')")
      */

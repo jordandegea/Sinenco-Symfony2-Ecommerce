@@ -5,4 +5,4 @@ services:
             entityManager: "@doctrine.orm.entity_manager"
             container: "@service_container"
         tags:
-            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+            - { name: kernel.event_listener, event: kernel.controller, method: onControllerRequest, priority:250 }
