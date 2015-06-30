@@ -31,6 +31,14 @@ class Invoice {
     
     
     /**
+     *  @ORM\ManyToOne(targetEntity="Sinenco\UserBundle\Entity\User", cascade={"persist"})
+     *  @ORM\JoinTable()
+     *  @ORM\JoinColumn(nullable=null)
+     * */
+    private $user;
+
+    
+    /**
      * @var integer
      *
      * @ORM\Column(name="number", type="integer" )
@@ -96,6 +104,27 @@ class Invoice {
         $this->objects = new \Doctrine\Common\Collections\ArrayCollection();
         $this->transactions = new \Doctrine\Common\Collections\ArrayCollection();
         $this->actions = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * Set user
+     *
+     * @param \Shop\UserBundle\Entity\User $user
+     * @return Cart
+     */
+    public function setUser(User $user = null) {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \Shop\UserBundle\Entity\User 
+     */
+    public function getUser() {
+        return $this->user;
     }
 
     /**

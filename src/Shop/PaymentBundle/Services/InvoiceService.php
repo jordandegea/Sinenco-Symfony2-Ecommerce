@@ -16,16 +16,15 @@ use Symfony\Component\DependencyInjection\Container;
 use Shop\PaymentBundle\Events\InvoiceCoreEvents;
 use Shop\PaymentBundle\Events\CompleteInvoiceEvent;
 
-
 class InvoiceService {
 
     const OK = 0;
     const INVOICE_INEXIST = 1;
     const TRANSACTION_EXIST = 2;
-    const BALANCE_PAY_PARTIAL = 3; 
-    const BALANCE_PAY_COMPLETE = 4; 
-    const BALANCE_PAY_FAIL = 5; 
-    
+    const BALANCE_PAY_PARTIAL = 3;
+    const BALANCE_PAY_COMPLETE = 4;
+    const BALANCE_PAY_FAIL = 5;
+
     private $em;
     private $container;
 
@@ -37,9 +36,9 @@ class InvoiceService {
         $invoice->setNumber(0);
 
         $invoice->setCredit(0.00);
-        
+
         $invoice->setTotalPrice($this->container->get("shop_cart.cart")->getTotalPriceHT());
-        
+
         $invoice->setAddressReceiver($cart->getBillingAddress()->__toString());
 
         $invoice->setAddressSender($this->container->get('twig')->getGlobals()['invoice']['sender_address']);
@@ -48,8 +47,7 @@ class InvoiceService {
 
         $invoice->setCart($cart);
 
-        
-
+        $invoice->setUser($cart->getUser());
 
         return $invoice;
     }
@@ -88,53 +86,53 @@ class InvoiceService {
         return self::OK;
     }
 
-    public function payWithBalance(Invoice $invoice){
-        $user = $this->container->get( 'security.context' )->getToken()->getUser() ;
+    public function payWithBalance(Invoice $invoice) {
+        $user = $this->container->get('security.context')->getToken()->getUser();
         $balance = $user->getBalance();
-        
-        if ( $balance == 0.00 ){
-            return InvoiceService::BALANCE_PAY_FAIL ;
+
+        if ($balance == 0.00) {
+            return InvoiceService::BALANCE_PAY_FAIL;
         }
         $remainingPrice = $this->getRemainingPrice($invoice);
-        
-        if ( $balance >= $remainingPrice ) {
+
+        if ($balance >= $remainingPrice) {
             $invoice->setCredit($invoice->getCredit() + $remainingPrice);
-            
+
             $user->setBalance($user->getBalance() - $remainingPrice);
             //$this->em->flush();
             $this->checkIfInvoicePaid($invoice);
-            return InvoiceService::BALANCE_PAY_COMPLETE ;
-        }else{
+            return InvoiceService::BALANCE_PAY_COMPLETE;
+        } else {
             $invoice->setCredit($balance);
             $user->setBalance(0.00);
             $this->em->flush();
-            return InvoiceService::BALANCE_PAY_PARTIAL ;
+            return InvoiceService::BALANCE_PAY_PARTIAL;
         }
     }
 
-    private function checkIfInvoicePaid(Invoice $invoice){
-        
-        if ( $this->getRemainingPrice($invoice) <= 0){
-            
+    private function checkIfInvoicePaid(Invoice $invoice) {
+
+        if ($this->getRemainingPrice($invoice) <= 0) {
+
             $lastInvoicePaid = $this
-                ->em
-                ->getRepository('ShopPaymentBundle:Invoice')
-                ->findOneBy([], ['number' => 'DESC']);
-            
+                    ->em
+                    ->getRepository('ShopPaymentBundle:Invoice')
+                    ->findOneBy([], ['number' => 'DESC']);
+
             $invoice->setNumber($lastInvoicePaid->getNumber() + 1);
             $this->em->persist($invoice);
             $this->em->flush();
-            
+
             $event = new CompleteInvoiceEvent($invoice);
             // On déclenche l'évènement
             $this
-              ->container
-              ->get('event_dispatcher')
-              ->dispatch(InvoiceCoreEvents::onInvoiceComplete, $event)
+                    ->container
+                    ->get('event_dispatcher')
+                    ->dispatch(InvoiceCoreEvents::onInvoiceComplete, $event)
             ;
         }
     }
-    
+
     private function getPriceArray(Prices $prices, CartItemPrices $quantities) {
         $returnArray = array();
         $this->addPriceToArray($prices, $quantities, $returnArray, "getMonthly");
@@ -159,38 +157,38 @@ class InvoiceService {
     public function getSubTotalPriceHT(Invoice $invoice) {
         return $invoice->getTotalPrice();
     }
-    
-    public function getTax(Invoice $invoice){
+
+    public function getTax(Invoice $invoice) {
         return "0";
     }
-    
+
     public function getSubTotalPriceTTC(Invoice $invoice) {
         return $this->getSubTotalPriceHT($invoice); // Pour le moment
     }
-    
+
     public function getCredit(Invoice $invoice) {
         return $invoice->getCredit();
     }
 
     public function getTotalPriceTTC(Invoice $invoice) {
-        return $this->getSubTotalPriceTTC($invoice) - $this->getCredit($invoice); 
+        return $this->getSubTotalPriceTTC($invoice) - $this->getCredit($invoice);
     }
-    
+
     public function getRemainingPrice(Invoice $invoice) {
 
         $remainingPrice = $this->getTotalPriceTTC($invoice);
-        
+
         foreach ($invoice->getTransactions() as $transaction) {
             $remainingPrice -= $transaction->getValue();
         }
 
         return $remainingPrice;
     }
-    
-    public function getTotalPriceCartItem($cartItem){
-        $price = $cartItem->getProduct()->getPrice() ;
+
+    public function getTotalPriceCartItem($cartItem) {
+        $price = $cartItem->getProduct()->getPrice();
         $totalPrice = $this->container->get('shop_cart.cart')->getTotalOfPrice($price, $cartItem);
-        return $totalPrice  ;
+        return $totalPrice;
     }
 
 }
