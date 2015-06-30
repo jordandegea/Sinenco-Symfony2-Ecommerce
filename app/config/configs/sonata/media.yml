@@ -30,9 +30,13 @@ sonata_media:
                 big:   { width: 500 , quality: 90}
                 
         products_file:
+            download:
+                strategy: sonata.media.security.connected_strategy
+                mode: http
             providers:
                 - sonata.media.provider.file
             formats: 
+                
     providers:
         file:
             service:    sonata.media.provider.file
