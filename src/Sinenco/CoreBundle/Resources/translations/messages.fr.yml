@@ -1,6 +1,8 @@
 balanceAndCurrencyInformation: Lorsque vous changez de devises, votre credit est automatiquement converti. Durant la conversion, nous prenons une petite commission de 1% afin d'eviter tout abus. 
 
 sinenco.core:
+    edit:
+        address_generator: Le champ adresse est un générateur. Utilisez ce champ pour remplir d'autres champs. Ce champ ne sont pas stockées.
     editMyAccount: Modifier mon compte
     manager: Gérant
     manager_text: |
