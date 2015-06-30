@@ -3,6 +3,7 @@
 namespace Shop\PaymentBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Sinenco\UserBundle\Entity\User;
 
 /**
  * Invoice
@@ -21,15 +22,13 @@ class Invoice {
      */
     private $id;
 
-    
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="date", type="datetime", nullable=true)
      */
     private $date;
-    
-    
+
     /**
      *  @ORM\ManyToOne(targetEntity="Sinenco\UserBundle\Entity\User", cascade={"persist"})
      *  @ORM\JoinTable()
@@ -37,7 +36,6 @@ class Invoice {
      * */
     private $user;
 
-    
     /**
      * @var integer
      *
@@ -66,28 +64,34 @@ class Invoice {
 
     /**
      * @ORM\ManyToOne(targetEntity="Shop\CartBundle\Entity\Cart", inversedBy="products")
-     * @ORM\JoinColumn(nullable=false,onDelete="CASCADE")
+     * @ORM\JoinColumn(nullable=true,onDelete="CASCADE")
      */
-    private $cart ;
-    
+    private $cart;
+
     /**
      * @ORM\ManyToOne(targetEntity="Shop\CoreBundle\Entity\Currencies")
      * @ORM\JoinColumn(nullable=false)
      */
     private $currency;
-    
+
     /**
      *
      * @ORM\Column(name="price", type="decimal", precision=10, scale=2, nullable=false)
      */
     private $totalPrice;
-    
+
+    /**
+     *
+     * @ORM\Column(name="priceEUR", type="decimal", precision=10, scale=2, nullable=false)
+     */
+    private $totalPriceEUR;
+
     /**
      *
      * @ORM\Column(name="credit", type="decimal", precision=10, scale=2, nullable=false)
      */
     private $credit;
-    
+
     /**
      * Get id
      *
@@ -105,7 +109,7 @@ class Invoice {
         $this->transactions = new \Doctrine\Common\Collections\ArrayCollection();
         $this->actions = new \Doctrine\Common\Collections\ArrayCollection();
     }
-    
+
     /**
      * Set user
      *
@@ -226,8 +230,7 @@ class Invoice {
      * @param \DateTime $date
      * @return Invoice
      */
-    public function setDate($date)
-    {
+    public function setDate($date) {
         $this->date = $date;
 
         return $this;
@@ -238,8 +241,7 @@ class Invoice {
      *
      * @return \DateTime 
      */
-    public function getDate()
-    {
+    public function getDate() {
         return $this->date;
     }
 
@@ -249,8 +251,7 @@ class Invoice {
      * @param \Shop\CoreBundle\Entity\Currencies $currency
      * @return Invoice
      */
-    public function setCurrency(\Shop\CoreBundle\Entity\Currencies $currency)
-    {
+    public function setCurrency(\Shop\CoreBundle\Entity\Currencies $currency) {
         $this->currency = $currency;
 
         return $this;
@@ -261,8 +262,7 @@ class Invoice {
      *
      * @return \Shop\CoreBundle\Entity\Currencies 
      */
-    public function getCurrency()
-    {
+    public function getCurrency() {
         return $this->currency;
     }
 
@@ -272,8 +272,7 @@ class Invoice {
      * @param string $credit
      * @return Invoice
      */
-    public function setCredit($credit)
-    {
+    public function setCredit($credit) {
         $this->credit = $credit;
 
         return $this;
@@ -284,8 +283,7 @@ class Invoice {
      *
      * @return string 
      */
-    public function getCredit()
-    {
+    public function getCredit() {
         return $this->credit;
     }
 
@@ -295,8 +293,7 @@ class Invoice {
      * @param \Shop\CartBundle\Entity\Cart $cart
      * @return Invoice
      */
-    public function setCart(\Shop\CartBundle\Entity\Cart $cart)
-    {
+    public function setCart(\Shop\CartBundle\Entity\Cart $cart) {
         $this->cart = $cart;
 
         return $this;
@@ -307,8 +304,7 @@ class Invoice {
      *
      * @return \Shop\CartBundle\Entity\Cart 
      */
-    public function getCart()
-    {
+    public function getCart() {
         return $this->cart;
     }
 
@@ -318,8 +314,7 @@ class Invoice {
      * @param string $totalPrice
      * @return Invoice
      */
-    public function setTotalPrice($totalPrice)
-    {
+    public function setTotalPrice($totalPrice) {
         $this->totalPrice = $totalPrice;
 
         return $this;
@@ -330,8 +325,29 @@ class Invoice {
      *
      * @return string 
      */
-    public function getTotalPrice()
-    {
+    public function getTotalPrice() {
         return $this->totalPrice;
     }
+
+    /**
+     * Set totalPriceEUR
+     *
+     * @param string $totalPrice
+     * @return Invoice
+     */
+    public function setTotalPriceEUR($totalPriceEUR) {
+        $this->totalPriceEUR = $totalPriceEUR;
+
+        return $this;
+    }
+
+    /**
+     * Get totalPriceEUR
+     *
+     * @return string 
+     */
+    public function getTotalPriceEUR() {
+        return $this->totalPriceEUR;
+    }
+
 }

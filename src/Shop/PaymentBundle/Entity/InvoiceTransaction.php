@@ -56,6 +56,10 @@ class InvoiceTransaction {
      */
     private $date;
 
+    public function __toString() {
+        return "$this->id";
+    }
+
     /**
      * Get id
      *
@@ -169,13 +173,12 @@ class InvoiceTransaction {
     public function getInvoice() {
         return $this->invoice;
     }
-    
-    
+
     /**
      * @ORM\PrePersist
      */
     public function onPersist() {
-        if ( $this->date == null ){
+        if ($this->date == null) {
             $this->date = new \DateTime();
         }
     }

@@ -1,0 +1,13 @@
+services:
+    
+    sonata.admin.invoices:
+        class: Shop\PaymentBundle\Admin\InvoiceAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "E-Commerce", label: "Invoices" }
+        arguments:
+            - ~
+            - Shop\PaymentBundle\Entity\Invoice
+            - ~
+        calls:
+            - [ setTranslationDomain, [ShopPaymentBundle]]
+    

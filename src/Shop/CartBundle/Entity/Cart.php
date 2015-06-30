@@ -27,14 +27,11 @@ class Cart {
      */
     private $id;
 
-    
-
     /**
      * @ORM\Column(type="boolean")
      */
-    private $complete ; 
-    
-    
+    private $complete;
+
     /**
      *  @ORM\ManyToOne(targetEntity="Sinenco\UserBundle\Entity\User", cascade={"persist"})
      *  @ORM\JoinTable()
@@ -46,7 +43,7 @@ class Cart {
      * @ORM\Column(type="datetime")
      */
     private $createdAt;
-    
+
     /**
      * @ORM\Column(name="lastUpdate", type="datetime")
      */
@@ -72,6 +69,10 @@ class Cart {
      */
     private $comment;
 
+    public function __toString() {
+        return "$this->id";
+    }
+
     /**
      * @ORM\PrePersist
      * @ORM\PreUpdate
@@ -82,12 +83,12 @@ class Cart {
         }
         $this->lastUpdate = new \DateTime();
     }
-    
+
     /**
      * @ORM\PrePersist
      */
     public function onPersist() {
-        $this->complete = false ; 
+        $this->complete = false;
         $this->createdAt = new \DateTime();
     }
 
@@ -223,7 +224,6 @@ class Cart {
         return $this->comment;
     }
 
-
     /**
      * Set complete
      *
@@ -231,8 +231,7 @@ class Cart {
      *
      * @return Cart
      */
-    public function setComplete($complete)
-    {
+    public function setComplete($complete) {
         $this->complete = $complete;
 
         return $this;
@@ -243,8 +242,7 @@ class Cart {
      *
      * @return boolean
      */
-    public function getComplete()
-    {
+    public function getComplete() {
         return $this->complete;
     }
 
@@ -255,8 +253,7 @@ class Cart {
      *
      * @return Cart
      */
-    public function setCreatedAt($createdAt)
-    {
+    public function setCreatedAt($createdAt) {
         $this->createdAt = $createdAt;
 
         return $this;
@@ -267,8 +264,8 @@ class Cart {
      *
      * @return \DateTime
      */
-    public function getCreatedAt()
-    {
+    public function getCreatedAt() {
         return $this->createdAt;
     }
+
 }
