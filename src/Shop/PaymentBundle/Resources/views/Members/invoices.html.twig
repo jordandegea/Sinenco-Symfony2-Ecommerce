@@ -23,7 +23,14 @@
                 {% for invoice in invoices %}
                     {% set remainingPrice = invoicing_service.getRemainingPrice(invoice) %}
                     <tr class="{% if remainingPrice > 0 %}warning{%else%}success{%endif%}">
-                        <th><span class="glyphicon glyphicon-search"></span></th>
+                        <th><a href="{{ path("shop_payment_invoice", {'id' : invoice.id}) }}">
+                                
+                            {% if remainingPrice > 0 %}
+                                <span class="glyphicon glyphicon-search"></span>
+                            {%else%}
+                                <span class="glyphicon glyphicon-download-alt"></span>
+                            {%endif%}
+                            </a></th>
                         <td>{{ invoice.number }}</td>
                         <td>{{ invoice.date }}</td>
                         <td>{{ invoice.totalPrice }} {{ invoice.currency }}</td>
