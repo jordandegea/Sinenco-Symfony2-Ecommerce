@@ -25,6 +25,10 @@ sinenco.core:
         shop: Boutique
         services: Services
         
+    modals:
+        pending: Modification de la devise en cours.
+        redirect: "Devise modifiée : Redirection."
+        failed: Erreur lors de la modification de la devise
         
     footer:
         imprint: Mentions légales

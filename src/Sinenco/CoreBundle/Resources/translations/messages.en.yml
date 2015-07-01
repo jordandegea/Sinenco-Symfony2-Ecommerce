@@ -25,6 +25,11 @@ sinenco.core:
         shop: Shop
         services: Services
         
+    modals:
+        pending: Editing currency...
+        redirect: "Currency changed : Redirection."
+        failed: Currency editing failed
+        
     footer:
         imprint: Imprint
         information: Information
