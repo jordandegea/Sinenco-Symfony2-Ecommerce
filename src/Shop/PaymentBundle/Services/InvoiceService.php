@@ -49,6 +49,8 @@ class InvoiceService {
 
         $invoice->setUser($cart->getUser());
 
+        $invoice->setDate(new \DateTime);
+        
         return $invoice;
     }
 

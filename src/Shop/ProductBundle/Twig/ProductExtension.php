@@ -14,6 +14,7 @@ class ProductExtension extends \Twig_Extension {
      */
     private $container;
     private $service;
+    private $em;
     private $listFunctionGetPrices = [
         ["function" => "getOneTime", "suffixPrice" => ""],
         ["function" => "getMonthly", "suffixPrice" => "calendar.month"],
@@ -22,7 +23,8 @@ class ProductExtension extends \Twig_Extension {
         ["function" => "getAnnually", "suffixPrice" => "calendar.year"]
     ];
 
-    public function __construct($container) {
+    public function __construct($entityManager, $container) {
+        $this->em = $entityManager;
         $this->container = $container;
         $this->service = $container->get("shop_products");
     }
@@ -32,6 +34,7 @@ class ProductExtension extends \Twig_Extension {
             new \Twig_SimpleFilter('getFirstPrice', array($this, 'getFirstPrice'), array('is_safe' => array('html'))),
             new \Twig_SimpleFilter('getFieldPrice', array($this, 'getFieldPrice'), array('is_safe' => array('html'))),
             new \Twig_SimpleFilter('FormatPrice', array($this, 'FormatPrice'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFilter('ConvertPrice', array($this, 'ConvertPrice'), array('is_safe' => array('html'))),
             new \Twig_SimpleFilter('getFormattedFieldPrice', array($this, 'getFormattedFieldPrice'), array('is_safe' => array('html'))),
         );
     }
@@ -60,23 +63,34 @@ class ProductExtension extends \Twig_Extension {
         return '';
     }
 
+    public function ConvertPrice($price, $from, $to = null) {
+
+        $to = $this->service->getCurrencyIfNotDefined($to);
+
+        return $this->container
+                        ->get('shop_core.currency')
+                        ->convertPrice(
+                                $price, $from, $to);
+    }
+
     public function FormatPrice($price, $currency = null) {
 
         $currency = $this->service->getCurrencyIfNotDefined($currency);
-        $em = $this->container->get('doctrine')->getManager();
 
-
-        $currencyObject = $em
-                ->getRepository('ShopCoreBundle:Currencies')
-                ->findOneByCode($currency);
-
+        if (is_string($currency)) {
+            $currencyObject = $this->em
+                    ->getRepository('ShopCoreBundle:Currencies')
+                    ->findOneByCode($currency);
+        } else {
+            $currencyObject = $currency;
+        }
         if ($currencyObject == null) {
-            $currencyObjects = $em
+            $currencyObjects = $this->em
                     ->getRepository('ShopCoreBundle:Currencies')
                     ->findAll();
-            foreach($currencyObjects as $object ){
-                $currencyObject = $object ;
-                break ; 
+            foreach ($currencyObjects as $object) {
+                $currencyObject = $object;
+                break;
             }
         }
 
@@ -98,12 +112,24 @@ class ProductExtension extends \Twig_Extension {
             }
         }
 
+        if (is_string($currency)) {
+            $currency = $this
+                    ->em
+                    ->getRepository('ShopCoreBundle:Currencies')
+                    ->findOneByCode($currency);
+        }
 
         $method = 'get' . ucfirst($field);
+        $priceValue = $price->$method();
+
+        if ($currency != $price->getCurrency()) {
+            $priceValue = $this->convertPrice(
+                    $priceValue, $price->getCurrency()->getCode(), $currency->getCode());
+        }
 
 
         if ($price != null && method_exists($price, $method)) {
-            return $this->service->getFormattedPrice($price->getCurrency(), $quantity * $price->$method());
+            return $this->service->getFormattedPrice($currency, $quantity * $priceValue);
         }
 
         return '';
@@ -144,29 +170,41 @@ class ProductExtension extends \Twig_Extension {
 
     public function getFirstPrice($price, $currency = null) {
         if ($currency == null) {
-            $currency = $this->container->get('shop_core.currency')->getCurrency();
+            $currency = $this->container->get('shop_core.currency')->getCurrencyObject();
+        } else {
+            $currency = $this->container->get('shop_core.currency')->getAssociatedCurrency($currency);
         }
-        $currency = $this->container->get('shop_core.currency')->getCurrency();
-
         $translator = $this->container->get('translator');
 
         $priceResponse = $translator->trans("not_available");
 
-
-
         if ($price != null) {
             foreach ($this->listFunctionGetPrices as $value) {
                 if ($price->$value["function"]() > 0) {
+
+                    if ($currency != $price->getCurrency()) {
+                        $priceValue = $this->convertPrice(
+                                $price->$value["function"](), $price->getCurrency()->getCode(), $currency->getCode());
+                    } else {
+                        $priceValue = $price->$value["function"]();
+                    }
+
                     $priceResponse = ucfirst($translator->trans("product.price_"))
-                            . $this->service->getFormattedPrice($price->getCurrency(), $price->$value["function"]());
+                            . $this->service->getFormattedPrice($currency, $priceValue);
                     if ($value["suffixPrice"] != "") {
                         $priceResponse .= " / "
                                 . $translator->trans($value["suffixPrice"]);
                     }
                     if ($price->getFee() > 0) {
+                        if ($currency != $price->getCurrency()) {
+                            $priceValue = $this->convertPrice(
+                                    $price->getFee(), $price->getCurrency()->getCode(), $currency->getCode());
+                        } else {
+                            $priceValue = $price->getFee();
+                        }
                         $priceResponse .= "<br />"
                                 . ucfirst($translator->trans("product.fees_"))
-                                . $this->service->getFormattedPrice($price->getCurrency(), $price->getFee());
+                                . $this->service->getFormattedPrice($currency, $priceValue);
                     }
                     return $priceResponse;
                 }
@@ -175,7 +213,6 @@ class ProductExtension extends \Twig_Extension {
 
         return $priceResponse;
     }
-
 
     public function getName() {
         return 'product_extension';

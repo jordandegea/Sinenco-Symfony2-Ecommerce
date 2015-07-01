@@ -38,11 +38,11 @@
                                     {% endif %}
                                 </a>
                                 <div class="caption">
-                                    <h4 class="pull-right">{{ product.prices|getFirstPrice }}</h4>
+                                    <h4 class="pull-right">{{ product.price|getFirstPrice }}</h4>
                                     <h4><a href="{{ path("shop_product", {"product_idOrSlug":product.canonicalName} ) }}">{{ product.translate.name }}</a>
                                     </h4>
                                     <p>{{ product.translate.shortDescription|raw }}</p>
-                                    {% if canAddToCart(product.prices) %}
+                                    {% if canAddToCart(product.price) %}
                                         <a class="btn btn-sm btn-success" 
                                            onClick="addToCart('{{ path('shop_cart_rest_add') }}/{{ product.id }}');"
                                            style="width:100%;"

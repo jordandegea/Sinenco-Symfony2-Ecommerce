@@ -27,7 +27,7 @@ class Currency {
     public function onControllerRequest(\Symfony\Component\HttpKernel\Event\FilterControllerEvent $event) {
         $this->request = $event->getRequest();
         $userToken = $this->container->get('security.context')->getToken();
-        if ($userToken != null) {
+        if ($userToken != null && !is_string($userToken->getUser() ) ) {
             $userId = $userToken
                     ->getUser()
                     ->getId();
@@ -86,6 +86,9 @@ class Currency {
     }
 
     public function getAssociatedCurrency($currency_name) {
+        if ( ! is_string ($currency_name)){
+            return $currency_name ;
+        }
         if ($this->container == null) {
             return null;
         }
@@ -93,7 +96,7 @@ class Currency {
         return $this
                         ->em
                         ->getRepository('ShopCoreBundle:Currencies')
-                        ->findOneByCode($this->getCurrency());
+                        ->findOneByCode($currency_name);
     }
 
     public function setResponse($response) {

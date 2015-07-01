@@ -17,3 +17,8 @@ shop_payment_prepare_offline:
 shop_payment_done:
     path:     /done
     defaults: { _controller: ShopPaymentBundle:Payment:done}
+    
+    
+shop_payment_invoices:
+    path:     /invoices/
+    defaults: { _controller: ShopPaymentBundle:Payment:listInvoices }

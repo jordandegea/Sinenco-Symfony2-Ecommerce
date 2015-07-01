@@ -16,6 +16,29 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 class PaymentController extends Controller {
 
     private $request ;
+    
+    
+    
+    
+    /**
+     * @Security("has_role('ROLE_USER')")
+     */
+    public function listInvoicesAction(){
+        $invoices = $this
+                ->getDoctrine()
+                ->getManager()
+                ->getRepository('ShopPaymentBundle:Invoice')
+                ->findBy(array(
+                    'user' => $this->getUser()->getId()
+                ));
+        
+        return $this->render('ShopPaymentBundle:Members:invoices.html.twig', array(
+                    'invoices' => $invoices
+        ));
+    }
+    
+    
+    
     /**
      * @Security("has_role('ROLE_USER')")
      */
@@ -26,8 +49,8 @@ class PaymentController extends Controller {
                 ->getRepository('ShopPaymentBundle:Invoice')
                 ->find($id);
         
-        if ( $invoice == null ){
-            //redirige
+        if ( $invoice == null || $invoice->getUser()->getId() != $this->getUser()->getId() ){
+            return $this->redirect($this->get('router')->generate('shop_payment_invoices'));
         }
         
         

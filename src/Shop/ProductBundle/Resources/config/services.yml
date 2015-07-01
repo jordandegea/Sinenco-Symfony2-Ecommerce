@@ -1,7 +1,9 @@
 services:
     shop.twig.product_extension:
         class: Shop\ProductBundle\Twig\ProductExtension
-        arguments: [@service_container] #on passe le container en argument
+        arguments: 
+            entityManager: "@doctrine.orm.entity_manager"
+            container: "@service_container"
         tags:
             - { name: twig.extension }
             

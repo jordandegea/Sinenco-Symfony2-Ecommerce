@@ -77,7 +77,7 @@
                         </div>
                     {% endif %}
 
-                    <fieldset>
+                    <fieldset class="col-xs-12 col-sm-8 col-md-9 col-lg-9" >
                         {% if cartItem.children.product.vars.value.price|getFieldPrice('oneTime') == 0 %}
                             <legend>{{ "cart.prices"|trans }}</legend>
                             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 form-group">

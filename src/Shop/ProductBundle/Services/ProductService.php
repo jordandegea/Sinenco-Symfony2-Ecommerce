@@ -46,14 +46,12 @@ class ProductService {
         return $this->container->get('shop_core.currency')->getCurrency();
     }
 
-    public function getFormattedPrice(Currencies $currency, $price) {
-        $newCurrency = $this->container->get('shop_core.currency')->getCurrencyObject();
-        $price = $this->container->get('shop_core.currency')->convertPrice(
-                $price, $currency->getCode(), $newCurrency->getCode());
-        switch ($newCurrency->getFormat()) {
-            case 1 : return $newCurrency->getPrefix() . " " . $price;
-            case 2 : return $price . " " . $newCurrency->getPrefix();
-            default : return $newCurrency->getPrefix() . " " . $price;
+    public function getFormattedPrice(Currencies $currency, $price, $convert = false) {
+
+        switch ($currency->getFormat()) {
+            case 1 : return $currency->getPrefix() . " " . $price;
+            case 2 : return $price . " " . $currency->getPrefix();
+            default : return $currency->getPrefix() . " " . $price;
         }
     }
 
@@ -83,10 +81,8 @@ class ProductService {
 
         $this->container
                 ->get("mail_service")
-                ->sendMail($this->container, "Nouvel Achat", 
-                        $this->container
-                        ->getParameter("mailer_user"), 
-                        "Nouvel Achat ( C'est peut être un service ) ");
+                ->sendMail($this->container, "Nouvel Achat", $this->container
+                        ->getParameter("mailer_user"), "Nouvel Achat ( C'est peut être un service ) ");
     }
 
     private function getFormattedOptionsValues($options, $optionsValues) {

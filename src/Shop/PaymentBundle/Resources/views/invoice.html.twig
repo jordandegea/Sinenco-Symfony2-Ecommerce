@@ -155,7 +155,7 @@
                                 {% if item.product.price|getFieldPrice('oneTime') == 0 %}
                                     {{ invoicing_service.getTotalPriceCartItem(item, true) }}
                                 {% else %}
-                                    {{ item.product.price|getFormattedFieldPrice('oneTime')|FormatPrice  }}
+                                    {{ item.product.price|getFormattedFieldPrice('oneTime')|FormatPrice(invoice.currency)  }}
                                 {% endif %}
                             </td>
                             <td class="text-right"> 
@@ -169,7 +169,7 @@
                                 {% if item.product.price|getFieldPrice('oneTime') == 0 %}
                                     {{ invoicing_service.getTotalPriceCartItem(item, false) }}
                                 {% else %}
-                                    {{ (item.product.price.oneTime*item.prices.oneTime)|FormatPrice  }}
+                                    {{ (item.product.price.oneTime*item.prices.oneTime)|FormatPrice(invoice.currency)  }}
                                 {% endif %}
                             </td>
                         </tr>
@@ -202,18 +202,18 @@
                 </div>
                 <div class="col-xs-3">
                     <strong>
-                        {{ invoicing_service.getSubTotalPriceHT(invoice)|FormatPrice }}<br>
+                        {{ invoicing_service.getSubTotalPriceHT(invoice)|FormatPrice(invoice.currency) }}<br>
                         N/A <br>
 
                         {% if invoicing_service.getCredit(invoice) > 0 %}
-                            {{ invoicing_service.getSubTotalPriceTTC(invoice)|FormatPrice }}<br>
-                            {{ invoicing_service.getCredit(invoice)|FormatPrice }}<br>
-                            {{ invoicing_service.getTotalPriceTTC(invoice)|FormatPrice }}<br>
+                            {{ invoicing_service.getSubTotalPriceTTC(invoice)|FormatPrice(invoice.currency) }}<br>
+                            {{ invoicing_service.getCredit(invoice)|FormatPrice(invoice.currency) }}<br>
+                            {{ invoicing_service.getTotalPriceTTC(invoice)|FormatPrice(invoice.currency) }}<br>
                         {% else %}
-                            {{ invoicing_service.getTotalPriceTTC(invoice)|FormatPrice }}<br> 
+                            {{ invoicing_service.getTotalPriceTTC(invoice)|FormatPrice(invoice.currency) }}<br> 
                         {% endif %}
                         {% if pdf is not defined %}
-                            {{ invoicing_service.getRemainingPrice(invoice)|FormatPrice }}<br>
+                            {{ invoicing_service.getRemainingPrice(invoice)|FormatPrice(invoice.currency) }}<br>
                         {% endif %}
                     </strong>
                 </div>

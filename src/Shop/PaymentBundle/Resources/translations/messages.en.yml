@@ -14,18 +14,20 @@ shop:
             quantity: Quantity
             unit_price: Unit Price
             total: Total
-            subTotalHT: Sub Total HT
-            subTotalTTC: Sub Total TTC
+            subTotalHT: Sub Total 
+            subTotalTTC: Sub Total including tax
             TAX: TAX
             credit: Credit
-            totalTTC: Total TTC
-            balance: Restant
+            totalTTC: Total including tax
+            balance: Balance
         transaction:
             transactions: Transactions
             transaction: Transaction
             service: Service
             date : Date
             value: Value
+        invoices:
+            title: My invoices
             
             
             

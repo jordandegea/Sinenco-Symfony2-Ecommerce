@@ -3,23 +3,9 @@
 {% extends "ShopCoreBundle::layout.html.twig" %}
 
 {% block title %}
-  Acceuil traduction - {{ parent() }}
+  {{ parent() }}
 {% endblock %}
 
 {% block body %}
 
-    <div class="col-lg-6">
-        <h2>Bienvenue</h2>
-
-        <p>
-          Un super texte de ouf.  
-        </p>
-    </div>
-
-    <div class="col-lg-6">
-        <h2>Les produits</h2>
-        <p>
-            <a href="{{ path("shop_product_list") }}" class="btn btn-lg btn-success col-lg-12">Voir les produits</a>
-        </p>
-    </div>
 {% endblock %}
