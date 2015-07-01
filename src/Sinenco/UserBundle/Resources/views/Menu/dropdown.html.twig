@@ -4,8 +4,9 @@
         {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
             <li> <a href="{{ path('sinenco_core_profile') }}">{{ 'sinenco.userbundle.myAccount'|trans }}</a></li>
             <li> <a href="{{ path('shop_product.purchases') }}">{{ 'shop.purchases.title'|trans() }}</a></li>
+            <li> <a href="{{ path("services_mine_list") }}">{{ "services.my_services"|trans}}</a></li>
             <li> <a href="{{ path('shop_payment_invoices') }}">{{ "shop.payment.invoices.title"|trans}}</a></li>
-            
+
             <li class="divider"></li>
             <li> <a href="{{ path('fos_user_security_logout') }}">{{ 'layout.logout'|trans({}, 'FOSUserBundle') }}</a></li>
 
