@@ -14,9 +14,15 @@
                                 <p>
                                     {{ renting.service.translate.name }} 
                                     {% if diff.invert == 1 %}
-                                        expire {{renting.expiration|date("Y-m-d")}} ({{ diff.days }} days)
+                                        {{ "services.mail.expire_in"|trans({
+                                            "%name%":renting.service.translate.name,    
+                                            "%date%" : renting.expiration|date("Y-m-d"),
+                                            "%days%" : diff.days
+                                        }) }}
                                     {% else %}
-                                        Service expired. 
+                                        {{ "services.mail.expired"|trans({
+                                            "%name%":renting.service.translate.name
+                                        }) }}
                                     {% endif %}
                                     <br />
                                 <p>
