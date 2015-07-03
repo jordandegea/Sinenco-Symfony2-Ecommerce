@@ -1,6 +1,22 @@
 balanceAndCurrencyInformation: Lorsque vous changez de devises, votre credit est automatiquement converti. Durant la conversion, nous prenons une petite commission de 1% afin d'eviter tout abus. 
 
 sinenco.core:
+    sponsor:
+        title: Parrainage
+        explain:
+            title:  Vous serez récompensé
+            content: |
+                Le parrainage vous permet d'être rémunérer lorsque vous partagez notre site Web. <br />
+                Vous serez le parrain du chaque client enregistré avec votre id de parrainage. <br />
+                Lorsque ce client achetera un objet, vous gagnerez jusqu'à 10% de la transaction.
+        url:
+            title: Le lien
+            content: |
+                Vous devez simplement ajouter <strong>?p=%id%</strong> à chaque lien que vous transmetter. <br />
+                Voici un exemple : <br />
+                <a href="%url%">%url%</a>
+                    
+                    
     edit:
         address_generator: Le champ adresse est un générateur. Utilisez ce champ pour remplir d'autres champs. Ce champ ne sont pas stockées.
     editMyAccount: Modifier mon compte

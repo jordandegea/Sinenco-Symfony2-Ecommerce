@@ -13,6 +13,13 @@ use Sinenco\CoreBundle\Form\ProfileType;
 
 class CoreController extends Controller {
 
+    
+    public function sponsorshipAction() {
+        return $this->render('SinencoCoreBundle:Sponsor:sponsor.html.twig', array(
+        ));
+    }
+    
+    
     /**
      * @Security("has_role('ROLE_USER')")
      */

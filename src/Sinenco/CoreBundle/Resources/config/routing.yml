@@ -6,7 +6,9 @@ sinenco_core_addAddressToProfile:
     path:     /profile/addAddress
     defaults: { _controller: SinencoCoreBundle:Core:addAddress }
     
-    
+sinenco_core_sponsor:
+    path:     /sponsorship
+    defaults: { _controller: SinencoCoreBundle:Core:sponsorship }
     
 sinenco_core_imprint:
     path:     /imprint

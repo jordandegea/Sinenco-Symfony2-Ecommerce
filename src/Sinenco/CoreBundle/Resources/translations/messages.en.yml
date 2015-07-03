@@ -1,6 +1,21 @@
 balanceAndCurrencyInformation: When you change currencies, your balance is automatically converted. During the conversion, we take a small commission of 1% in order to avoid any abuse.
 
 sinenco.core:
+    sponsor:
+        title: Sponsorship
+        explain:
+            title: You will be rewarded
+            content: |
+                The sponsorship allows you to earn money when you share our website. <br />
+                You will be the sponsor of each client registered with your sponsor id. <br />
+                When this client buy an object, you earn until 10% of the transaction. 
+        url:
+            title: The link
+            content: |
+                You just have to add <strong>?p=%id%</strong> in the link. <br />
+                Here is an example : <br />
+                <a href="%url%">%url%</a>
+                
     edit:
         address_generator: The address field is a generator. Use this field to fill in other fields. This field is not stored.
     editMyAccount: Edit my account
