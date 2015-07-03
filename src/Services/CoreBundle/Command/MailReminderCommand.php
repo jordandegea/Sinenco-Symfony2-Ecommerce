@@ -94,7 +94,7 @@ class MailReminderCommand extends ContainerAwareCommand {
             }
         }
 
-        if ($result == true) {
+        if ($send == true && $result == true) {
             // Alors on envoie le mail
             $this
                     ->getContainer()
