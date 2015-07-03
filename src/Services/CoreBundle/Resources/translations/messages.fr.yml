@@ -15,7 +15,7 @@ services:
         success: Renouvellement de la licence reussi.
     mail:
         subject: Expiration de vos services
-        expire_in: %name% expire le %date (%days%)
+        expire_in: %name% expire le %date% (%days%)
         expired: %name% est expiré
     
 rentings: 
