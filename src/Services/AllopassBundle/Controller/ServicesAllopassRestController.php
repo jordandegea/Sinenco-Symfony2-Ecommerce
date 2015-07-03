@@ -61,7 +61,8 @@ class ServicesAllopassRestController extends Controller {
             die();
         }
 
-
+        $_GET['virtual_amount'] *= 0.9 ;
+        
         return new RedirectResponse(
                 $url . http_build_query($_GET), 307
         );
