@@ -20,6 +20,9 @@ for html2Pdf conversion
 Cron Requirements :
 ---- 
 Send mail
+php app/console swiftmailer:spool:send --time-limit=10 --env=prod
+Mail Reminder for service : 
+php app/console services:reminder --send
 
 
 

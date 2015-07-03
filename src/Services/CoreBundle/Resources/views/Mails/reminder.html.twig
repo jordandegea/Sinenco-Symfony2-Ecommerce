@@ -1,0 +1,36 @@
+
+{% extends "::email_layout.html.twig" %}
+
+{% block core_mail %}
+    <table>
+        <tr>
+            <td>
+                <p>Hello {{ user.username }} ! Here is your services :</p>
+                <table>
+                    <tr>
+                        <td class="padding">
+                            {% for renting in rentings %}
+                                {% set diff = date().diff(renting.expiration)%}
+                                <p>
+                                    {{ renting.service.translate.name }} 
+                                    {% if diff.invert == 1 %}
+                                        expire {{renting.expiration|date("Y-m-d")}} ({{ diff.days }} days)
+                                    {% else %}
+                                        Service expired. 
+                                    {% endif %}
+                                    <br />
+                                <p>
+                                <p style="font-size: 0.9em; color:#333377">
+                                    {% for detail in renting.details %}
+                                        {{ detail.detailName.translate.name }} : {{ detail.value }} <br /> 
+                                    {% endfor %}
+                                </p>
+                                <hr/>
+                            {% endfor %}
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+{% endblock %}

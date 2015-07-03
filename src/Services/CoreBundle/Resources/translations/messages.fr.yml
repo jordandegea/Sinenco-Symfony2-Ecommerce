@@ -13,6 +13,8 @@ services:
             fopen: Vous n'avez pas donner les bons droits au dossier "licenses", donnez 777. 
             custom: Erreur inconnue, contactez-nous
         success: Renouvellement de la licence reussi.
+    mail:
+        subject: Expiration de vos services
     
 rentings: 
     allopass_renting : Location Allopass

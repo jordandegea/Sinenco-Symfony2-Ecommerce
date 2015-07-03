@@ -14,9 +14,6 @@ class UserAddressAdmin extends Admin {
 
         $formMapper
                 ->with('Defaults', array('tab' => true))
-                    ->add('firstName')
-                    ->add('lastName')
-                    ->add('companyName')
                     ->add('streetNumber')
                     ->add('route')
                     ->add('additionalAddress')

@@ -1,0 +1,25 @@
+{# src/OC/PlatformBundle/Resources/views/Advert/edit.html.twig #}
+
+{% extends "SinencoCoreBundle::layout.html.twig" %}
+
+{% block title %}
+    {{ 'sinenco.core.sponsor.title'|trans }} - {{ parent() }}
+{% endblock %}
+
+
+{% block body %}
+
+
+    <h2>{{ 'sinenco.core.sponsor.title'|trans }}</h2>
+    <div class="col-lg-6">
+        <h3>{{ "sinenco.core.sponsor.explain.title"|trans() }}</h3>
+        <p>{{ "sinenco.core.sponsor.explain.content"|raw }}</p>
+
+        <h3>{{ "sinenco.core.sponsor.url.title"|trans() }}</h3>
+            {% if app.user %}
+        <p>
+                {{ "sinenco.core.sponsor.url.content"|trans({"%id%" :app.user.id, "%url%": url('sinenco_blog_list')  ~"?p=" ~app.user.id})|raw }}
+        </p>
+            {% endif %}
+    </div>
+{% endblock %}

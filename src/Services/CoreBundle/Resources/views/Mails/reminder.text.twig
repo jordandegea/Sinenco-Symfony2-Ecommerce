@@ -1,0 +1,15 @@
+Hello {{ user.username }} ! Here is your services :
+{% for renting in rentings %}
+    {% set diff = date().diff(renting.expiration)%}
+    
+        {{ renting.service.translate.name }} 
+        {% if diff.invert == 1 %}
+            expire {{renting.expiration|date("Y-m-d")}} ({{ diff.days }} days)
+        {% else %}
+            Service expired. 
+        {% endif %}
+        {% for detail in renting.details %}
+            {{ detail.detailName.translate.name }} : {{ detail.value }} <br /> 
+        {% endfor %}
+        __________________________________
+{% endfor %}
