@@ -51,6 +51,7 @@ class InvoiceService {
 
         $invoice->setDate(new \DateTime);
         
+        $invoice->setTotalPriceEUR(0);
         return $invoice;
     }
 
