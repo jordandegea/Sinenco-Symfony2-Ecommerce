@@ -73,7 +73,9 @@ class ProductService {
             $purchase->setState(Purchases::STATE_PENDING);
             $purchase->setUser($user);
             $purchase->setPurchasedAt(new \DateTime);
+            $purchase->setComment($cart->getComment());
             $cartItem->setPurchase($purchase);
+            
             $this->em->persist($cartItem);
             $this->em->persist($purchase);
         }
