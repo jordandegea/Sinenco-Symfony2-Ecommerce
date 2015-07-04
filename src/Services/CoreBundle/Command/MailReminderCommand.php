@@ -77,7 +77,6 @@ class MailReminderCommand extends ContainerAwareCommand {
             if ($expireTime->invert == 0) {
                 // Alors a location est expiré
             } else {
-                echo $expireTime->days." ";
                 switch ($expireTime->days) {
                     case 3:
                     case 7:

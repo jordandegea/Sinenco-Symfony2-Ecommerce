@@ -5,3 +5,8 @@ parameters:
                 - paypal_express
             others:
                 - balance
+                - allopass
+        
+        allopass:
+            ids: ids
+            idd: idd
