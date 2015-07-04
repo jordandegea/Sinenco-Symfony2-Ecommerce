@@ -1,0 +1,5 @@
+services:
+    
+parameters:
+    allopass.ids: 325380
+    allopass.idd: 1426809
