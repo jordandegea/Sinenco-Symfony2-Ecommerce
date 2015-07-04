@@ -50,10 +50,12 @@ class CompleteInvoiceListener {
                 $renting->setUser($user);
 
                 foreach ($service->getDetailsName() as $detailName) {
-                    $detail = new Detail();
-                    $detail->setDetailName($detailName);
-                    $detail->setValue($cartItem->getOptionsValues()[$detailName->getAttribute()->getCanonicalName()]);
-                    $renting->addDetail($detail);
+                    if ($detailName->getAttribute() != null) {
+                        $detail = new Detail();
+                        $detail->setDetailName($detailName);
+                        $detail->setValue($cartItem->getOptionsValues()[$detailName->getAttribute()->getCanonicalName()]);
+                        $renting->addDetail($detail);
+                    }
                 }
             } else {
                 // Alors c'est une modification d'option ou une prolongation du renting
@@ -88,12 +90,12 @@ class CompleteInvoiceListener {
             }
 
             $canExpire = $this->container->getParameter(
-                'core_service.'
-                .'services_available.'
-                .$renting->getService()->getName().'.'
-                .'expire');
-            
-            if ( $canExpire == true ){
+                    'core_service.'
+                    . 'services_available.'
+                    . $renting->getService()->getName() . '.'
+                    . 'expire');
+
+            if ($canExpire == true) {
                 /* Maintenant on ajoute la temps de location qu el client a acheté */
                 $expiration = clone $renting->getExpiration();
                 $cartItemPrices = $cartItem->getPrices();
@@ -109,60 +111,59 @@ class CompleteInvoiceListener {
                 if ($cartItemPrices->getAnnually() > 0) {
                     $expiration->add(new \DateInterval("P" . $cartItemPrices->getAnnually() . "Y"));
                 }
-            }else{
+            } else {
                 $expiration = new Datetime('2100-01-01');
             }
             $renting->setExpiration($expiration);
 
             $renting->setLicense($this->createLicense($renting));
-            
-            
+
+
             // C'était un service et non un achat. On peut donc supprimer l'achat.
             $this->em->remove($cartItem->getPurchase());
-            
+
             $cartItem->setPurchase(NULL);
-            
+
             $this->em->persist($renting);
             $this->em->persist($cartItem);
-            
-            $this->container->get('services_core.core_services')->renewLicense($renting) ;
+
+            $this->container->get('services_core.core_services')->renewLicense($renting);
         }
     }
-    
+
     private function createLicense(Renting $renting) {
 
         foreach ($renting->getDetails() as $detail) {
-            if ( strstr ( $detail->getDetailName() , "domain-name-required" ) ) {
+            if (strstr($detail->getDetailName(), "domain-name-required")) {
                 $server = $detail->getValue();
                 break;
             }
         }
-        
-        if ( !isset($server) ){
+
+        if (!isset($server)) {
             die();
         }
-        
+
         $passphrase = $this->container->getParameter(
                 'core_service.'
-                .'services_available.'
-                .$renting->getService()->getName().'.'
-                .'passphrase');
-        
+                . 'services_available.'
+                . $renting->getService()->getName() . '.'
+                . 'passphrase');
+
         $expire = $renting->getExpiration()->format('Y-m-d');
-        
-        $cmd = "make_license --passphrase $passphrase " 
-            . "--header-line '<?php exit(0); ?>' "
-            . "--property \"Server = '$server'\" "
-            . "--allowed-server $server "
-            . "--expire-on $expire "
-            . "--expose-expiry" ;
-        
-        $ret = shell_exec($cmd) ;
-        
+
+        $cmd = "make_license --passphrase $passphrase "
+                . "--header-line '<?php exit(0); ?>' "
+                . "--property \"Server = '$server'\" "
+                . "--allowed-server $server "
+                . "--expire-on $expire "
+                . "--expose-expiry";
+
+        $ret = shell_exec($cmd);
+
         // On peut faire un test sur ret
-        
-        return $ret ; 
-        
+
+        return $ret;
     }
 
 }
