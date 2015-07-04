@@ -197,7 +197,6 @@ class ServicesController extends Controller {
         $productCartItem->setFirstTime(false);
         
         foreach ( $renting->getDetails() as $key => $detail ){
-            
             $productCartItem->addOptionsValues(
                     $detail->getDetailName()->getAttribute()->getCanonicalName(), 
                     $detail->getValue()) ;

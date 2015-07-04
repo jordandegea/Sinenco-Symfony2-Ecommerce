@@ -72,19 +72,21 @@ class CompleteInvoiceListener {
 
 
                 foreach ($service->getDetailsName() as $detailName) {
-                    $detailNotFound = true;
-                    foreach ($renting->getDetails() as $detail) {
-                        if ($detail->getDetailName() == $detailName) {
-                            $detailNotFound = false;
-                            $detail->setValue($cartItem->getOptionsValues()[$detailName->getAttribute()->getCanonicalName()]);
-                            break;
+                    if ($detailName->getAttribute() != null) {
+                        $detailNotFound = true;
+                        foreach ($renting->getDetails() as $detail) {
+                            if ($detail->getDetailName() == $detailName) {
+                                $detailNotFound = false;
+                                $detail->setValue($cartItem->getOptionsValues()[$detailName->getAttribute()->getCanonicalName()]);
+                                break;
+                            }
                         }
-                    }
-                    if ($detailNotFound) {
-                        $detail = new Detail();
-                        $detail->setDetailName($detailName);
-                        $detail->setValue($cartItem->getOptionsValues()[$detailName->getAttribute()->getCanonicalName()]);
-                        $renting->addDetail($detail);
+                        if ($detailNotFound) {
+                            $detail = new Detail();
+                            $detail->setDetailName($detailName);
+                            $detail->setValue($cartItem->getOptionsValues()[$detailName->getAttribute()->getCanonicalName()]);
+                            $renting->addDetail($detail);
+                        }
                     }
                 }
             }
