@@ -60,6 +60,7 @@ class AppKernel extends Kernel
             new Services\CoreBundle\ServicesCoreBundle(),
             new Sinenco\BlogBundle\SinencoBlogBundle(),
             new Services\AllopassBundle\ServicesAllopassBundle(),
+            new Shop\AllopassPaymentBundle\ShopAllopassPaymentBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

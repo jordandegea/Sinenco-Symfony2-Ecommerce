@@ -7,6 +7,3 @@ parameters:
                 - balance
                 - allopass
         
-        allopass:
-            ids: ids
-            idd: idd

@@ -1,3 +1,7 @@
+shop_allopass_payment:
+    resource: "@ShopAllopassPaymentBundle/Resources/config/routing.yml"
+    prefix:   /
+
 services_allopass:
     resource: "@ServicesAllopassBundle/Resources/config/routing.yml"
     prefix:   /
