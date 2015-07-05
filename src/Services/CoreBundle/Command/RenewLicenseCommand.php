@@ -8,12 +8,12 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class CreateLicenseCommand extends ContainerAwareCommand {
+class RenewLicenseCommand extends ContainerAwareCommand {
 
     protected function configure() {
         $this
-                ->setName('services:license:create')
-                ->setDescription('Create license for a renting in parameters')
+                ->setName('services:license:renew')
+                ->setDescription('Renew license for a renting in parameters')
                 ->addArgument(
                         'id', InputArgument::REQUIRED, 'Renting Id'
                 )
@@ -38,12 +38,7 @@ class CreateLicenseCommand extends ContainerAwareCommand {
         if ( $renting == null ) {
             echo "No renting" ;
         }else{
-            $license = $this->getContainer()->get('services_core.core_services')->createLicense($renting) ; 
-            $renting->setLicense($license);
-            echo $license ; 
-            
-            $em->persist($renting);
-            $em->flush();
+            $this->getContainer()->get('services_core.core_services')->renewLicense($renting) ; 
         }
 
         $output->writeln("");
