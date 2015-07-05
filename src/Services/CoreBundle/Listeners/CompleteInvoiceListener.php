@@ -114,17 +114,22 @@ class CompleteInvoiceListener {
                     $expiration->add(new \DateInterval("P" . $cartItemPrices->getAnnually() . "Y"));
                 }
             } else {
-                $expiration = new Datetime('2100-01-01');
+                $expiration = new \Datetime('2100-01-01');
             }
             $renting->setExpiration($expiration);
 
-            $renting->setLicense($this->createLicense($renting));
+            $this->em->persist($renting);
+            $this->em->persist($cartItem);
 
 
             // C'était un service et non un achat. On peut donc supprimer l'achat.
             $this->em->remove($cartItem->getPurchase());
 
             $cartItem->setPurchase(NULL);
+            
+            $this->em->flush();
+            
+            $renting->setLicense($this->createLicense($renting));
 
             $this->em->persist($renting);
             $this->em->persist($cartItem);

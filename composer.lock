@@ -3291,12 +3291,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sinenco/AllopassAPI.git",
-                "reference": "5b871554c79e186deefa156cf52466e90c89a5a3"
+                "reference": "e0c59c172ef765d7fd1b5ba88c3ff393dbb77c72"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sinenco/AllopassAPI/zipball/5b871554c79e186deefa156cf52466e90c89a5a3",
-                "reference": "5b871554c79e186deefa156cf52466e90c89a5a3",
+                "url": "https://api.github.com/repos/sinenco/AllopassAPI/zipball/e0c59c172ef765d7fd1b5ba88c3ff393dbb77c72",
+                "reference": "e0c59c172ef765d7fd1b5ba88c3ff393dbb77c72",
                 "shasum": ""
             },
             "require": {
@@ -3322,7 +3322,7 @@
             "keywords": [
                 "allopass api sinenco"
             ],
-            "time": "2015-07-05 08:27:41"
+            "time": "2015-07-05 13:07:57"
         },
         {
             "name": "sonata-project/admin-bundle",
