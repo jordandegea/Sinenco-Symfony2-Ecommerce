@@ -16,6 +16,11 @@ php app/console doctrine:schema:create
 Application to be installed : 
 http://wkhtmltopdf.org/downloads.html 
 for html2Pdf conversion
+apt-get install wkhtmltopdf
+apt-get install xvfb
+echo 'xvfb-run --server-args="-screen 0, 1024x768x24" /usr/bin/wkhtmltopdf $*' > /usr/bin/wkhtmltopdf.sh
+chmod a+rx /usr/bin/wkhtmltopdf.sh
+ln -s /usr/bin/wkhtmltopdf.sh /usr/local/bin/wkhtmltopdf
 
 Cron Requirements :
 ---- 
