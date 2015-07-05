@@ -52,7 +52,7 @@ class Renting {
     /**
      * @var \text
      *
-     * @ORM\Column(name="license", type="text")
+     * @ORM\Column(name="license", type="text", nullable=true)
      * @Expose
      */
     private $license ;
