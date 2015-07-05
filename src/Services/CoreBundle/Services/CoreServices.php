@@ -115,6 +115,43 @@ class CoreServices {
         }
         return false;
     }
+    
+    public function createLicense(Renting $renting) {
+
+        foreach ($renting->getDetails() as $detail) {
+            if (strstr($detail->getDetailName()->getCanonicalName(), "domain-name-required")) {
+                $server = $detail->getValue();
+                break;
+            }
+        }
+
+        if (!isset($server)) {
+            die();
+        }
+
+        $passphrase = $this->container->getParameter(
+                'core_service.'
+                . 'services_available.'
+                . $renting->getService()->getName() . '.'
+                . 'passphrase');
+
+        $expire = $renting->getExpiration()->format('Y-m-d');
+
+        $cmd = "make_license --passphrase $passphrase "
+                . "--header-line '<?php exit(0); ?>' "
+                . "--property \"Server = '$server'\" "
+                . "--allowed-server $server "
+                . "--expire-on $expire "
+                . "--expose-expiry";
+
+        echo $cmd ; 
+        $ret = shell_exec($cmd);
+
+        // On peut faire un test sur ret
+
+        return $ret;
+    }
+    
 
     public function renewLicense(Renting $renting) {
         if ($renting == null) {
