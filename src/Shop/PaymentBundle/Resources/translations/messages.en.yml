@@ -29,5 +29,8 @@ shop:
         invoices:
             title: My invoices
             
+paypal_express: Paypal
+allopass: Allopass / Phone Payment
+            
             
             

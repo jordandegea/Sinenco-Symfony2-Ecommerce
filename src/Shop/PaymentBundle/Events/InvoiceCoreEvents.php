@@ -2,12 +2,8 @@
 
 namespace Shop\PaymentBundle\Events;
 
+final class InvoiceCoreEvents {
 
-final class InvoiceCoreEvents
-
-{
-
-  const onInvoiceComplete = 'shop.invoiceevent.complete';
-
+    const onInvoiceComplete = 'shop.invoiceevent.complete';
 
 }

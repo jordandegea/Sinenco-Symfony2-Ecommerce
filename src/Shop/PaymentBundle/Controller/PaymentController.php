@@ -9,36 +9,30 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller,
     Payum\Core\Request\GetHumanStatus,
     Symfony\Component\HttpFoundation\JsonResponse,
     Shop\PaymentBundle\Entity\Invoice,
-        Shop\PaymentBundle\Services\InvoiceService;
+    Shop\PaymentBundle\Services\InvoiceService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-
 
 class PaymentController extends Controller {
 
-    private $request ;
-    
-    
-    
-    
+    private $request;
+
     /**
      * @Security("has_role('ROLE_USER')")
      */
-    public function listInvoicesAction(){
+    public function listInvoicesAction() {
         $invoices = $this
                 ->getDoctrine()
                 ->getManager()
                 ->getRepository('ShopPaymentBundle:Invoice')
                 ->findBy(array(
-                    'user' => $this->getUser()->getId()
-                ));
-        
+            'user' => $this->getUser()->getId()
+        ));
+
         return $this->render('ShopPaymentBundle:Members:invoices.html.twig', array(
                     'invoices' => $invoices
         ));
     }
-    
-    
-    
+
     /**
      * @Security("has_role('ROLE_USER')")
      */
@@ -48,39 +42,46 @@ class PaymentController extends Controller {
                 ->getManager()
                 ->getRepository('ShopPaymentBundle:Invoice')
                 ->find($id);
-        
-        if ( $invoice == null || $invoice->getUser()->getId() != $this->getUser()->getId() ){
+
+        if ($invoice == null || $invoice->getUser()->getId() != $this->getUser()->getId()) {
             return $this->redirect($this->get('router')->generate('shop_payment_invoices'));
         }
-        
-        
-        if ( $this->get("invoicing")->getRemainingPrice($invoice) <= 0 ){
+
+
+        if ($this->get("invoicing")->getRemainingPrice($invoice) <= 0) {
             $html = $this->renderView('ShopPaymentBundle::invoice.html.twig', array(
-                    'invoice' => $invoice,
-                    'pdf' => true
-                ));
+                'invoice' => $invoice,
+                'pdf' => true
+            ));
             return new Response(
-                $this->get('knp_snappy.pdf')->getOutputFromHtml($html),
-                200,
-                array(
-                    'Content-Type'          => 'application/pdf',
-                    'Content-Disposition'   => 'attachment; filename="file.pdf"'
-                )
+                    $this->get('knp_snappy.pdf')->getOutputFromHtml($html), 200, array(
+                'Content-Type' => 'application/pdf',
+                'Content-Disposition' => 'attachment; filename="file.pdf"'
+                    )
             );
         }
-        
-        $this->request = $request ;
-        
+
+        $this->request = $request;
+
         $translator = $this->get('translator');
-        
+
         $paymentsAvailable = $this->container->getParameter('payments')['available'];
 
         $ConcatPaymentAvailable = array();
+
         foreach ($paymentsAvailable['payum'] as $value) {
             $ConcatPaymentAvailable[$value] = $translator->trans($value);
         }
-        if ( $this->getUser()->getBalance() > 0.00 ){
-            $ConcatPaymentAvailable["balance"] = $translator->trans("balance (".$this->getUser()->getBalance().")");
+
+        foreach ($paymentsAvailable['others'] as $value) {
+            if ($value == "balance") {
+                continue;
+            }
+            $ConcatPaymentAvailable[$value] = $translator->trans($value);
+        }
+
+        if ($this->getUser()->getBalance() > 0.00) {
+            $ConcatPaymentAvailable["balance"] = $translator->trans("balance (" . $this->getUser()->getBalance() . ")");
         }
 
         $form = $this->createFormBuilder()
@@ -93,7 +94,7 @@ class PaymentController extends Controller {
             $form->bind($request);
 
             $ConcatPaymentAvailableResponse = $form->getData();
-            
+
             return $this->prepare($ConcatPaymentAvailableResponse['payments'], $invoice);
         }
         return $this->render('ShopPaymentBundle::invoice.html.twig', array(
@@ -110,29 +111,31 @@ class PaymentController extends Controller {
     }
 
     public function prepare($paymentName, Invoice $invoice) {
-        if ( $paymentName == "balance"){
-            $flashbag = $this->request->getSession()->getFlashBag() ;
-            switch ( $this->get('invoicing')->payWithBalance($invoice) ) {
-                case InvoiceService::BALANCE_PAY_COMPLETE : 
+        if ($paymentName == "balance") {
+            $flashbag = $this->request->getSession()->getFlashBag();
+            switch ($this->get('invoicing')->payWithBalance($invoice)) {
+                case InvoiceService::BALANCE_PAY_COMPLETE :
                     $flashbag->add('success', $this->get('translator')->trans('shop.payment.pay.balance_complete'));
-                    break ; 
-                case InvoiceService::BALANCE_PAY_FAIL : 
+                    break;
+                case InvoiceService::BALANCE_PAY_FAIL :
                     $flashbag->add('danger', $this->get('translator')->trans('shop.payment.pay.balance_failure'));
-                    break ; 
-                case InvoiceService::BALANCE_PAY_PARTIAL : 
+                    break;
+                case InvoiceService::BALANCE_PAY_PARTIAL :
                     $flashbag->add('success', $this->get('translator')->trans('shop.payment.pay.balance_partial'));
-                    break ; 
-                default : break ; 
+                    break;
+                default : break;
             }
             return $this->redirect($this->request->headers->get('referer'));
-            
+        } elseif ($paymentName == "allopass") {
+            return $this->redirect($this->generateUrl("sinenco_allopass_payment_pay", array(
+                                'id' => 2,
+                                'data' => $invoice->getId()
+            )));
         }
         if (in_array($paymentName, $this->container->getParameter('payments')['available']['payum'])) {
             return $this->preparePayum($paymentName, $invoice);
         }
     }
-
-    
 
     private function preparePayum($paymentName, Invoice $invoice) {
 
@@ -174,8 +177,8 @@ class PaymentController extends Controller {
         $orderDetails = $order->getDetails();
         $invoice_id = $orderDetails['invoice_id'];
         $service = $paymentName;
-        $date = null ; 
-        
+        $date = null;
+
         if ($paymentName == "paypal_express") {
             $value = $orderDetails['PAYMENTREQUEST_0_AMT'];
             $txnId = $orderDetails['PAYMENTINFO_0_TRANSACTIONID'];

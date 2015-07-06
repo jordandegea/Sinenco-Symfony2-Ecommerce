@@ -7,3 +7,16 @@ parameters:
                 - balance
                 - allopass
         
+        
+        
+    allopass_payment.site_id: 325410 
+    allopass_payment.product_name: Sinenco 
+    sinenco.allopass_payments.return_route: ""
+    allopassAPI.api_key: "239b6646535da246ea189216d5a582b7"
+    allopassAPI.secret_key: "3e384f56da31753023b167b3ef03a2ee"
+    allopassAPI.default_hash: "sha1"
+    allopassAPI.default_format: "xml"
+    allopassAPI.network_timeout: "30"
+    allopassAPI.network_protocol: "http"
+    allopassAPI.network_port: "80"
+    allopassAPI.host: "api.allopass.com"

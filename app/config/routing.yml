@@ -64,6 +64,12 @@ shop_product:
         _locale: %authorizedLocales%
 
 
+
+# Sinenco Vendor Bundle #
+media:
+    resource: '@SinencoAllopassPaymentBundle/Resources/config/routing.yml'
+    prefix: /
+
 # Payum Bundles #
 payum_capture:
     resource: "@PayumBundle/Resources/config/routing/capture.xml"

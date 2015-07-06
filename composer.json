@@ -47,7 +47,7 @@
         "payum/paypal-express-checkout-nvp": "0.14.*",
         "friendsofsymfony/rest-bundle": "~1.6",
         
-        "sinenco/AllopassAPI" : "dev-master"
+        "sinenco/allopasspayment" : "1.*"
         
     },
     "require-dev": {

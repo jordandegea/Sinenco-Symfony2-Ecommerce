@@ -7,3 +7,14 @@ services:
 #    service_name:
 #        class: AppBundle\Directory\ClassName
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
+    sinenco_allopass_api.init:
+        class: Sinenco\AllopassAPIBundle\Model\AllopassApiConf
+        arguments: 
+            api_key: %allopassAPI.api_key%
+            secret_key: %allopassAPI.secret_key%
+            default_hash: %allopassAPI.default_hash%
+            default_format: %allopassAPI.default_format%
+            network_timeout: %allopassAPI.network_timeout%
+            network_protocol: %allopassAPI.network_protocol%
+            network_port: %allopassAPI.network_port%
+            host: %allopassAPI.host%

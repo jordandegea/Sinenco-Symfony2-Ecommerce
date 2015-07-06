@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "0a2ae085a2c56da4702236d559654b89",
+    "hash": "e25a068c85a445b8a9cdd73413773307",
     "packages": [
         {
             "name": "a2lix/translation-form-bundle",
@@ -3286,17 +3286,17 @@
         },
         {
             "name": "sinenco/allopassapi",
-            "version": "dev-master",
+            "version": "1.0.0",
             "target-dir": "Sinenco/AllopassAPIBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sinenco/AllopassAPI.git",
-                "reference": "e0c59c172ef765d7fd1b5ba88c3ff393dbb77c72"
+                "reference": "1b34a3ee9cecbd8ca8e30dd381eac4d2ae5ad53e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sinenco/AllopassAPI/zipball/e0c59c172ef765d7fd1b5ba88c3ff393dbb77c72",
-                "reference": "e0c59c172ef765d7fd1b5ba88c3ff393dbb77c72",
+                "url": "https://api.github.com/repos/sinenco/AllopassAPI/zipball/1b34a3ee9cecbd8ca8e30dd381eac4d2ae5ad53e",
+                "reference": "1b34a3ee9cecbd8ca8e30dd381eac4d2ae5ad53e",
                 "shasum": ""
             },
             "require": {
@@ -3306,6 +3306,11 @@
                 "twig/twig": "*"
             },
             "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "v1.0.0-dev"
+                }
+            },
             "autoload": {
                 "psr-0": {
                     "Sinenco\\AllopassAPIBundle": ""
@@ -3322,7 +3327,48 @@
             "keywords": [
                 "allopass api sinenco"
             ],
-            "time": "2015-07-05 13:07:57"
+            "time": "2015-07-06 14:06:36"
+        },
+        {
+            "name": "sinenco/allopasspayment",
+            "version": "1.0.2",
+            "target-dir": "Sinenco/AllopassPaymentBundle",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sinenco/AllopassPayment.git",
+                "reference": "a0715dddffdcde18c644a8a5b2efede4d73e9600"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sinenco/AllopassPayment/zipball/a0715dddffdcde18c644a8a5b2efede4d73e9600",
+                "reference": "a0715dddffdcde18c644a8a5b2efede4d73e9600",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/doctrine-bundle": "*",
+                "php": ">=5.4.0",
+                "sinenco/allopassapi": "1.0.0",
+                "symfony/framework-bundle": ">=2.5.6",
+                "twig/twig": "*"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-0": {
+                    "Sinenco\\AllopassPaymentBundle": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Jordan DE GEA",
+                    "email": "webmaster@sinenco.com"
+                }
+            ],
+            "description": "Payment with Allopass for Symfony",
+            "keywords": [
+                "allopass payment sinenco"
+            ],
+            "time": "2015-07-06 16:11:43"
         },
         {
             "name": "sonata-project/admin-bundle",
@@ -4770,8 +4816,7 @@
         "knplabs/doctrine-behaviors": 20,
         "friendsofsymfony/user-bundle": 20,
         "jms/serializer-bundle": 20,
-        "sonata-project/intl-bundle": 20,
-        "sinenco/allopassapi": 20
+        "sonata-project/intl-bundle": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

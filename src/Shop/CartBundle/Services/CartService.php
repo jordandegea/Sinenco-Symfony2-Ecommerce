@@ -103,6 +103,9 @@ class CartService {
     }
     
     public function calculateTotalPriceOption($priceOption, $priceQuantity) {
+        if ( $priceOption == null ) {
+            return ; 
+        }
         $total = 0;
         $total += $priceOption->getOneTime() * $priceQuantity->getOneTime();
         $total += $priceOption->getMonthly() * $priceQuantity->getMonthly();

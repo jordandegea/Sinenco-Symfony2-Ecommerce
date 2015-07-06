@@ -29,4 +29,7 @@ shop:
         invoices:
             title: Mes factures
             
+paypal_express: Paypal
+allopass: Allopass / Paiement Téléphone
+            
             
