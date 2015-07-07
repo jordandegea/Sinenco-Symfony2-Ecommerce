@@ -3331,17 +3331,17 @@
         },
         {
             "name": "sinenco/allopasspayment",
-            "version": "1.0.2",
+            "version": "1.1.1",
             "target-dir": "Sinenco/AllopassPaymentBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sinenco/AllopassPayment.git",
-                "reference": "a0715dddffdcde18c644a8a5b2efede4d73e9600"
+                "reference": "2b592f6924adbfaeb43ed2b1ec7e043edc136311"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sinenco/AllopassPayment/zipball/a0715dddffdcde18c644a8a5b2efede4d73e9600",
-                "reference": "a0715dddffdcde18c644a8a5b2efede4d73e9600",
+                "url": "https://api.github.com/repos/sinenco/AllopassPayment/zipball/2b592f6924adbfaeb43ed2b1ec7e043edc136311",
+                "reference": "2b592f6924adbfaeb43ed2b1ec7e043edc136311",
                 "shasum": ""
             },
             "require": {
@@ -3368,7 +3368,7 @@
             "keywords": [
                 "allopass payment sinenco"
             ],
-            "time": "2015-07-06 16:11:43"
+            "time": "2015-07-07 13:33:45"
         },
         {
             "name": "sonata-project/admin-bundle",
@@ -3889,12 +3889,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sonata-project/SonataIntlBundle.git",
-                "reference": "b02f2983f6056366db47939ef615a23091c9b05a"
+                "reference": "d1ce9cf2f4945a6a3a947202bb5dcdbbde3b4a35"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sonata-project/SonataIntlBundle/zipball/b02f2983f6056366db47939ef615a23091c9b05a",
-                "reference": "b02f2983f6056366db47939ef615a23091c9b05a",
+                "url": "https://api.github.com/repos/sonata-project/SonataIntlBundle/zipball/d1ce9cf2f4945a6a3a947202bb5dcdbbde3b4a35",
+                "reference": "d1ce9cf2f4945a6a3a947202bb5dcdbbde3b4a35",
                 "shasum": ""
             },
             "require": {
@@ -3944,7 +3944,7 @@
                 "sonata",
                 "time"
             ],
-            "time": "2015-06-26 10:21:05"
+            "time": "2015-07-07 10:54:54"
         },
         {
             "name": "sonata-project/media-bundle",
