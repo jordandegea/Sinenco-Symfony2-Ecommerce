@@ -1,0 +1,13 @@
+
+{% extends "ShopCoreBundle::layout.html.twig" %}
+
+{% block title %}
+    {{ "shop.payment.done.allopass.title"|trans}} - {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <meta http-equiv="refresh" content="5; url={{path("shop_payment_invoice", {'id': invoice}) }}">
+    <div class="col-xs-12">
+        <h2>{{ "shop.payment.done.allopass.content"|trans()|raw}}</h2>
+    </div>
+{% endblock %}

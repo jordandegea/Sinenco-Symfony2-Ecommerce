@@ -106,8 +106,18 @@ class PaymentController extends Controller {
     public function doneAction(Request $request) {
 
         if ($request->query->has('payum_token')) {
-            return $this->donePayum($request);
+
+            return $this->render('ShopPaymentBundle:Done:default.html.twig', array(
+                        'invoice' => $this->donePayum($request)
+            ));
         }
+    }
+
+    public function doneAllopassAction(Request $request, $invoice) {
+
+        return $this->render('ShopPaymentBundle:Done:allopass.html.twig', array(
+                    'invoice' => $invoice
+        ));
     }
 
     public function prepare($paymentName, Invoice $invoice) {
@@ -127,8 +137,9 @@ class PaymentController extends Controller {
             }
             return $this->redirect($this->request->headers->get('referer'));
         } elseif ($paymentName == "allopass") {
-            return $this->redirect($this->generateUrl("sinenco_allopass_payment_pay", array(
-                                'id' => 2,
+            return $this->redirect(
+                            $this->generateUrl(
+                                    "sinenco_allopass_payment_prepare", array(
                                 'data' => $invoice->getId()
             )));
         }
@@ -191,14 +202,16 @@ class PaymentController extends Controller {
         // you have order and payment status 
         // so you can do whatever you want for example you can just print status and payment details.
 
-        return new JsonResponse(array(
-            'status' => $status->getValue(),
-            'order' => array(
-                'total_amount' => $order->getTotalAmount(),
-                'currency_code' => $order->getCurrencyCode(),
-                'details' => $orderDetails,
-            ),
-        ));
+        /* return new JsonResponse(array(
+          'status' => $status->getValue(),
+          'order' => array(
+          'total_amount' => $order->getTotalAmount(),
+          'currency_code' => $order->getCurrencyCode(),
+          'details' => $orderDetails,
+          ),
+          )); */
+
+        return $invoice_id;
     }
 
 }

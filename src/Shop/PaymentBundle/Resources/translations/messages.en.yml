@@ -1,5 +1,12 @@
 shop:
     payment: 
+        done:
+            default:
+                title: Transaction succeeded
+                content: You will be redirected to your invoice. 
+            allopass:
+                title: Transaction succeeded
+                content: Credit was added to your account. <br />You will be redirected to your invoice. 
         pay:
             balance_complete: Balance payment complete
             balance_partial: Balance payment complete
