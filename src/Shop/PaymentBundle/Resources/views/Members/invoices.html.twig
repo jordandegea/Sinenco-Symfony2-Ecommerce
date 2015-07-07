@@ -32,7 +32,7 @@
                             {%endif%}
                             </a></th>
                         <td>{{ invoice.number }}</td>
-                        <td>{{ invoice.date }}</td>
+                        <td>{{ invoice.date|date("Y-m-d") }}</td>
                         <td>{{ invoice.totalPrice }} {{ invoice.currency }}</td>
                         <th>
                             {% if remainingPrice > 0 %}

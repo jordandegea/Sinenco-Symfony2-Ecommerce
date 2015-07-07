@@ -1,5 +1,12 @@
 shop:
     payment: 
+        done:
+            default:
+                title: Transaction réussie
+                content: Vous allez être redirigé vers votre facture. 
+            allopass:
+                title: Transaction réussie
+                content: Du crédit a été ajouté à votre compte. <br />Vous allez être redirigé vers votre facture
         pay:
             balance_complete: Paiement par solde terminé
             balance_partial: Paiement par solde terminé
