@@ -6,7 +6,7 @@ services:
             container: "@service_container"
             
     shop.allopass.listener.callback:
-        class: Shop\PaymentBundle\Listener\AllopassCallbackListener
+        class: Shop\PaymentBundle\Listeners\AllopassCallbackListener
         arguments: 
             entityManager: "@doctrine.orm.entity_manager"
             container: "@service_container"

@@ -1,6 +1,6 @@
 <?php
 
-namespace Shop\PaymentBundle;
+namespace Shop\PaymentBundle\Listeners;
 
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\HttpFoundation\Response;
