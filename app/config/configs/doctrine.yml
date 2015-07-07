@@ -34,5 +34,6 @@ doctrine:
                     ShopProductBundle: ~
                     ShopPaymentBundle: ~
                     ServicesCoreBundle: ~
+                    SinencoAllopassPaymentBundle: ~
        
        
