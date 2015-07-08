@@ -113,10 +113,10 @@ class PaymentController extends Controller {
         }
     }
 
-    public function doneAllopassAction(Request $request, $invoice) {
+    public function doneAllopassAction(Request $request) {
 
         return $this->render('ShopPaymentBundle:Done:allopass.html.twig', array(
-                    'invoice' => $invoice
+                    'invoice' => $_GET["data"] 
         ));
     }
 

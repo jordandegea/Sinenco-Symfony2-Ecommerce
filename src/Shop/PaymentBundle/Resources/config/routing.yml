@@ -18,6 +18,10 @@ shop_payment_done:
     path:     /done
     defaults: { _controller: ShopPaymentBundle:Payment:done}
     
+shop_payment_done_allopass:
+    path:     /allopass/done
+    defaults: { _controller: ShopPaymentBundle:Payment:doneAllopass}
+    
     
 shop_payment_invoices:
     path:     /invoices/
