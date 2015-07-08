@@ -66,7 +66,7 @@ shop_product:
 
 
 # Sinenco Vendor Bundle #
-media:
+sinenco_allopass_payment:
     resource: '@SinencoAllopassPaymentBundle/Resources/config/routing.yml'
     prefix: /
 
