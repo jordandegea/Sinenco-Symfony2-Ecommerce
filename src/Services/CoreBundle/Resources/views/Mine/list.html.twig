@@ -22,7 +22,7 @@
                         <div class="panel-heading">
                             <h4 class="panel-title">
                                 <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{ loop.index }}">
-                                    {% for category in rentings[2] %}
+                                    {% for category in rentings[2]|reverse %}
                                         {{ category }} > 
                                     {% endfor %}
                                     {{ key }}
