@@ -8,6 +8,9 @@ use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Sinenco\AllopassPaymentBundle\Events\AllopassPaymentCallbackEvent;
 use Shop\PaymentBundle\Entity\Invoice;
 
+use Doctrine\ORM\EntityManager;
+use Symfony\Component\DependencyInjection\Container;
+
 class AllopassCallbackListener {
 
     private $em;
@@ -30,16 +33,23 @@ class AllopassCallbackListener {
                 $user = $invoice->getUser();
                 // et on ajoute du credit à la facture
                 $payout_amount = $transaction->getPayoutAmount();
-                $payout_currency = $transaction->getPayoutCurrency();
+		$payout_currency = $transaction->getPayoutCurrency();
                 
-                $invoice_currency = $user->getCurrency();
+		if ( $payout_amount == 0 ){
+			//alors c'est un code de test
+			$payout_amount = 1 ; 
+			$payout_currency = EUR ; 
+		}
+
+                $user_currency = $user->getCurrency();
 
                 $user_credit_plus = $this->container->get('shop_core.currency')->convertPrice(
-                        $payout_amount, $payout_currency, $invoice_currency
+                        $payout_amount, $payout_currency, $user_currency
                 );
                 
-                $user->setCredit($user->getCredit() + $user_credit_plus);
+                $user->setBalance($user->getBalance() + $user_credit_plus);
                 $this->em->persist($user);
+		$this->em->flush();
             }
         }
     }
