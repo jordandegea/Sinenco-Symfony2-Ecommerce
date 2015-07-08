@@ -3331,17 +3331,17 @@
         },
         {
             "name": "sinenco/allopasspayment",
-            "version": "1.1.2",
+            "version": "1.1.4",
             "target-dir": "Sinenco/AllopassPaymentBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sinenco/AllopassPayment.git",
-                "reference": "fd6d98c2f00c2e7f81989b278fc0de3496a3eb64"
+                "reference": "9ecca7b95044e174e0c34acc457f43c249771d26"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sinenco/AllopassPayment/zipball/fd6d98c2f00c2e7f81989b278fc0de3496a3eb64",
-                "reference": "fd6d98c2f00c2e7f81989b278fc0de3496a3eb64",
+                "url": "https://api.github.com/repos/sinenco/AllopassPayment/zipball/9ecca7b95044e174e0c34acc457f43c249771d26",
+                "reference": "9ecca7b95044e174e0c34acc457f43c249771d26",
                 "shasum": ""
             },
             "require": {
@@ -3368,7 +3368,7 @@
             "keywords": [
                 "allopass payment sinenco"
             ],
-            "time": "2015-07-07 17:56:16"
+            "time": "2015-07-08 09:35:42"
         },
         {
             "name": "sonata-project/admin-bundle",
