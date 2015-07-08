@@ -23,9 +23,8 @@
                             <h4 class="panel-title">
                                 <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{ loop.index }}">
                                     {% for category in rentings[2]|reverse %}
-                                        {{ category }} > 
+                                        {{ category }}{% if not loop.last %} > {% endif %}
                                     {% endfor %}
-                                    {{ key }}
                                     <div class="pull-right">
                                         <span class="label label-success">{{ rentings[0][0] }}</span>
                                         <span class="label label-primary">{{ rentings[0][1] }}</span>

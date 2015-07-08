@@ -58,46 +58,50 @@ class ServicesController extends Controller {
         $rentings = array();
 
         foreach ($rentingstemp as $renting) {
-            $rentingServiceName = $renting->getService()->translate($request->getLocale())->getName();
+            $rentingServiceId = $renting->getService()->getId() ;
             
             // La premiere ligne doit contenir le nombre de chaque ( success, danger, warning ) 
-            if (!array_key_exists($rentingServiceName, $rentings)) {
+            if (!array_key_exists($rentingServiceId, $rentings)) {
                 //Dans l'ordre [Success, Info, Warning, Danger]
-                $rentings[$rentingServiceName][0] = [0, 0, 0, 0];
-                $rentings[$rentingServiceName][1] = [];
+                $rentings[$rentingServiceId][0] = [0, 0, 0, 0];
+                $rentings[$rentingServiceId][1] = [];
                 foreach ($renting->getDetails() as $detail) {
                     $detailName = $detail->getDetailName();
                     if ($detailName->getIsDisplayedOnList()) {
-                        $rentings[$rentingServiceName][1][] = $detailName->translate($request->getLocale())->getName();
+                        $rentings[$rentingServiceId][1][] = $detailName->translate($request->getLocale())->getName();
                     }
                 }
             }
             
-            $rentings[$rentingServiceName][2] = [] ;
+            $rentingServiceName = $renting->getService()->translate($request->getLocale())->getName();
+            
+            $rentings[$rentingServiceId][2] = [$rentingServiceName] ;
+            
             $category = $renting->getService()->getCategory(); 
+            
             while($category != null ){
-                $rentings[$rentingServiceName][2][] = $category->translate($request->getLocale())->getName();
+                $rentings[$rentingServiceId][2][] = $category->translate($request->getLocale())->getName();
                 $category = $category->getParentCategory() ; 
             }
 
-            $rentings[$rentingServiceName][] = array();
-            $i = sizeof($rentings[$rentingServiceName]) - 1;
+            $rentings[$rentingServiceId][] = array();
+            $i = sizeof($rentings[$rentingServiceId]) - 1;
             // Calcule pour rentings si on doit le mettre en success, danger, ou warning
             if (new DateTime(date("Y-m-d", time() + 3600 * 24 * 7)) > $renting->getExpiration()) {
-                $rentings[$rentingServiceName][0][3] ++;
-                $rentings[$rentingServiceName][$i]["state"] = "danger";
+                $rentings[$rentingServiceId][0][3] ++;
+                $rentings[$rentingServiceId][$i]["state"] = "danger";
             } elseif (new DateTime(date("Y-m-d", time() + 3600 * 24 * 15)) > $renting->getExpiration()) {
-                $rentings[$rentingServiceName][0][2] ++;
-                $rentings[$rentingServiceName][$i]["state"] = "warning";
+                $rentings[$rentingServiceId][0][2] ++;
+                $rentings[$rentingServiceId][$i]["state"] = "warning";
             } elseif (new DateTime(date("Y-m-d", time() + 3600 * 24 * 30)) > $renting->getExpiration()) {
-                $rentings[$rentingServiceName][0][1] ++;
-                $rentings[$rentingServiceName][$i]["state"] = "info";
+                $rentings[$rentingServiceId][0][1] ++;
+                $rentings[$rentingServiceId][$i]["state"] = "info";
             } else {
-                $rentings[$rentingServiceName][0][0] ++;
-                $rentings[$rentingServiceName][$i]["state"] = "success";
+                $rentings[$rentingServiceId][0][0] ++;
+                $rentings[$rentingServiceId][$i]["state"] = "success";
             }
 
-            $rentings[$rentingServiceName][$i]["object"] = $renting;
+            $rentings[$rentingServiceId][$i]["object"] = $renting;
         }
 
 
