@@ -6,9 +6,13 @@ parameters:
         - whmcs_starpass
         - whmcs_movefunds
         - whmcs_contribute
+        - hostbill_allopass_credit
+        - hostbill_allopass_commission
+        - hostbill_allopass
         - hostbill_starpass
         - hostbill_movefunds
         - hostbill_contribute
+        - hostbill_allopass
         
     core_service.services_available.whmcs_allopass_commission.passphrase: oNFq1xFIxbnYmcWVM2n9goV3S388bBaR
     core_service.services_available.whmcs_allopass_commission.expire: false
@@ -34,6 +38,18 @@ parameters:
     core_service.services_available.whmcs_contribute.expire: true
     core_service.services_available.whmcs_contribute.renew_url: "/modules/licenses/contribute.php?activation=true"
         
+    core_service.services_available.hostbill_allopass_commission.passphrase: jAvLqvqThh3ea4JXY88xFC6KQKFD6LgB
+    core_service.services_available.hostbill_allopass_commission.expire: false
+    core_service.services_available.hostbill_allopass_commission.renew_url: "/includes/modules/licenses/allopass_commission.php?activation=true"
+        
+    core_service.services_available.hostbill_allopass.passphrase: 7Tbcb6XvlVqLUcVh6PgMOV8vRS7B9T1h
+    core_service.services_available.hostbill_allopass.expire: true
+    core_service.services_available.hostbill_allopass.renew_url: "/includes/modules/licenses/allopass.php?activation=true"
+        
+    core_service.services_available.hostbill_allopass_credit.passphrase: md5cpqYGiprJFFLePlmYyg5uhqHY6vof
+    core_service.services_available.hostbill_allopass_credit.expire: true
+    core_service.services_available.hostbill_allopass_credit.renew_url: "/includes/modules/licenses/allopass_credit.php?activation=true"
+    
     core_service.services_available.hostbill_starpass.passphrase: g0KB2fZbokeNoKkr6FYvqIczfQYT3RrZ
     core_service.services_available.hostbill_starpass.expire: true
     core_service.services_available.hostbill_starpass.renew_url: "/includes/modules/licenses/starpass.php?activation=true"
