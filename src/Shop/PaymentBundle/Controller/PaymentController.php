@@ -198,7 +198,6 @@ class PaymentController extends Controller {
 
         $invoiceCreated = $this->get('invoicing')->addTransactionToInvoice($invoice_id, $txnId, $service, $value, $date);
 
-        var_dump($order);
         // you have order and payment status 
         // so you can do whatever you want for example you can just print status and payment details.
 
