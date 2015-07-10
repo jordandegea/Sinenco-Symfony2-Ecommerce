@@ -157,9 +157,10 @@ class CoreServices {
         if ($renting == null) {
             return null;
         }
+        $translator = $this->container->get('translator');
         $address = $this->getCompleteAddress($renting);
         if ($address == false) {
-            $this->container->get('session')->getFlashBag()->add('danger', 'services.renew.fail.address');
+            $this->container->get('session')->getFlashBag()->add('danger', $translator->trans('services.renew.fail.address') );
             return;
         }
 
@@ -172,14 +173,16 @@ class CoreServices {
                                 . 'renew_url');
 
         $result = file_get_contents($url);
+        
+        
         if ( $result == "OK"){
-            $this->container->get('session')->getFlashBag()->add('success', 'services.renew.success');
+            $this->container->get('session')->getFlashBag()->add('success', $translator->trans('services.renew.success') );
         }elseif($result == "STATE FAILED"){
-            $this->container->get('session')->getFlashBag()->add('danger', 'services.renew.fail.state');
+            $this->container->get('session')->getFlashBag()->add('danger', $translator->trans('services.renew.fail.state') );
         }elseif($result == "FOPEN FAILED"){
-            $this->container->get('session')->getFlashBag()->add('danger', 'services.renew.fail.fopen');
+            $this->container->get('session')->getFlashBag()->add('danger', $translator->trans('services.renew.fail.fopen') );
         }else{
-            $this->container->get('session')->getFlashBag()->add('danger', 'services.renew.fail.custom');
+            $this->container->get('session')->getFlashBag()->add('danger', $translator->trans('services.renew.fail.custom') );
         }
     }
 

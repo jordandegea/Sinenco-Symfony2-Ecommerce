@@ -10,7 +10,7 @@ services:
         fail:
             address: Impossible de joindre le fichier. Vérifiez le champs "Adresse Complete"
             state: Si votre service n'est pas expiré, contactez-nous. Il y a un problème avec le fichier de licence. 
-            fopen: Vous n'avez pas donner les bons droits au dossier "licenses", donnez 777. 
+            fopen: Vous n'avez pas donner les bons droits au dossier "licenses", donnez 777 par exemple. 
             custom: Erreur inconnue, contactez-nous
         success: Renouvellement de la licence reussi.
     mail:

@@ -10,7 +10,7 @@ services:
         fail:
             address: Impossible to join the file. Please be sure you entered the good "complete address"
             state: If your service is not expired, please contact us. There is a problem with your license. 
-            fopen: You did not give the good right to the folder "licenses", please give 777 to the folder. 
+            fopen: You did not give the good right to the folder "licenses", please give 777 to the folder for example. 
             custom: Unknown error during the renewal of the license. Please contact us.
         success: License renewal successfull
     mail:
