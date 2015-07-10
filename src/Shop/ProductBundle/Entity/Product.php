@@ -41,6 +41,12 @@ class Product {
      */
     private $related;
 
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Shop\ProductBundle\Entity\Review", mappedBy="product", cascade={"persist"})
+     **/
+    private $comments;
+    
     /**
      * @ORM\ManyToOne(targetEntity="Shop\ProductBundle\Entity\Category")
      * @ORM\JoinColumn(nullable=true)
@@ -334,4 +340,38 @@ class Product {
         return $this->related;
     }
 
+
+    /**
+     * Add comment
+     *
+     * @param \Shop\ProductBundle\Entity\Review $comment
+     *
+     * @return Product
+     */
+    public function addComment(\Shop\ProductBundle\Entity\Review $comment)
+    {
+        $this->comments[] = $comment;
+
+        return $this;
+    }
+
+    /**
+     * Remove comment
+     *
+     * @param \Shop\ProductBundle\Entity\Review $comment
+     */
+    public function removeComment(\Shop\ProductBundle\Entity\Review $comment)
+    {
+        $this->comments->removeElement($comment);
+    }
+
+    /**
+     * Get comments
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getComments()
+    {
+        return $this->comments;
+    }
 }
