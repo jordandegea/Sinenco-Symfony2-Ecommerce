@@ -34,8 +34,13 @@ class ProductController extends BaseController {
 
         if ($form->handleRequest($request)->isValid()) {
 
+            
             $em = $this->getDoctrine()->getManager();
-
+            
+            $review->setCreatedAt(new \DateTime);
+            $review->setProduct($product);
+            $review->setUser($user = $this->getUser());
+            $review->setChecked(false);
             $em->persist($review);
 
             $em->flush();

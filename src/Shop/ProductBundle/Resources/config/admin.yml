@@ -69,3 +69,15 @@ services:
         calls:
             - [ setTranslationDomain, [ShopProductBundle]]
             
+            
+            
+    sonata.admin.review:
+        class: Shop\ProductBundle\Admin\ReviewAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "E-Commerce", label: "Reviews" }
+        arguments:
+            - ~
+            - Shop\ProductBundle\Entity\Review
+            - ~
+        calls:
+            - [ setTranslationDomain, [ShopProductBundle]]

@@ -53,6 +53,17 @@ class Review
      */
     private $title;
     
+    
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $checked;
+    
+    /**
+     * @ORM\Column(type="smallint")
+     */
+    private $grade;
+    
     /**
      * @var text
      *
@@ -203,5 +214,53 @@ class Review
     public function getTitle()
     {
         return $this->title;
+    }
+
+    /**
+     * Set checked
+     *
+     * @param boolean $checked
+     *
+     * @return Review
+     */
+    public function setChecked($checked)
+    {
+        $this->checked = $checked;
+
+        return $this;
+    }
+
+    /**
+     * Get checked
+     *
+     * @return boolean
+     */
+    public function getChecked()
+    {
+        return $this->checked;
+    }
+
+    /**
+     * Set grade
+     *
+     * @param integer $grade
+     *
+     * @return Review
+     */
+    public function setGrade($grade)
+    {
+        $this->grade = $grade;
+
+        return $this;
+    }
+
+    /**
+     * Get grade
+     *
+     * @return integer
+     */
+    public function getGrade()
+    {
+        return $this->grade;
     }
 }

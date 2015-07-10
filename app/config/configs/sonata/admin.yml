@@ -57,6 +57,7 @@ sonata_admin:
                     - sonata.admin.blog.subcomment
             ECommerce:
                 items:
+                    - sonata.admin.review
                     - sonata.admin.invoices
                     - sonata.admin.purchases
                     - sonata.admin.product
