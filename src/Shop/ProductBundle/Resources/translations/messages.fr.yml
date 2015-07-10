@@ -11,7 +11,10 @@ shop:
         options: Options / Commentaire
         pending: Pending
         complete: Complete
-        
+    
+    
+    product:
+        related_products: Produits liés
 
 
 product.price_: "prix : "

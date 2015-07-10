@@ -12,6 +12,9 @@ shop:
         pending: En attente
         complete: Terminé
 
+    product:
+        related_products: Related Products
+            
 product.price_: "price: "
 product.fees_: "fees: "
 
