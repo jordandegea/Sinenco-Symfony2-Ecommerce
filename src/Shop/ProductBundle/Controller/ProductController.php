@@ -5,8 +5,62 @@ namespace Shop\ProductBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller as BaseController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Shop\ProductBundle\Form\ReviewType;
+use Shop\ProductBundle\Entity\Review;
 
 class ProductController extends BaseController {
+
+    /**
+     * @Security("has_role('ROLE_USER')")
+     */
+    public function addReviewAction(Request $request, $product_idOrSlug) {
+
+        $repository = $this->getDoctrine()->getManager()->getRepository('ShopProductBundle:Product');
+
+        if (is_numeric($product_idOrSlug)) {
+            $product = $repository->find($product_idOrSlug);
+        } else {
+            $product = $repository->findOneByCanonicalName($product_idOrSlug);
+        }
+
+
+        if ($product == null) {
+            throw $this->createNotFoundException($this->get('translator')->trans("product_dont_exist"));
+        }
+
+        $review = new Review();
+        $form = $this->get('form.factory')->create(new ReviewType(), $review);
+
+
+        if ($form->handleRequest($request)->isValid()) {
+
+            $em = $this->getDoctrine()->getManager();
+
+            $em->persist($review);
+
+            $em->flush();
+
+            $translator = $this->get('translator') ;
+            
+            $request->getSession()
+                    ->getFlashBag()
+                    ->add('success', $translator->trans('shop.product.reviews.added'));
+
+
+            return $this->redirect(
+                            $this->generateUrl(
+                                    'shop_product', array(
+                                'product_idOrSlug' => $product_idOrSlug
+                                    )
+                            )
+            );
+        }
+
+        return $this->render('ShopProductBundle:Reviews:add.html.twig', array(
+                    'product' => $product,
+                    'form' => $form->createView(),
+        ));
+    }
 
     public function productAction($product_idOrSlug) {
 
@@ -92,8 +146,7 @@ class ProductController extends BaseController {
                     'followingCategories' => $followingCategories
         ));
     }
-    
-    
+
     /**
      * @Security("has_role('ROLE_USER')")
      */
@@ -102,9 +155,10 @@ class ProductController extends BaseController {
         $repository = $this->getDoctrine()->getManager()->getRepository('ShopProductBundle:Purchases');
         $purchases = $repository->findByUser($user = $this->getUser());
 
-        
+
         return $this->render('ShopProductBundle:Products:purchases.html.twig', array(
                     'purchases' => $purchases
         ));
     }
+
 }

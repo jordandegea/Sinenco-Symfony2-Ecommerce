@@ -1,0 +1,43 @@
+{# src/Shop/ProductBundle/Resources/views/Products/list.html.twig #}
+
+{% extends "ShopProductBundle::layout.html.twig" %}
+
+{% block title %}
+    {{ product.translate.name }} - {{ product.category.translate.name }} - {{ parent() }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="//cdn.ckeditor.com/4.4.7/standard/ckeditor.js" type="text/javascript"></script>
+{% endblock %}
+
+
+
+{% block shop_product %}
+
+    {{ form_start(form, {'attr': 
+            {'class': 'form-horizontal' } }) }}
+    <fieldset>
+
+        <legend>{{ "leave_review"|trans }}</legend>
+
+        {% if not form.vars.valid %}
+            <div class="alert alert-error">
+                {{ form_errors(form) }}
+            </div>
+        {% endif %}
+        {{ form_row(form.title) }}
+        {{ form_row(form.content, {'attr': 
+                            {'class': 'ckeditor' } }) }}
+        {{ form_row(form.submit, {'attr': 
+                            {'class': 'btn btn-lg btn-primary btn-block' } }) }}
+    </fieldset>
+</form>
+
+{% endblock %}
+
+
+
+
+
+

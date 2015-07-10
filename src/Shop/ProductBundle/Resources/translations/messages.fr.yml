@@ -15,7 +15,8 @@ shop:
     
     product:
         related_products: Produits liés
-
+        reviews:
+            added: Avis enregistré. Il sera bientôt vérifié. 
 
 product.price_: "prix : "
 product.fees_: "frais : "

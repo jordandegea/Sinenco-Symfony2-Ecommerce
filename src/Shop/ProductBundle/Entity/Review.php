@@ -49,6 +49,13 @@ class Review
     /**
      * @var text
      *
+     * @ORM\Column(type="string", length=100)
+     */
+    private $title;
+    
+    /**
+     * @var text
+     *
      * @ORM\Column(type="text")
      */
     private $content;
@@ -172,5 +179,29 @@ class Review
     public function getProduct()
     {
         return $this->product;
+    }
+
+    /**
+     * Set title
+     *
+     * @param string $title
+     *
+     * @return Review
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    /**
+     * Get title
+     *
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
     }
 }

@@ -8,6 +8,16 @@ shop_product:
     path:     /product/{product_idOrSlug}
     defaults: { _controller: ShopProductBundle:Product:product }
     
+shop_product_add_review:
+    path:     /product/reviews/add/{product_idOrSlug}
+    defaults: { _controller: ShopProductBundle:Product:addReview }
+    
+shop_product_reviews:
+    path:     /product/reviews/{product_idOrSlug}
+    defaults: { _controller: ShopProductBundle:Product:reviews }
+    
+    
+    
 shop_product.purchases:
     path:     /purchases
     defaults: { _controller: ShopProductBundle:Product:purchases }
