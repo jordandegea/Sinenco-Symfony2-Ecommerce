@@ -37,6 +37,11 @@ class Product {
     private $canonicalName;
 
     /**
+     * @ORM\ManyToMany(targetEntity="Shop\ProductBundle\Entity\Product", cascade={"persist"})
+     */
+    private $related;
+
+    /**
      * @ORM\ManyToOne(targetEntity="Shop\ProductBundle\Entity\Category")
      * @ORM\JoinColumn(nullable=true)
      */
@@ -48,18 +53,16 @@ class Product {
      */
     private $image;
 
-    
     /**
      * @ORM\ManyToOne(targetEntity="Application\Sonata\MediaBundle\Entity\Media", cascade={"persist"}, fetch="LAZY" )
      * @ORM\JoinColumn(nullable=true)
      */
     private $file;
-    
+
     /**
      * @ORM\OneToOne(targetEntity="Shop\ProductBundle\Entity\Prices", cascade={"persist"})
      */
     private $price;
-
 
     /**
      * @ORM\ManyToMany(targetEntity="Shop\ProductBundle\Entity\ProductOption", 
@@ -89,6 +92,7 @@ class Product {
      * Constructor
      */
     public function __construct() {
+        
     }
 
     public function __toString() {
@@ -255,7 +259,6 @@ class Product {
         return $this->options;
     }
 
-
     /**
      * Set price
      *
@@ -263,8 +266,7 @@ class Product {
      *
      * @return Product
      */
-    public function setPrice(\Shop\ProductBundle\Entity\Prices $price = null)
-    {
+    public function setPrice(\Shop\ProductBundle\Entity\Prices $price = null) {
         $this->price = $price;
 
         return $this;
@@ -275,8 +277,7 @@ class Product {
      *
      * @return \Shop\ProductBundle\Entity\Prices
      */
-    public function getPrice()
-    {
+    public function getPrice() {
         return $this->price;
     }
 
@@ -287,8 +288,7 @@ class Product {
      *
      * @return Product
      */
-    public function setFile(\Application\Sonata\MediaBundle\Entity\Media $file = null)
-    {
+    public function setFile(\Application\Sonata\MediaBundle\Entity\Media $file = null) {
         $this->file = $file;
 
         return $this;
@@ -299,8 +299,39 @@ class Product {
      *
      * @return \Application\Sonata\MediaBundle\Entity\Media
      */
-    public function getFile()
-    {
+    public function getFile() {
         return $this->file;
     }
+
+    /**
+     * Add related
+     *
+     * @param \Shop\ProductBundle\Entity\Product $related
+     *
+     * @return Product
+     */
+    public function addRelated(\Shop\ProductBundle\Entity\Product $related) {
+        $this->related[] = $related;
+
+        return $this;
+    }
+
+    /**
+     * Remove related
+     *
+     * @param \Shop\ProductBundle\Entity\Product $related
+     */
+    public function removeRelated(\Shop\ProductBundle\Entity\Product $related) {
+        $this->related->removeElement($related);
+    }
+
+    /**
+     * Get related
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getRelated() {
+        return $this->related;
+    }
+
 }

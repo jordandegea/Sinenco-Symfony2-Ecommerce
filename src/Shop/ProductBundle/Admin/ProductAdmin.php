@@ -34,24 +34,26 @@ class ProductAdmin extends Admin {
                 )
                 ->end()
                 ->end()
-                
                 ->with('Defaults', array('tab' => false, 'class' => 'col-md-6'))
-                
                 ->add('canonicalName')
                 ->add(
                         'category', 'entity', array(
                     'class' => 'Shop\ProductBundle\Entity\Category'
                         )
                 )
-                
                 ->add('image', 'sonata_type_model_list', array(), array(
                     'link_parameters' => array('context' => 'products_image')
                 ))
                 ->add('file', 'sonata_type_model_list', array(), array(
                     'link_parameters' => array('context' => 'products_file')
                 ))
+                ->add('related', 'sonata_type_model', array(
+                    'multiple' => true,
+                    'by_reference' => false,
+                    'required' => false
+                        )
+                )
                 ->end()
-                
                 ->with('Options', array('tab' => false, 'class' => 'col-md-6'))
                 ->add('options', 'sonata_type_model', array(
                     'multiple' => true,
@@ -61,7 +63,6 @@ class ProductAdmin extends Admin {
                 )
                 ->end()
                 ->end()
-                
                 ->with('Prices', array('tab' => false, 'class' => 'col-md-6'))
                 ->add('price', 'sonata_type_admin', array(), array('edit' => 'inline'))
                 ->setHelps(array(
@@ -69,7 +70,7 @@ class ProductAdmin extends Admin {
                 ))
                 ->end()
                 ->end()
-                
+
 
         ;
     }
