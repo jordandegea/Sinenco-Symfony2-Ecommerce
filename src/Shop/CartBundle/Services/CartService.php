@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Shop\CartBundle\Services;
 
 use Symfony\Component\HttpFoundation\Response;
@@ -17,7 +16,7 @@ use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 class CartService {
 
     const MAX_TIME = 12960000; // 15 jours
-    
+
     protected $container;
     protected $response;
     protected $em;
@@ -30,8 +29,8 @@ class CartService {
      * @return string
      */
     public function onKernelRequest(GetResponseEvent $event) {
-        if (  $this->em->isOpen() == false ){
-            return ; 
+        if ($this->em->isOpen() == false) {
+            return;
         }
         $response = $event->getResponse();
         $request = $event->getRequest();
@@ -44,21 +43,21 @@ class CartService {
         return $this->cartId;
     }
 
-    public function getCart(){
+    public function getCart() {
         return $this->cart;
     }
-    
+
     public function transformInvoice() {
 
         $cart = $this->getCart();
-        $cart->setComplete(true) ;
-        
+        $cart->setComplete(true);
+
         $this->em->persist($cart);
-        $this->em->flush() ;
-        
-        $this->findOrCreateCart() ;
+        $this->em->flush();
+
+        $this->findOrCreateCart();
     }
-    
+
     public function getTotalPriceHT($currency = null) {
 
         $currency = $this->getCurrencyIfNotDefined($currency);
@@ -68,60 +67,71 @@ class CartService {
         $cartItems = $this->cart->getProducts();
 
         foreach ($cartItems as $cartItem) {
-            $price = $cartItem->getProduct()->getPrice() ;
-            
+            $price = $cartItem->getProduct()->getPrice();
+
             $totalPrice += $this->getTotalOfPrice($price, $cartItem);
-            
+
             $totalPrice += $this->getTotalOptionsPriceHT(
-                    $cartItem, 
-                    $cartItem->getProduct()->getOptions(),
-                    $cartItem->getOptionsValues()
-                    );
+                    $cartItem, $cartItem->getProduct()->getOptions(), $cartItem->getOptionsValues()
+            );
         }
 
         return $totalPrice;
     }
 
-    private function getTotalOptionsPriceHT($cartItem, $options, $optionsValues){
-        $totalPrice = 0 ; 
+    private function getTotalOptionsPriceHT($cartItem, $options, $optionsValues) {
+        $totalPrice = 0;
         /* On parcours les options */
-        foreach($options as $option){
+        foreach ($options as $option) {
             /* Si l'option existe dans les valeurs d'options */
-            if (array_key_exists($option->getCanonicalName(), $optionsValues)){
+            if (array_key_exists($option->getCanonicalName(), $optionsValues)) {
                 /* On parcourt les valeurs pour trouver la bonne */
-                foreach( $option->getValues() as $value ){
-                    if ( $value->getCanonicalName() == $optionsValues[$option->getCanonicalName()]){
+                foreach ($option->getValues() as $value) {
+                    if ($value->getCanonicalName() == $optionsValues[$option->getCanonicalName()]) {
                         /* On a trouvé l'option */
                         $totalPrice += $this->calculateTotalPriceOption($value->getPrice(), $cartItem->getPrices());
-                        break ;
+                        break;
                     }
                 }
             }
         }
-        
-        return $totalPrice ; 
+
+        return $totalPrice;
     }
-    
+
     public function calculateTotalPriceOption($priceOption, $priceQuantity) {
-        if ( $priceOption == null ) {
-            return ; 
+        if ($priceOption == null) {
+            return;
         }
         $total = 0;
-        $total += $priceOption->getOneTime() * $priceQuantity->getOneTime();
-        $total += $priceOption->getMonthly() * $priceQuantity->getMonthly();
-        $total += $priceOption->getQuarterly() * $priceQuantity->getQuarterly();
-        $total += $priceOption->getSemiannually() * $priceQuantity->getSemiannually();
-        $total += $priceOption->getAnnually() * $priceQuantity->getAnnually();
+
+        if ($priceOption->getMonthly() == 0) {
+            if (
+                    $priceQuantity->getOneTime() == 0 AND
+                    $priceQuantity->getMonthly() OR
+                    $priceQuantity->getQuarterly() OR
+                    $priceQuantity->getSemiannually() OR
+                    $priceQuantity->getAnnually()
+            ) {
+                $total += $priceOption->getOneTime();
+            } else {
+                $total += $priceOption->getOneTime() * $priceQuantity->getOneTime();
+            }
+        } else {
+            $total += $priceOption->getMonthly() * $priceQuantity->getMonthly();
+            $total += $priceOption->getQuarterly() * $priceQuantity->getQuarterly();
+            $total += $priceOption->getSemiannually() * $priceQuantity->getSemiannually();
+            $total += $priceOption->getAnnually() * $priceQuantity->getAnnually();
+        }
         return $total;
     }
-    
+
     public function getTotalOfPrice($price, $cartItem) {
         $totalPrice = 0;
         foreach (CartItemPricesEntity::$listFunctionGetPrices as $priceMethod) {
             $totalPrice += $this->container->get('shop_core.currency')->convertPrice(
-                    $price->$priceMethod['function']() * $cartItem->getPrices()->$priceMethod['function'](),
-                    $price->getCurrency()->getCode()
-                    );
+                    $price->$priceMethod['function']() * $cartItem->getPrices()->$priceMethod['function'](), $price->getCurrency()->getCode()
+            );
         }
         return $totalPrice;
     }
@@ -163,29 +173,29 @@ class CartService {
         return count($this->cart->getProducts());
     }
 
-    public function removeItem($id){
-        
+    public function removeItem($id) {
+
         $cartItem = $this
                 ->em
                 ->getRepository('ShopCartBundle:CartItem')
                 ->find($id);
-        if ( $cartItem != null ){
+        if ($cartItem != null) {
             $this->cart->removeProduct($cartItem);
             $this->em->flush();
         }
     }
-    
-    public function addProductToCart($product_id, $configuration = null ) {
+
+    public function addProductToCart($product_id, $configuration = null) {
 
         $product = $this
                 ->em
                 ->getRepository('ShopProductBundle:Product')
                 ->find($product_id);
 
-        if ( $product == null ) {
-            return null ; 
+        if ($product == null) {
+            return null;
         }
-        
+
         $cartItem = new CartItemEntity();
         $cartItem->setProduct($product); // On lie le produit à l'item
         // Create and define Prices of the CartItem
@@ -210,16 +220,16 @@ class CartService {
         $this->em->persist($cartItem); // n persist l'item
 
         $this->em->flush();
-        
+
         $this->addOptionsOnCartItemIfNotExist($cartItem);
-        
+
         if ($configuration != null) {
             $this->addConfigurationToCartItem($cartItem, $configuration);
         }
-        
+
         return $cartItem;
     }
-    
+
     public function addOptionsOnCartItemsIfNotExist($cartItems) {
         foreach ($cartItems as $cartItem) {
             $this->addOptionsOnCartItemIfNotExist($cartItem);
@@ -228,10 +238,10 @@ class CartService {
         $this->em->flush();
     }
 
-    public function flush(){
+    public function flush() {
         $this->em->flush();
     }
-    
+
     public function addOptionsOnCartItemIfNotExist($cartItem) {
 
         $productOptions = $cartItem->getProduct()->getOptions();
@@ -248,22 +258,22 @@ class CartService {
         }
     }
 
-    public function addConfigurationToCartItem($cartItem, $configuration){
+    public function addConfigurationToCartItem($cartItem, $configuration) {
         
     }
-    
+
     private function checkIfCartId($request, $response) {
         $this->cartId = $request->cookies->get('cartId');
-        
+
         if ($this->cartId == null) {
             // Nous n'avons pas de panier dans les cookies
             $this->findOrCreateCart();
-        }else{
+        } else {
             $this->cart = $this
-                ->em
-                ->getRepository('ShopCartBundle:Cart')
-                ->find($this->cartId);
-            
+                    ->em
+                    ->getRepository('ShopCartBundle:Cart')
+                    ->find($this->cartId);
+
             if ($this->cart == null) {
                 $this->findOrCreateCart();
             } else {
@@ -279,40 +289,38 @@ class CartService {
             $this->cartStep = 1;
         }
     }
-    
-    private function findOrCreateCart(){
+
+    private function findOrCreateCart() {
         $token = $this->container->get('security.context')->getToken();
-        
+
         if ($token != null && gettype($token->getUser()) !== "string") {
-                // Nous somme loggé, on va chercher un panier existant dans la BDD
+            // Nous somme loggé, on va chercher un panier existant dans la BDD
 
-                $this->cart = $this
-                        ->em
-                        ->getRepository('ShopCartBundle:Cart')
-                        ->findOneBy(
-                            array(
-                                'user'=> $token->getUser(),
-                                'complete' => false
-                                ), 
-                            array('id' => 'ASC')
-                );
+            $this->cart = $this
+                    ->em
+                    ->getRepository('ShopCartBundle:Cart')
+                    ->findOneBy(
+                    array(
+                'user' => $token->getUser(),
+                'complete' => false
+                    ), array('id' => 'ASC')
+            );
 
-                if ($this->cart != null) {
-                    $this->cartId = $this->cart->getId();
-                } else {
-                    $this->createNewCart($token->getUser());
-                }
+            if ($this->cart != null) {
+                $this->cartId = $this->cart->getId();
             } else {
-                // on est pas loggé
-                $this->createNewCart(null);
+                $this->createNewCart($token->getUser());
             }
+        } else {
+            // on est pas loggé
+            $this->createNewCart(null);
+        }
 
 
-            $this->cartStep = 1;
+        $this->cartStep = 1;
 
-            $this->setCookie('cartId', $this->cartId, $this->response);
-            $this->setCookie('cartStep', $this->cartStep, $this->response);
-            
+        $this->setCookie('cartId', $this->cartId, $this->response);
+        $this->setCookie('cartStep', $this->cartStep, $this->response);
     }
 
     private function setCookie($name, $value, $response) {
@@ -339,19 +347,18 @@ class CartService {
         $this->cartId = $this->cart->getId();
     }
 
-    public function updateUserCart($user = null ){
-        
-        if ( $this->cart->getUser() == null ){
+    public function updateUserCart($user = null) {
+
+        if ($this->cart->getUser() == null) {
             $this->cart->setUser($user);
 
             $this->em->persist($this->cart);
             $this->em->flush();
         }
-
     }
-    
+
     public function __construct(EntityManager $entityManager, Container $container) {
-        
+
         $this->em = $entityManager;
         $this->container = $container;
     }

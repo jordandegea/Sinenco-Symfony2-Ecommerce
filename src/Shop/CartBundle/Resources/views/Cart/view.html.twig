@@ -53,7 +53,7 @@
                             </a> 
                             <strong>{{ cartItem.children.product.vars.value.translate.name }}</strong>
                         </div>
-                        
+
                         <div class="form-group col-xs-12 col-sm-8 col-md-4 col-lg-4">
                             <div class="input-group col-xs-12">
                                 <span class="input-group-addon">
@@ -148,11 +148,7 @@
                                                             {% endif %}>
                                                         {{ option.translate.value }}
                                                         {% if not option.price is empty %}
-                                                            {% if option.price.monthly > 0 %}
-                                                                {{ "cart.option_price.monthly"|trans(displayPriceOption(cartItem.vars.value, option))|raw }}
-                                                            {% else %}
-                                                                {{ "cart.option_price.one_time"|trans(displayPriceOption(cartItem.vars.value, option))|raw }}
-                                                            {% endif %}
+                                                            {{ displayPriceOption(cartItem.vars.value, option)|raw }}
                                                         {% endif %}
                                                     </option>
                                                 {% endfor %}

@@ -92,11 +92,7 @@
                                                     {{ optionValue.translate.value}}
                                                 </strong>
                                                 {% if not optionValue.price is empty %}
-                                                    {% if optionValue.price.monthly > 0 %}
-                                                        {{ "cart.option_price.monthly"|trans(displayPriceOption(cartItem, optionValue))|raw }}
-                                                    {% else %}
-                                                        {{ "cart.option_price.one_time"|trans(displayPriceOption(cartItem, optionValue))|raw }}
-                                                    {% endif %}
+                                                    {{ displayPriceOption(cartItem, optionValue)|raw }}
                                                 {% endif %}
                                             {%else %}
                                                 <strong>

@@ -31,37 +31,46 @@ class CartExtension extends \Twig_Extension {
         );
     }
 
-    public function displayOptionValue($option, $optionValue){
-        foreach( $option->getValues() as $value){
-            if ( $value->getCanonicalName() == $optionValue){
-                return $value ; 
+    public function displayOptionValue($option, $optionValue) {
+        foreach ($option->getValues() as $value) {
+            if ($value->getCanonicalName() == $optionValue) {
+                return $value;
             }
         }
     }
-    
+
     public function displayPriceOption($item, $option) {
-        ;
+
+        $translator = $this->container->get('translator') ;
+        
         if ($option->getPrice()->getOneTime() > 0) {
             $base = $this->serviceProduct->getFormattedPrice(
                     $this->container->get("shop_core.currency")->getCurrencyObject(), $option->getPrice()->getOneTime());
+            
             $total = $this->service->calculateTotalPriceOption(
                     $option->getPrice(), $item->getPrices()
             );
+            
             $total = $this->serviceProduct->getFormattedPrice(
                     $this->container->get("shop_core.currency")->getCurrencyObject(), $total);
-            return ["%total%" => $total, "%base%" => $base];
+            
+            return $translator->trans("cart.option_price.one_time", ["%total%" => $total, "%base%" => $base] );
+            
         } elseif ($option->getPrice()->getMonthly() > 0) {
+
             $base = $this->serviceProduct->getFormattedPrice(
                     $this->container->get("shop_core.currency")->getCurrencyObject(), $option->getPrice()->getMonthly());
+
             $total = $this->service->calculateTotalPriceOption(
                     $option->getPrice(), $item->getPrices()
             );
+            
             $total = $this->serviceProduct->getFormattedPrice(
                     $this->container->get("shop_core.currency")->getCurrencyObject(), $total);
-            return ["%total%" => $total, "%base%" => $base];
+            
+            return $translator->trans("cart.option_price.monthly", ["%total%" => $total, "%base%" => $base] );
         }
     }
-
 
     public function findRowOnArrayWithCanonicalName($array, $canonicalName) {
         foreach ($array as $row) {
