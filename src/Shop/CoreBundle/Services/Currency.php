@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Response,
 class Currency {
 
     const CURRENCY_CHANGE_COMMISSION = 0.99;
-    const DEFAULT_CURRENCY = "USD";
+    const DEFAULT_CURRENCY = "EUR";
 
     private $currency;
     private $user;
