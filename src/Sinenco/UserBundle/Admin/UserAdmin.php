@@ -26,7 +26,7 @@ class UserAdmin extends Admin {
                 ->end()
                 ->with('Base User', array('tab' => false, 'class' => 'col-md-6'))
                     ->add('username')
-                    ->add('unernameCanonical')
+                    ->add('usernameCanonical')
                     ->add('email')
                     ->add('emailCanonical')
                     ->add('enabled')
