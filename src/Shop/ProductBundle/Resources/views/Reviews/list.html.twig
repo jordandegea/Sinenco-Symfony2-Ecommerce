@@ -1,0 +1,83 @@
+{# src/Shop/ProductBundle/Resources/views/Products/list.html.twig #}
+
+{% extends "ShopProductBundle::layout.html.twig" %}
+
+{% block title %}
+    {{ product.translate.name }} - {{ product.category.translate.name }} - {{ parent() }}
+{% endblock %}
+
+{% block shop_product %}
+
+    {% if category == null %}
+        {{ render(controller('ShopProductBundle:Product:categories',{'category': null, 'followingCategories':false }) )  }}
+
+    {% else %}
+        {{ render(controller('ShopProductBundle:Product:categories',{'category': category.id, 'followingCategories':false } ) )  }}
+
+        <div class="row">
+            <div class="col-xs-12 well">
+                <div class="pull-right">
+                    <a href="{{path("shop_product_add_review", {'product_idOrSlug':product.canonicalName }) }}" class="btn btn-success">{{ "leave_review"|trans }}</a>
+                    <a href="{{path("shop_product", {'product_idOrSlug':product.canonicalName }) }}" class="btn btn-primary">{{ "shop.product.reviews.return"|trans }}</a>
+                
+                </div>
+                <h4>{{ product.translate.name }} - {{ "shop.product.reviews.title"|trans() }}</h4>
+
+                <hr>
+
+                {% for review in reviews %}
+                    {% if review.checked %}
+                        <div class="col-xs-12">
+                            
+                            <h5 class="pull-right">
+                            {% if review.user is empty  %}
+                                <i>Private</i>
+                            {% else %}
+                                {{review.user.firstName}} {{review.user.lastName}}
+                            {% endif %}
+                            <br />
+                            {{ review.createdAt|date("Y-m-d") }}
+                            </h5>
+                            <h5>
+                            {% for i in 2..10 %}
+                                {% if i is divisible by(2) %}
+                                    {% if review.grade >= i %}
+                                        <span class="glyphicon glyphicon-star"></span>
+                                    {% else %}
+                                        <span class="glyphicon glyphicon-star-empty"></span>
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
+                            {{ review.title }}
+                            </h5>
+                            <p>{{ review.content|raw }}</p>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+
+                {# <div class="row">
+                     <div class="col-md-12">
+                         <span class="glyphicon glyphicon-star"></span>
+                         <span class="glyphicon glyphicon-star"></span>
+                         <span class="glyphicon glyphicon-star"></span>
+                         <span class="glyphicon glyphicon-star"></span>
+                         <span class="glyphicon glyphicon-star-empty"></span>
+                         Anonymous
+                         <span class="pull-right">10 days ago</span>
+                         <p>This product was great in terms of quality. I would definitely buy another!</p>
+                     </div>
+                 </div>#}
+
+                <hr>
+
+            </div>
+        </div>
+
+    {% endif %}
+{% endblock %}
+
+
+
+
+
+

@@ -8,15 +8,19 @@ shop:
         purchase_date: Date d'achat
         file: Fichier
         state: Etat
-        options: Options / Commentaire
+        optionsAndComment: Options / Commentaire
         pending: Pending
         complete: Complete
-    
     
     product:
         related_products: Produits liés
         reviews:
+            title: Avis
             added: Avis enregistré. Il sera bientôt vérifié. 
+            cancel: Cancel
+            see_all: Voir tous les avis
+            return: Retour au produit
+            
 
 product.price_: "prix : "
 product.fees_: "frais : "

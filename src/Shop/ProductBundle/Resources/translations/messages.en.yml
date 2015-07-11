@@ -15,7 +15,12 @@ shop:
     product:
         related_products: Related Products
         reviews:
+            title: Reviews
             added: Reviews stored. It will be checked soon. 
+            cancel: Cancel
+            see_all: See all reviews
+            return: Return to product
+            
             
 product.price_: "price: "
 product.fees_: "fees: "

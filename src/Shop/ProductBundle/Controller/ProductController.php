@@ -66,10 +66,38 @@ class ProductController extends BaseController {
                     'form' => $form->createView(),
         ));
     }
+    
+     public function reviewsAction(Request $request, $product_idOrSlug) {
+
+        $repository = $this->getDoctrine()->getManager()->getRepository('ShopProductBundle:Product');
+        $ReviewsRepository = $this->getDoctrine()->getManager()->getRepository('ShopProductBundle:Review');
+
+        if (is_numeric($product_idOrSlug)) {
+            $product = $repository->find($product_idOrSlug);
+        } else {
+            $product = $repository->findOneByCanonicalName($product_idOrSlug);
+        }
+
+
+        if ($product == null) {
+            throw $this->createNotFoundException($this->get('translator')->trans("product_dont_exist"));
+        }
+
+        $category = $product->getCategory();
+        
+        $reviews = $ReviewsRepository->findBy(array('product' => $product), array('grade'=>'DESC'));
+                
+        return $this->render('ShopProductBundle:Reviews:list.html.twig', array(
+                    'product' => $product,
+                    'category' => $category,
+                    'reviews' => $reviews
+        ));
+    }
 
     public function productAction($product_idOrSlug) {
 
         $repository = $this->getDoctrine()->getManager()->getRepository('ShopProductBundle:Product');
+        $ReviewsRepository = $this->getDoctrine()->getManager()->getRepository('ShopProductBundle:Review');
 
         if (is_numeric($product_idOrSlug)) {
             $product = $repository->find($product_idOrSlug);
@@ -82,12 +110,13 @@ class ProductController extends BaseController {
             throw $this->createNotFoundException($this->get('translator')->trans("product_dont_exist"));
         }
         $category = $product->getCategory();
-        //$image = $product->getImage() ;
-        //$imageProvider = $this->get('sonata.media.provider.image');
 
+        $reviews = $ReviewsRepository->findBy(array('product' => $product), array('grade'=>'DESC'), 3);
+                
         return $this->render('ShopProductBundle:Products:product.html.twig', array(
                     'product' => $product,
                     'category' => $category,
+                    'reviews' => $reviews
         ));
     }
 

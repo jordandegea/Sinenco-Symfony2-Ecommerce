@@ -26,7 +26,7 @@
                 {{ form_errors(form) }}
             </div>
         {% endif %}
-        
+
         {{ form_row(form._token) }}
         {{ form_row(form.title) }}
         {{ form_row(form.grade) }}
@@ -34,6 +34,8 @@
                             {'class': 'ckeditor' } }) }}
         {{ form_row(form.submit, {'attr': 
                             {'class': 'btn btn-lg btn-primary btn-block' } }) }}
+        <br />
+        <a href="{{path("shop_product", {'product_idOrSlug':product.id})}}" class="btn btn-lg btn-warning btn-block">{{ "shop.product.reviews.cancel"|trans() }}</a>
     </fieldset>
 </form>
 

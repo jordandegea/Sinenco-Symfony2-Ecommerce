@@ -7,7 +7,7 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 
-class ProductAdmin extends Admin {
+class ReviewAdmin extends Admin {
 
     // Fields to be shown on create/edit forms
     protected function configureFormFields(FormMapper $formMapper) {
@@ -31,8 +31,7 @@ class ProductAdmin extends Admin {
                     ),
                     'multiple' => false,
                 ))
-                ->add('content', null, array(
-                    'field_type' => 'textarea',
+                ->add('content', 'textarea', array(
                     'attr' => array(
                         'class' => 'ckeditor'
                     )
@@ -43,7 +42,12 @@ class ProductAdmin extends Admin {
                 ->add('checked')
                 ->add('product')
                 ->add('user')
-                ->add('createdAt')
+                ->add('createdAt', 'sonata_type_datetime_picker', array(
+                    'dp_side_by_side' => true,
+                    'dp_use_current' => false,
+                    'dp_use_seconds' => false,
+                    'format' => 'dd.MM.yyyy, HH:mm:ss'
+                ))
                 ->end()
                 ->end()
 
@@ -54,8 +58,9 @@ class ProductAdmin extends Admin {
     // Fields to be shown on filter forms
     protected function configureDatagridFilters(DatagridMapper $datagridMapper) {
         $datagridMapper
-                ->add('canonicalName')
-                ->add('price')
+                ->add('user')
+                ->add('product')
+                ->add('checked')
 
         ;
     }
@@ -63,7 +68,10 @@ class ProductAdmin extends Admin {
     // Fields to be shown on lists
     protected function configureListFields(ListMapper $listMapper) {
         $listMapper
-                ->addIdentifier('canonicalName')
+                ->addIdentifier('title')
+                ->add('user')
+                ->add('product')
+                ->add('checked')
                 ->add('_action', 'actions', [
                     'actions' => [
                         'show' => [],
