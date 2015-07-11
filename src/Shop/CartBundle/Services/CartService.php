@@ -123,6 +123,11 @@ class CartService {
             $total += $priceOption->getSemiannually() * $priceQuantity->getSemiannually();
             $total += $priceOption->getAnnually() * $priceQuantity->getAnnually();
         }
+
+        $total = $this->container->get('shop_core.currency')->convertPrice(
+                $total, $priceOption->getCurrency()->getCode()
+        );
+        
         return $total;
     }
 

@@ -41,34 +41,44 @@ class CartExtension extends \Twig_Extension {
 
     public function displayPriceOption($item, $option) {
 
-        $translator = $this->container->get('translator') ;
-        
+        $translator = $this->container->get('translator');
+
         if ($option->getPrice()->getOneTime() > 0) {
-            $base = $this->serviceProduct->getFormattedPrice(
-                    $this->container->get("shop_core.currency")->getCurrencyObject(), $option->getPrice()->getOneTime());
             
+            $base = $this->container->get('shop_core.currency')->convertPrice(
+                    $option->getPrice()->getOneTime(), 
+                    $option->getPrice()->getCurrency()->getCode()
+            );
+            
+            $base = $this->serviceProduct->getFormattedPrice(
+                    $this->container->get("shop_core.currency")->getCurrencyObject(), $base);
+
             $total = $this->service->calculateTotalPriceOption(
                     $option->getPrice(), $item->getPrices()
             );
-            
+
             $total = $this->serviceProduct->getFormattedPrice(
                     $this->container->get("shop_core.currency")->getCurrencyObject(), $total);
-            
-            return $translator->trans("cart.option_price.one_time", ["%total%" => $total, "%base%" => $base] );
-            
+
+            return $translator->trans("cart.option_price.one_time", ["%total%" => $total, "%base%" => $base]);
         } elseif ($option->getPrice()->getMonthly() > 0) {
 
+            $base = $this->container->get('shop_core.currency')->convertPrice(
+                    $option->getPrice()->getMonthly(), $option->getPrice()->getCurrency()->getCode()
+            );
+            
             $base = $this->serviceProduct->getFormattedPrice(
-                    $this->container->get("shop_core.currency")->getCurrencyObject(), $option->getPrice()->getMonthly());
+                    $this->container->get("shop_core.currency")->getCurrencyObject(), $base );
+
 
             $total = $this->service->calculateTotalPriceOption(
                     $option->getPrice(), $item->getPrices()
             );
-            
+
             $total = $this->serviceProduct->getFormattedPrice(
                     $this->container->get("shop_core.currency")->getCurrencyObject(), $total);
-            
-            return $translator->trans("cart.option_price.monthly", ["%total%" => $total, "%base%" => $base] );
+
+            return $translator->trans("cart.option_price.monthly", ["%total%" => $total, "%base%" => $base]);
         }
     }
 
