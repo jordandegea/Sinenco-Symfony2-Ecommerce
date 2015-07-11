@@ -10,14 +10,14 @@ use Doctrine\ORM\EntityManager,
 class MailerService {
 
     public function sendMail(Container $controller, $subject, $address, $plain, $params = null, $renderPlain = false, $html = null, $renderHTML = false) {
-        $smimeSigner = \Swift_Signers_SMimeSigner::newInstance();
-        $smimeSigner->setSignCertificate('/etc/apache2/ssl/sinenco_com.crt', array('/etc/apache2/ssl/myserver_rsa.key', 'Valkyrie85#'));
+        //$smimeSigner = \Swift_Signers_SMimeSigner::newInstance();
+        //$smimeSigner->setSignCertificate('/etc/apache2/ssl/sinenco_com.crt', array('/etc/apache2/ssl/myserver_rsa.key', 'Valkyrie85#'));
 
         $message = \Swift_Message::newInstance()
                 ->setSubject($subject)
                 ->setFrom('webmaster@sinenco.com')
                 ->setTo($address)
-                ->attachSigner($smimeSigner)
+                //->attachSigner($smimeSigner)
         ;
 
         if ($renderPlain) {
