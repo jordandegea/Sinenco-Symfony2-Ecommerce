@@ -24,7 +24,7 @@ class PurchasesAdminController extends Controller {
             $this
                     ->get('mail_service')
                     ->sendMail(
-                            $this, 
+                            $this->container, 
                             $translator->trans('purchase.email.edited.subject'), 
                             $user->getEmail(), 
                             "ShopProductBundle:Mails:purchase_edited.text.twig", 
