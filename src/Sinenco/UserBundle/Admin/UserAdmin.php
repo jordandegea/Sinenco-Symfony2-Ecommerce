@@ -13,12 +13,35 @@ class UserAdmin extends Admin {
     protected function configureFormFields(FormMapper $formMapper) {
 
         $formMapper
-                ->with('Defaults', array('tab' => true))
+                ->with('Defaults',array('tab' => false, 'class' => 'col-md-6'))
                     ->add('id')
+                    ->add('company')
                     ->add('firstName')
                     ->add('lastName')
                     ->add('balance')
+                    ->add('currency')
                     ->add('phone')
+                    ->add('sponsor')
+                    ->end()
+                ->end()
+                ->with('Base User', array('tab' => false, 'class' => 'col-md-6'))
+                    ->add('username')
+                    ->add('unernameCanonical')
+                    ->add('email')
+                    ->add('emailCanonical')
+                    ->add('enabled')
+                    ->add('lastLogin', 'sonata_type_datetime_picker', array(
+                        'dp_side_by_side' => true,
+                        'dp_use_current' => false,
+                        'dp_use_seconds' => false,
+                        'format' => 'dd.MM.yyyy, HH:mm:ss'
+                    ))
+                    ->add('passwordRequestedAt', 'sonata_type_datetime_picker', array(
+                        'dp_side_by_side' => true,
+                        'dp_use_current' => false,
+                        'dp_use_seconds' => false,
+                        'format' => 'dd.MM.yyyy, HH:mm:ss'
+                    ))
                     ->end()
                 ->end()
                 ->with('Rentings', array('tab' => true))
