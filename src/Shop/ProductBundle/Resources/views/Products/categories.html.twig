@@ -3,32 +3,35 @@
 <br />
 <div class="row">
     <div class="col-lg-12" >
-        
+
         <ul class="breadcrumb">
-            <li><a href="{{ path('shop_product_list') }}">Root</a></li>
-            {% for parent in parents|reverse %}
-                {% if loop.last %}
+            <li><a href="{{ path('shop_product_list') }}"><span class="glyphicon glyphicon-home"></span></a></li>
+                    {% for parent in parents|reverse %}
+                        {% if loop.last %}
                     <li><a href="{{ path('shop_product_list', {'category':parent.canonicalName} ) }}" style="font-weight: bold;">{{parent.translate.name}}</a></li>
-                {% else %}
+                    {% else %}
                     <li><a href="{{ path('shop_product_list', {'category':parent.canonicalName} ) }}">{{parent.translate.name}}</a> </li>
-                {% endif %}
-            {% endfor %}
+                    {% endif %}
+                {% endfor %}
         </ul>
     </div>
 </div>
 <br />
-<div class="row">
-    <div class="col-lg-12" >
-        {% if followingCategories %}
+{% if followingCategories %}
+    <div class="row">
+        <div class="col-xs-12" >
             {% for category in categories %}
-                
+
                 <a href="{{ path('shop_product_list', {'category':category.canonicalName} ) }}" 
                    class="col-xs-12 col-sm-6 col-md-6 col-lg-4 btn btn-default btn-lg">
                     {{category.translate.name}}
                 </a>
-                
+
             {% endfor %}
-        {% endif %}
+        </div>
     </div>
-</div>
+
+    <br />
+    <br />
+{% endif %}
 
