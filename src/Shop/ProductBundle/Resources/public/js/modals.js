@@ -2,8 +2,8 @@
 function resizeProdCol(){
     var heightToDefine = 0 ;
     for ( i = 1 ; i < 5 ; i++){
-        if ( $("#prodCol"+i).height() > heightToDefine ){
-            heightToDefine = $("#prodCol"+i).height() ;
+        if ( $("#prodColThumb"+i).height() > heightToDefine ){
+            heightToDefine = $("#prodColThumb"+i).height() ;
         }
     }
     for ( i = 1 ; i < 5 ; i++){
