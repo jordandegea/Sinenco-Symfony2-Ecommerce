@@ -29,6 +29,8 @@ sinenco.core:
         
         Phone: %phone%
         
+        Email : %email%
+        
         Skype: %skype%
     hosting: Hosting
     hosting_text: |

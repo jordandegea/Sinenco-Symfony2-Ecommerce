@@ -15,8 +15,7 @@ sinenco.core:
                 Vous devez simplement ajouter <strong>?p=%id%</strong> à chaque lien que vous transmetter. <br />
                 Voici un exemple : <br />
                 <a href="%url%">%url%</a>
-                    
-                    
+                               
     edit:
         address_generator: Le champ adresse est un générateur. Utilisez ce champ pour remplir d'autres champs. Ce champ ne sont pas stockées.
     editMyAccount: Modifier mon compte
@@ -29,6 +28,8 @@ sinenco.core:
         SIRET: %siret%
         
         Téléphone : %phone%
+        
+        Email : %email%
         
         Skype : %skype%
     hosting: Hebergeur
