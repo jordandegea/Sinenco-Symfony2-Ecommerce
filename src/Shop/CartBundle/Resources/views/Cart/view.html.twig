@@ -96,6 +96,17 @@
                                 <div class="form-group col-xs-12">
                                     <label class="control-label col-xs-7 col-sm-4">
                                         {{ optionOnProduct.translate.fieldName }}{% if optionOnProduct.required %}*{% endif %}
+
+                                        {% if optionOnProduct.type == "checkbox" %}
+                                            <br />
+                                            <small>
+                                            {% for option in optionOnProduct.values %}
+                                                {% if not option.price is empty %}
+                                                    {{ displayPriceOption(cartItem.vars.value, option)|raw }}
+                                                {% endif %}
+                                            {% endfor %}
+                                            </small>
+                                        {% endif %}
                                     </label>
                                     <div class="input-group col-xs-5 col-sm-8">
                                         {% if optionOnProduct.type == "textfield" %}
@@ -110,6 +121,7 @@
                                                        readonly
                                                    {% endif %} />
                                         {% elseif optionOnProduct.type == "checkbox" %}
+
                                             <input type="checkbox"
                                                    id="{{ cartItem.children.optionsValues.children[optionOnProduct.canonicalName].vars.id }}" 
                                                    class="form-control" type="text" 
@@ -125,6 +137,8 @@
                                                        disabled readonly
                                                    {% endif %}
                                                    />
+
+
                                         {% elseif optionOnProduct.type == "choice" %}
                                             <select class="form-control" 
                                                     name="{{ cartItem.children.optionsValues.children[

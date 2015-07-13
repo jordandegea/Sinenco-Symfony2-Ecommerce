@@ -92,6 +92,12 @@ class CartService {
                         $totalPrice += $this->calculateTotalPriceOption($value->getPrice(), $cartItem->getPrices());
                         break;
                     }
+                    if ($option->getType() == "checkbox") {
+                        if ($optionsValues[$option->getCanonicalName()] == "on") {
+                            $totalPrice += $this->calculateTotalPriceOption($value->getPrice(), $cartItem->getPrices());
+                        }
+                        break;
+                    }
                 }
             }
         }
@@ -127,7 +133,7 @@ class CartService {
         $total = $this->container->get('shop_core.currency')->convertPrice(
                 $total, $priceOption->getCurrency()->getCode()
         );
-        
+
         return $total;
     }
 
