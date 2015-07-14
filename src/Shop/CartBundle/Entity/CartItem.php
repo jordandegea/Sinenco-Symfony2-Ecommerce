@@ -89,6 +89,9 @@ class CartItem implements CartOptionsInterface{
      */
     private $hiddenValues;
     
+    public function __toString() {
+        return (string) $this->id;
+    }
     
     public function __construct() {
         $this->hiddenValues = array() ;

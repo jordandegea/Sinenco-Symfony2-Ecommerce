@@ -10,4 +10,26 @@ services:
             - ~
         calls:
             - [ setTranslationDomain, [ShopPaymentBundle]]
-    
+            
+    shop.payment.invoices_line:
+        class: Shop\PaymentBundle\Admin\InvoiceLineAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "E-Commerce", label: "Invoices Line" }
+        arguments:
+            - ~
+            - Shop\PaymentBundle\Entity\InvoiceLine
+            - ~
+        calls:
+            - [ setTranslationDomain, [ShopPaymentBundle]]
+            
+    shop.payment.invoices_line_option:
+        class: Shop\PaymentBundle\Admin\InvoiceLineOptionAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "E-Commerce", label: "Invoices Line" }
+        arguments:
+            - ~
+            - Shop\PaymentBundle\Entity\InvoiceLineOption
+            - ~
+        calls:
+            - [ setTranslationDomain, [ShopPaymentBundle]]
+            

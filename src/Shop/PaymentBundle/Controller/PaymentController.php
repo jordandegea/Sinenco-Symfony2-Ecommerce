@@ -43,8 +43,14 @@ class PaymentController extends Controller {
                 ->getRepository('ShopPaymentBundle:Invoice')
                 ->find($id);
 
-        if ($invoice == null || $invoice->getUser()->getId() != $this->getUser()->getId()) {
+        if ($invoice == null) {
             return $this->redirect($this->get('router')->generate('shop_payment_invoices'));
+        }
+        
+        if (  $invoice->getUser()->getId() != $this->getUser()->getId() &&
+                ! $this->get('security.context')->isGranted('ROLE_ADMIN') ){
+            return $this->redirect($this->get('router')->generate('shop_payment_invoices'));
+            
         }
 
 

@@ -4,6 +4,7 @@ namespace Shop\PaymentBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Sinenco\UserBundle\Entity\User;
+use Shop\PaymentBundle\Entity\InvoiceLine ; 
 
 /**
  * Invoice
@@ -68,6 +69,11 @@ class Invoice {
      */
     private $cart;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Shop\PaymentBundle\Entity\InvoiceLine", mappedBy="invoice", cascade={"persist"})
+     */
+    private $lines; 
+    
     /**
      * @ORM\ManyToOne(targetEntity="Shop\CoreBundle\Entity\Currencies")
      * @ORM\JoinColumn(nullable=false)
@@ -350,4 +356,38 @@ class Invoice {
         return $this->totalPriceEUR;
     }
 
+
+    /**
+     * Add line
+     *
+     * @param \Shop\PaymentBundle\Entity\InvoiceLine $line
+     *
+     * @return Invoice
+     */
+    public function addLine(InvoiceLine $line)
+    {
+        $this->lines[] = $line;
+        $line->setInvoice($this);
+        return $this;
+    }
+
+    /**
+     * Remove line
+     *
+     * @param \Shop\PaymentBundle\Entity\InvoiceLine $line
+     */
+    public function removeLine(InvoiceLine $line)
+    {
+        $this->lines->removeElement($line);
+    }
+
+    /**
+     * Get lines
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getLines()
+    {
+        return $this->lines;
+    }
 }

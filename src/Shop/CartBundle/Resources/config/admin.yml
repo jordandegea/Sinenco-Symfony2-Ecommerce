@@ -1,0 +1,13 @@
+services:
+    
+    sonata.admin.cart_item:
+        class: Shop\CartBundle\Admin\CartItemAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "E-Commerce", label: "Cart Item" }
+        arguments:
+            - ~
+            - Shop\CartBundle\Entity\CartItem
+            - ~
+        calls:
+            - [ setTranslationDomain, [ShopCartBundle]]
+    

@@ -9,13 +9,17 @@ use Sonata\AdminBundle\Form\FormMapper;
 
 class InvoiceAdmin extends Admin {
 
+    protected $formOptions = array(
+        'cascade_validation' => true
+    );
+
     protected function configureFormFields(FormMapper $formMapper) {
         $formMapper
                 ->with('Defaults', array('tab' => true))
                 ->with('Amount', array('tab' => false, 'class' => 'col-md-4'))
                 ->add('credit')
                 ->add('totalPrice', null, array(
-                    'readonly' => true 
+                    'readonly' => true
                 ))
                 ->add('totalPriceEUR', null, array(
                     'readonly' => true
@@ -53,6 +57,18 @@ class InvoiceAdmin extends Admin {
                 ->add('transactions')
                 ->end()
                 ->end()
+                ->with('Products', array('tab' => true))
+                ->add('lines', 'sonata_type_collection', array(
+                    'by_reference' => false,
+                    'required' => false
+                        ), array(
+                    'edit' => 'inline',
+                    'inline' => 'table',
+                    'sortable' => 'id',
+            'expanded' => true
+                ))
+                ->end()
+                ->end()
         ;
     }
 
@@ -63,6 +79,11 @@ class InvoiceAdmin extends Admin {
                 ->add('date')
                 ->add('user')
         ;
+    }
+    
+    public function getName()
+    {
+        return 'shop_payment_admin_invoice';
     }
 
     // Fields to be shown on lists

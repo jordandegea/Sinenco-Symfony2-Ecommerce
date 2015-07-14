@@ -175,6 +175,27 @@
                         </tr>
 
                     {% endfor %}
+                    {% for item in invoice.lines %}
+
+                        <tr>
+                            <td>
+                                <h5>{{ item.name }}<br />
+                                    {% for value in item.options %}
+                                        <small>{{ value.name }}{{ value.price }}</small><br />
+                                    {% endfor %}</h5>
+                            </td> 
+                            <td class="text-right"> 
+                                {{ item.unitPrice }}
+                            </td>
+                            <td class="text-right"> 
+                                {{ item.quantity }}
+                            </td>
+                            <td class="text-right"> 
+                                {{ item.unitPrice * item.quantity }}
+                            </td>
+                        </tr>
+
+                    {% endfor %}
                 </tbody>
             </table>
             <div class="row text-right">

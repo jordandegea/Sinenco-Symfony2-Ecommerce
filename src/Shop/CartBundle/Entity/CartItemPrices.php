@@ -63,6 +63,12 @@ class CartItemPrices {
      */
     private $annually;
 
+    
+    
+    public function __toString() {
+        return (string) $this->id;
+    }
+    
     /**
      * Get id
      *
