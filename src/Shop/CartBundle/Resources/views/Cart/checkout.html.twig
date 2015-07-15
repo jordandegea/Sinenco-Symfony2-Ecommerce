@@ -94,7 +94,18 @@
                                                 {% if not optionValue.price is empty %}
                                                     {{ displayPriceOption(cartItem, optionValue)|raw }}
                                                 {% endif %}
-                                            {%else %}
+                                            {% elseif optionOnProduct.type == "checkbox" %}
+                                                {% if cartItem.optionsValues[optionOnProduct.canonicalName] == "on" %}
+                                                    <strong>
+                                                        <span class="glyphicon glyphicon-ok"></span>
+                                                    </strong>
+                                                    {% for option in optionOnProduct.values %}
+                                                        {% if not option.price is empty %}
+                                                            {{ displayPriceOption(cartItem, option)|raw }}
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                {% endif %}
+                                            {% else %}
                                                 <strong>
                                                     {{ cartItem.optionsValues[optionOnProduct.canonicalName] }}
                                                 </strong>

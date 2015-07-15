@@ -52,7 +52,7 @@ class CartController extends Controller {
             $em = $this->getDoctrine()->getManager();
             $em->persist($cart);
             
-            $invoice = $this->get('invoicing')->createInvoiceWithCart($cart);
+            $invoice = $this->get('shop_cart.cart')->createInvoiceWithCart($cart);
             $this->get('shop_cart.cart')->transformInvoice();
             
             $em->persist($invoice);

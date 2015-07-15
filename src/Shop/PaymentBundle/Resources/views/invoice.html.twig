@@ -181,17 +181,17 @@
                             <td>
                                 <h5>{{ item.name }}<br />
                                     {% for value in item.options %}
-                                        <small>{{ value.name }}{{ value.price }}</small><br />
+                                        <small>{{ value.name }} - {{ value.unitPrice }}</small><br />
                                     {% endfor %}</h5>
                             </td> 
                             <td class="text-right"> 
-                                {{ item.unitPrice }}
+                                {{ item.unitPrice }} {{ invoice.currency }}
                             </td>
                             <td class="text-right"> 
                                 {{ item.quantity }}
                             </td>
                             <td class="text-right"> 
-                                {{ item.unitPrice * item.quantity }}
+                                {{ item.unitPrice * item.quantity }} {{ invoice.currency }}
                             </td>
                         </tr>
 

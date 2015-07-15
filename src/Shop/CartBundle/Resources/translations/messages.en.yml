@@ -45,7 +45,11 @@ cart:
         monthly: " - <strong>%total% </strong>(%base%/m)"
         one_time: " - <strong>%total% </strong>(%base%/u)"
 
-
+    invoice:
+        monthly: Extension of %number% month
+        quarterly: Extension of %number% * 3 months
+        semiannually: Extension of %number% * 6 months
+        annually: Extension of %number% year(s)
     
     
 

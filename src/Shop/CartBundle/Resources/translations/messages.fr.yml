@@ -38,3 +38,10 @@ cart:
     option_price: 
         monthly: " - <strong>%total% </strong>(%base%/m)"
         one_time: " - <strong>%total% </strong>(%base%/u)"
+        
+        
+    invoice:
+        monthly: Prolongement de %number% mois
+        quarterly: Prolongement de %number% * 3 mois
+        semiannually: Prolongement de %number% * 6 mois
+        annually: Prolongement de %number% an(s)

@@ -12,6 +12,9 @@ use Shop\CartBundle\Entity\CartItemPrices as CartItemPricesEntity;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Shop\PaymentBundle\Entity\Invoice,
+    Shop\PaymentBundle\Entity\InvoiceLine,
+    Shop\PaymentBundle\Entity\InvoiceLineOption;
 
 class CartService {
 
@@ -379,6 +382,150 @@ class CartService {
             return $this->container->get('shop_core.currency')->getCurrency();
         }
         return $currency;
+    }
+
+    public function createInvoiceWithCart(CartEntity $cart) {
+
+        $invoice = new Invoice();
+
+        $translator = $this->container->get('translator');
+
+        // On ajoute 0 à la facture car il n'y a aucune transaction pour le moment
+        $invoice->setNumber(0);
+
+        $invoice->setCredit(0.00);
+
+        $invoice->setTotalPrice($this->getTotalPriceHT());
+
+        $invoice->setAddressReceiver($cart->getBillingAddress()->__toString());
+
+        $invoice->setAddressSender($this->container->get('twig')->getGlobals()['invoice']['sender_address']);
+
+        $invoice->setCurrency($this->container->get('shop_core.currency')->getCurrencyObject());
+
+        $invoice->setCart($cart);
+
+        $invoice->setUser($cart->getUser());
+
+        $invoice->setDate(new \DateTime);
+
+        foreach ($cart->getProducts() as $cartItem) {
+            $invoiceLine = new InvoiceLine();
+
+            $product = $cartItem->getProduct();
+
+            $invoiceLine->setName(
+                    $product->translate()->getName());
+
+            $prices = $cartItem->getPrices();
+            if ($prices->getOneTime() == 0) {
+                if ($prices->getMonthly() != 0) {
+                    $price = $totalPrice += $this->container->get('shop_core.currency')->convertPrice(
+                            $product->getPrice()->getMonthly()* $prices->getMonthly(), $product->getPrice()>getCurrency()->getCode()
+                    );
+                    $invoiceLine->addOption(
+                            $this->createNewInvoiceLineOption(
+                                    $translator->trans('cart.invoice.monthly', ["%number%" => $prices->getMonthly()]), $price
+                            )
+                    );
+                }
+                if ($prices->getQuarterly() != 0) {
+                    $price = $totalPrice += $this->container->get('shop_core.currency')->convertPrice(
+                            $product->getPrice()->getQuarterly() * $prices->getQuarterly(), $product->getPrice()>getCurrency()->getCode()
+                    );
+                    $invoiceLine->addOption(
+                            $this->createNewInvoiceLineOption(
+                                    $translator->trans('cart.invoice.quarterly', ["%number%" => $prices->getQuarterly()]), $price
+                            )
+                    );
+                }
+                if ($prices->getSemiannually() != 0) {
+                    $price = $totalPrice += $this->container->get('shop_core.currency')->convertPrice(
+                            $product->getPrice()->getSemiannually() * $prices->getSemiannually(), $product->getPrice()>getCurrency()->getCode()
+                    );
+                    $invoiceLine->addOption(
+                            $this->createNewInvoiceLineOption(
+                                    $translator->trans('cart.invoice.semiannually', ["%number%" => $prices->getSemiannually()]), $price
+                            )
+                    );
+                }
+                if ($prices->getAnnually() != 0) {
+                    $price = $totalPrice += $this->container->get('shop_core.currency')->convertPrice(
+                            $product->getPrice()->getAnnually() * $prices->getAnnually(), $product->getPrice()>getCurrency()->getCode()
+                    );
+                    $invoiceLine->addOption(
+                            $this->createNewInvoiceLineOption(
+                                    $translator->trans('cart.invoice.annually', ["%number%" => $prices->getAnnually()]), $price
+                            )
+                    );
+                }
+                $invoiceLine->setQuantity(1);
+            } else {
+                $invoiceLine->setQuantity($prices->getOneTime());
+            }
+
+            $optionsValues = $cartItem->getOptionsValues();
+            foreach ($product->getOptions() as $option) {
+                if (!array_key_exists($option->getCanonicalName(), $optionsValues)) {
+                    continue;
+                }
+                if ($option->getType() == "checkbox") {
+                    if ($optionsValues[$option->getCanonicalName()] == "on") {
+                        $name = $option->translate()->getFieldName();
+                        if (count($option->getValues()) > 0) {
+                            $price = $this->calculateTotalPriceOption($option->getValues()[0]->getPrice(), $cartItem->getPrices());
+                        } else {
+                            $price = 0;
+                        }
+                    }
+                } elseif ($option->getType() == "choice") {
+                    if (empty($optionsValues[$option->getCanonicalName()])) {
+                        continue;
+                    }
+                    $name = $option->translate()->getFieldName() . " : ";
+                    $price = 0;
+                    foreach ($option->getValues() as $value) {
+                        if ($value->getCanonicalName() == $optionsValues[$option->getCanonicalName()]) {
+                            $name .= $value->translate()->getValue();
+                            $price = $this->calculateTotalPriceOption($value->getPrice(), $cartItem->getPrices());
+                            break;
+                        }
+                    }
+                } elseif ($option->getType() == "textfield") {
+                    if (empty($optionsValues[$option->getCanonicalName()])) {
+                        continue;
+                    }
+                    $name = $option->translate()->getFieldName() . " : " . $optionsValues[$option->getCanonicalName()];
+                    $price = 0;
+                }
+                $invoiceLine->addOption(
+                        $this->createNewInvoiceLineOption(
+                                $name, $price
+                        )
+                );
+            }
+            $price = $product->getPrice();
+
+            $totalPrice = $this->getTotalOfPrice($price, $cartItem);
+            $totalPrice += $this->getTotalOptionsPriceHT(
+                    $cartItem, $cartItem->getProduct()->getOptions(), $cartItem->getOptionsValues()
+            );
+
+            $invoiceLine->setUnitPrice($totalPrice);
+
+            $invoice->addLine($invoiceLine);
+        }
+
+        $invoice->setTotalPriceEUR(0);
+        return $invoice;
+    }
+
+    private function createNewInvoiceLineOption($name, $unitPrice) {
+
+        $invoiceLineOption = new InvoiceLineOption();
+        $invoiceLineOption->setName($name);
+        $invoiceLineOption->setUnitPrice($unitPrice);
+        return $invoiceLineOption;
     }
 
 }
