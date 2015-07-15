@@ -4,13 +4,14 @@ namespace Shop\PaymentBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Sinenco\UserBundle\Entity\User;
-use Shop\PaymentBundle\Entity\InvoiceLine ; 
+use Shop\PaymentBundle\Entity\InvoiceLine;
 
 /**
  * Invoice
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Shop\PaymentBundle\Entity\InvoiceRepository")
+ * @ORM\HasLifecycleCallbacks
  */
 class Invoice {
 
@@ -72,8 +73,8 @@ class Invoice {
     /**
      * @ORM\OneToMany(targetEntity="Shop\PaymentBundle\Entity\InvoiceLine", mappedBy="invoice", cascade={"persist"})
      */
-    private $lines; 
-    
+    private $lines;
+
     /**
      * @ORM\ManyToOne(targetEntity="Shop\CoreBundle\Entity\Currencies")
      * @ORM\JoinColumn(nullable=false)
@@ -97,6 +98,18 @@ class Invoice {
      * @ORM\Column(name="credit", type="decimal", precision=10, scale=2, nullable=false)
      */
     private $credit;
+    /**
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     * 
+     */
+    public function onUpdateAndPersist() {
+        $totalPrice = 0;
+        foreach ($this->lines as $line) {
+            $totalPrice += $line->getUnitPrice() * $line->getQuantity();
+        }
+        $this->setTotalPrice($totalPrice);
+    }
 
     /**
      * Get id
@@ -356,7 +369,6 @@ class Invoice {
         return $this->totalPriceEUR;
     }
 
-
     /**
      * Add line
      *
@@ -364,8 +376,7 @@ class Invoice {
      *
      * @return Invoice
      */
-    public function addLine(InvoiceLine $line)
-    {
+    public function addLine(InvoiceLine $line) {
         $this->lines[] = $line;
         $line->setInvoice($this);
         return $this;
@@ -376,8 +387,7 @@ class Invoice {
      *
      * @param \Shop\PaymentBundle\Entity\InvoiceLine $line
      */
-    public function removeLine(InvoiceLine $line)
-    {
+    public function removeLine(InvoiceLine $line) {
         $this->lines->removeElement($line);
     }
 
@@ -386,8 +396,8 @@ class Invoice {
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getLines()
-    {
+    public function getLines() {
         return $this->lines;
     }
+
 }

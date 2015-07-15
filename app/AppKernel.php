@@ -60,7 +60,6 @@ class AppKernel extends Kernel
             new Services\CoreBundle\ServicesCoreBundle(),
             new Sinenco\BlogBundle\SinencoBlogBundle(),
             new Services\AllopassBundle\ServicesAllopassBundle(),
-            new Shop\AllopassPaymentBundle\ShopAllopassPaymentBundle(),
             
             
             //vendor Sinenco
