@@ -46,18 +46,23 @@ class PaymentController extends Controller {
         if ($invoice == null) {
             return $this->redirect($this->get('router')->generate('shop_payment_invoices'));
         }
-        
-        if (  $invoice->getUser()->getId() != $this->getUser()->getId() &&
-                ! $this->get('security.context')->isGranted('ROLE_ADMIN') ){
+
+        if ($invoice->getUser()->getId() != $this->getUser()->getId() &&
+                !$this->get('security.context')->isGranted('ROLE_ADMIN')) {
             return $this->redirect($this->get('router')->generate('shop_payment_invoices'));
-            
         }
 
+        if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            $admin = true;
+        } else {
+            $admin = false;
+        }
 
         if ($this->get("invoicing")->getRemainingPrice($invoice) <= 0) {
             $html = $this->renderView('ShopPaymentBundle::invoice.html.twig', array(
                 'invoice' => $invoice,
-                'pdf' => true
+                'pdf' => true,
+                'admin' => $admin
             ));
             return new Response(
                     $this->get('knp_snappy.pdf')->getOutputFromHtml($html), 200, array(
@@ -105,7 +110,8 @@ class PaymentController extends Controller {
         }
         return $this->render('ShopPaymentBundle::invoice.html.twig', array(
                     'invoice' => $invoice,
-                    'payments' => $form->createView()
+                    'payments' => $form->createView(),
+                    'admin' => $admin
         ));
     }
 
@@ -122,7 +128,7 @@ class PaymentController extends Controller {
     public function doneAllopassAction(Request $request) {
 
         return $this->render('ShopPaymentBundle:Done:allopass.html.twig', array(
-                    'invoice' => $_GET["data"] 
+                    'invoice' => $_GET["data"]
         ));
     }
 

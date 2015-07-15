@@ -216,6 +216,9 @@
                             {% if pdf is not defined %}
                                 {{ 'shop.payment.invoice.balance'|trans }}<br>
                             {% endif %}
+                            {% if admin and invoice.currency != "EUR" %}
+                                Total EUR
+                            {% endif %}
                         </strong>
                     </p>
                 </div>
@@ -233,6 +236,9 @@
                         {% endif %}
                         {% if pdf is not defined %}
                             {{ invoicing_service.getRemainingPrice(invoice)|FormatPrice(invoice.currency) }}<br>
+                        {% endif %}
+                        {% if admin and invoice.currency != "EUR" %}
+                            {{ invoice.totalPriceEUR }} EUR
                         {% endif %}
                     </strong>
                 </div>
