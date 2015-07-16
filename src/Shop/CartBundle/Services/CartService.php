@@ -193,8 +193,11 @@ class CartService {
                 ->em
                 ->getRepository('ShopCartBundle:CartItem')
                 ->find($id);
+        
         if ($cartItem != null) {
             $this->cart->removeProduct($cartItem);
+            $this->em->remove($cartItem);
+            $this->em->persist($this->cart);
             $this->em->flush();
         }
     }
@@ -421,7 +424,7 @@ class CartService {
             if ($prices->getOneTime() == 0) {
                 if ($prices->getMonthly() != 0) {
                     $price = $totalPrice += $this->container->get('shop_core.currency')->convertPrice(
-                            $product->getPrice()->getMonthly()* $prices->getMonthly(), $product->getPrice()>getCurrency()->getCode()
+                            $product->getPrice()->getMonthly()* $prices->getMonthly(), $product->getPrice()->getCurrency()->getCode()
                     );
                     $invoiceLine->addOption(
                             $this->createNewInvoiceLineOption(

@@ -16,12 +16,11 @@ class ServicesController extends Controller {
     /**
      * @Security("has_role('ROLE_USER')")
      */
-    public function renewLicenseAction(Renting $renting){
-        $this->get('services_core.core_services')->renewLicense($renting) ;
+    public function renewLicenseAction(Renting $renting) {
+        $this->get('services_core.core_services')->renewLicense($renting);
         return $this->redirect($this->generateUrl('services_mine_list'));
     }
-    
-    
+
     public function homepageAction(Request $request) {
 
         $repository = $this->getDoctrine()->getManager()->getRepository('ServicesCoreBundle:Service');
@@ -58,8 +57,8 @@ class ServicesController extends Controller {
         $rentings = array();
 
         foreach ($rentingstemp as $renting) {
-            $rentingServiceId = $renting->getService()->getId() ;
-            
+            $rentingServiceId = $renting->getService()->getId();
+
             // La premiere ligne doit contenir le nombre de chaque ( success, danger, warning ) 
             if (!array_key_exists($rentingServiceId, $rentings)) {
                 //Dans l'ordre [Success, Info, Warning, Danger]
@@ -72,16 +71,16 @@ class ServicesController extends Controller {
                     }
                 }
             }
-            
+
             $rentingServiceName = $renting->getService()->translate($request->getLocale())->getName();
-            
-            $rentings[$rentingServiceId][2] = [$rentingServiceName] ;
-            
-            $category = $renting->getService()->getCategory(); 
-            
-            while($category != null ){
+
+            $rentings[$rentingServiceId][2] = [$rentingServiceName];
+
+            $category = $renting->getService()->getCategory();
+
+            while ($category != null) {
                 $rentings[$rentingServiceId][2][] = $category->translate($request->getLocale())->getName();
-                $category = $category->getParentCategory() ; 
+                $category = $category->getParentCategory();
             }
 
             $rentings[$rentingServiceId][] = array();
@@ -132,14 +131,14 @@ class ServicesController extends Controller {
 
         // il faudrait verifier l'expiration en plus 
         if ($form->handleRequest($request)->isValid()) {
-            if ($this->checkIfLockedEdited($renting, $oldDetails) && $renting->getExpiration() == null ) {
-                $renting->setExpiration($oldExpiration) ;
+            if ($this->checkIfLockedEdited($renting, $oldDetails) && $renting->getExpiration() == null) {
+                $renting->setExpiration($oldExpiration);
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($renting);
                 $em->flush();
                 $request->getSession()->getFlashBag()->add('success', $this->get('translator')->trans('services.renting_edited'));
             } else {
-                $request->getSession()->getFlashBag()->add('danger', $this->get('translator')->trans('services.renting_forbidden_fields') );
+                $request->getSession()->getFlashBag()->add('danger', $this->get('translator')->trans('services.renting_forbidden_fields'));
                 return $this->redirect($this->generateUrl('services_mine_edit', array('id' => $id)));
             }
         }
@@ -149,32 +148,31 @@ class ServicesController extends Controller {
                     'renting' => $renting
         ));
     }
-    
-    
+
     /**
      * @Security("has_role('ROLE_USER')")
      */
-    public function addCartAction($id_renting){
-        
-        
+    public function addCartAction($id_renting) {
+
+
         $repository = $this->getDoctrine()->getManager()->getRepository('ServicesCoreBundle:Renting');
         $renting = $repository->findOneById($id_renting);
-        
-        if ( $renting == null ){
+
+        if ($renting == null) {
             $response->setContent('-3');
             return $response;
         }
         $service = $renting->getService();
-        
+
         $product = $service->getProduct();
-        
-        if ( $product == null ){
+
+        if ($product == null) {
             $response->setContent('-4');
             return $response;
         }
-        
+
         $product_id = $product->getId();
-        
+
         $response = new Response;
 
         if ($product_id == null) {
@@ -190,33 +188,29 @@ class ServicesController extends Controller {
         }
 
         return $response;
-        
-        
     }
-    
-    private function addConfigurationToCartItem($productCartItem, $renting){
-        $service = $renting->getService() ;
+
+    private function addConfigurationToCartItem($productCartItem, $renting) {
+        $service = $renting->getService();
         $product = $service->getProduct();
-        
+
         $productCartItem->setFirstTime(false);
-        
-        foreach ( $renting->getDetails() as $key => $detail ){
+
+        foreach ($renting->getDetails() as $key => $detail) {
             $productCartItem->addOptionsValues(
-                    $detail->getDetailName()->getAttribute()->getCanonicalName(), 
-                    $detail->getValue()) ;
-            
+                    $detail->getDetailName()->getAttribute()->getCanonicalName(), $detail->getValue());
+
+            $productCartItem->addConfiguration(true, CartItem::LOCK_FIELD);
             $productCartItem->addConfiguration(null, CartItem::TYPE_FIELD);
-            $productCartItem->addConfiguration($detail->getValue(), 
-                    CartItem::TYPE_FIELD, 
-                    $detail->getDetailName()->getId(), 
-                    CartItem::FIELD_VALUE);
+            $productCartItem->addConfiguration(null, CartItem::TYPE_FIELD, $detail->getDetailName()->getId() );
+            $productCartItem->addConfiguration($detail->getValue(), CartItem::TYPE_FIELD, $detail->getDetailName()->getId(), CartItem::FIELD_VALUE);
         }
-        
-        $productCartItem->addHiddenValues( "renting", $renting->getId() );
-        
+
+        $productCartItem->addHiddenValues("renting", $renting->getId());
+
         $this->get('shop_cart.cart')->flush();
     }
-    
+
     /**
      * 
      * @param type $renting

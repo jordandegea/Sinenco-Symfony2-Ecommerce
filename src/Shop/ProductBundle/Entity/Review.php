@@ -40,7 +40,7 @@ class Review
     
     /**
      * 
-     * @ORM\ManyToOne(targetEntity="Shop\ProductBundle\Entity\Product", inversedBy="reviews", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="Shop\ProductBundle\Entity\Product", inversedBy="comments", cascade={"persist"})
      *  @ORM\JoinTable()
      *  @ORM\JoinColumn(nullable=false)
      * */

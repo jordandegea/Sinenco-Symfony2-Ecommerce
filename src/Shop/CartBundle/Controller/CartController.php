@@ -12,6 +12,8 @@ use Payum\Core\Request\GetHumanStatus;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Doctrine\ORM\PersistentCollection;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Shop\CartBundle\Entity\Cart;
+use Shop\CartBundle\Entity\CartItem;
 
 class CartController extends Controller {
 
@@ -22,7 +24,7 @@ class CartController extends Controller {
 
         $cart = $this->get('shop_cart.cart')->getCart();
 
-        if (!$this->isFieldsCheckoutValid($cart)) {
+        if (!$this->isFieldsCheckoutValid($cart) || !$this->checkConfiguration($cart)) {
             $request->getSession()->getFlashBag()->add('warning', $this->get('translator')->trans('cart.warning.step_checkout_cart_fields'));
             return $this->redirect($this->generateUrl('shop_cart_view'));
         }
@@ -51,10 +53,10 @@ class CartController extends Controller {
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($cart);
-            
+
             $invoice = $this->get('shop_cart.cart')->createInvoiceWithCart($cart);
             $this->get('shop_cart.cart')->transformInvoice();
-            
+
             $em->persist($invoice);
             $em->flush();
 
@@ -226,7 +228,27 @@ class CartController extends Controller {
         return $form;
     }
 
-    private function isFieldsCheckoutValid($cart = null) {
+    private function checkConfiguration(Cart $cart = null) {
+        if ($cart == null) {
+            $cart = $this->getCart();
+        }
+
+        foreach ($cart->getProducts() as $cartItem) {
+
+            $cartItemOptions = $cartItem->getOptionsValues();
+
+            if ($cartItem->getConfigurationValue(CartItem::TYPE_FIELD) == NULL){
+                continue ;
+            }
+            foreach ($cartItem->getConfigurationValue(CartItem::TYPE_FIELD) as $detailId) {
+                $fieldValue = $cartItem->getConfigurationValue(CartItem::TYPE_FIELD, $detailId, CartItem::FIELD_VALUE);
+                $cartItemOptions[$option->getCanonicalName()] = $fieldValue;
+            }
+        }
+        return true;
+    }
+
+    private function isFieldsCheckoutValid(Cart $cart = null) {
         if ($cart == null) {
             $cart = $this->getCart();
         }

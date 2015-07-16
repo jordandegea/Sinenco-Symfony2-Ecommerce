@@ -11,6 +11,8 @@ interface CartOptionsInterface{
     
     const TYPE_FIELD = 1 ; 
     const TYPE_PRICE = 2 ;
+    const LOCK_FIELD = 3 ; 
+    
     
     const FIELD_HIDE = 0 ; 
     const FIELD_READ_ONLY = 1 ;

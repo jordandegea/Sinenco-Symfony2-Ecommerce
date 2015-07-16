@@ -51,6 +51,32 @@ trait CartOptionsTrait{
         $this->configuration[0] = $isTrue ;
     }
     
+    public function isFirstTIme(){
+        return $this->configuration[0] ; 
+    }
+    
+    
+    public function getConfigurationValue( $key1, $key2 = null, $key3 = null ){
+        if ( ! array_key_exists($key1, $this->configuration) ){
+            if ( $key2 == null ){
+                return $this->configuration[$key1]  ;
+                
+            }
+        }
+           
+        if ( $this->configuration[$key1] == null || ! array_key_exists($key2, $this->configuration[$key1]) ){
+            if ( $key3 == null ){
+                return $this->configuration[$key1][$key2] ; 
+            }
+        }
+        
+        if ( $this->configuration[$key1][$key2] == null || ! array_key_exists($key3, $this->configuration[$key1][$key2]) ){
+            return $this->configuration[$key1][$key2][$key3] ; 
+        }
+        return null;
+    }
+    
+    
     public function addConfiguration($value, $key1, $key2 = null, $key3 = null ){
         
         if ( ! array_key_exists($key1, $this->configuration) ){
