@@ -144,7 +144,6 @@ class CoreServices {
                 . "--expire-on $expire "
                 . "--expose-expiry";
 
-        echo $cmd ; 
         $ret = shell_exec($cmd);
 
         // On peut faire un test sur ret

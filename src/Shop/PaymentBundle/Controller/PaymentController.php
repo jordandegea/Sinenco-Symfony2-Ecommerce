@@ -163,10 +163,9 @@ class PaymentController extends Controller {
     private function preparePayum($paymentName, Invoice $invoice) {
 
         $storage = $this->get('payum')->getStorage($this->container->getParameter('payum.class_order'));
-
         $order = $storage->create();
         $order->setNumber(uniqid());
-        $order->setCurrencyCode($invoice->getCurrency());
+        $order->setCurrencyCode($invoice->getCurrency()->getCode());
         $order->setTotalAmount($this->get('invoicing')->getRemainingPrice($invoice) * 100);
         $order->setDescription('Description');
         //$order->setClientId('123456789ABCDEFG');

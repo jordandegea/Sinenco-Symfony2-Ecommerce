@@ -423,7 +423,7 @@ class CartService {
             $prices = $cartItem->getPrices();
             if ($prices->getOneTime() == 0) {
                 if ($prices->getMonthly() != 0) {
-                    $price = $totalPrice += $this->container->get('shop_core.currency')->convertPrice(
+                    $price = $this->container->get('shop_core.currency')->convertPrice(
                             $product->getPrice()->getMonthly()* $prices->getMonthly(), $product->getPrice()->getCurrency()->getCode()
                     );
                     $invoiceLine->addOption(
@@ -433,7 +433,7 @@ class CartService {
                     );
                 }
                 if ($prices->getQuarterly() != 0) {
-                    $price = $totalPrice += $this->container->get('shop_core.currency')->convertPrice(
+                    $price = $this->container->get('shop_core.currency')->convertPrice(
                             $product->getPrice()->getQuarterly() * $prices->getQuarterly(), $product->getPrice()>getCurrency()->getCode()
                     );
                     $invoiceLine->addOption(
@@ -443,7 +443,7 @@ class CartService {
                     );
                 }
                 if ($prices->getSemiannually() != 0) {
-                    $price = $totalPrice += $this->container->get('shop_core.currency')->convertPrice(
+                    $price = $this->container->get('shop_core.currency')->convertPrice(
                             $product->getPrice()->getSemiannually() * $prices->getSemiannually(), $product->getPrice()>getCurrency()->getCode()
                     );
                     $invoiceLine->addOption(
@@ -453,7 +453,7 @@ class CartService {
                     );
                 }
                 if ($prices->getAnnually() != 0) {
-                    $price = $totalPrice += $this->container->get('shop_core.currency')->convertPrice(
+                    $price = $this->container->get('shop_core.currency')->convertPrice(
                             $product->getPrice()->getAnnually() * $prices->getAnnually(), $product->getPrice()>getCurrency()->getCode()
                     );
                     $invoiceLine->addOption(
