@@ -85,9 +85,21 @@ class CartService {
     private function getTotalOptionsPriceHT($cartItem, $options, $optionsValues) {
         $totalPrice = 0;
         /* On parcours les options */
+
+        $totalPriceConfiguration = $cartItem->getConfigurationValue(CartItemEntity::TYPE_PRICE, CartItemEntity::PRICE_TOTAL);
+
+        if ($totalPriceConfiguration != null) {
+            return $totalPrice ;
+        }
+        
         foreach ($options as $option) {
             /* Si l'option existe dans les valeurs d'options */
             if (array_key_exists($option->getCanonicalName(), $optionsValues)) {
+                if ($totalPriceConfiguration != null && $configurationOptionsValues != null) {
+                    if (array_key_exists($option->getCanonicalName(), $configurationOptionsValues)) {
+                        continue;
+                    }
+                }
                 /* On parcourt les valeurs pour trouver la bonne */
                 foreach ($option->getValues() as $value) {
                     if ($value->getCanonicalName() == $optionsValues[$option->getCanonicalName()]) {
@@ -142,10 +154,19 @@ class CartService {
 
     public function getTotalOfPrice($price, $cartItem) {
         $totalPrice = 0;
-        foreach (CartItemPricesEntity::$listFunctionGetPrices as $priceMethod) {
+
+        $totalPriceConfiguration = $cartItem->getConfigurationValue(CartItemEntity::TYPE_PRICE, CartItemEntity::PRICE_TOTAL);
+
+        if ($totalPriceConfiguration != null) {
             $totalPrice += $this->container->get('shop_core.currency')->convertPrice(
-                    $price->$priceMethod['function']() * $cartItem->getPrices()->$priceMethod['function'](), $price->getCurrency()->getCode()
+                    $totalPriceConfiguration[CartItemEntity::PRICE_TOTAL_AMOUNT], $totalPriceConfiguration[CartItemEntity::PRICE_TOTAL_CURRENCY]
             );
+        } else {
+            foreach (CartItemPricesEntity::$listFunctionGetPrices as $priceMethod) {
+                $totalPrice += $this->container->get('shop_core.currency')->convertPrice(
+                        $price->$priceMethod['function']() * $cartItem->getPrices()->$priceMethod['function'](), $price->getCurrency()->getCode()
+                );
+            }
         }
         return $totalPrice;
     }
@@ -184,7 +205,11 @@ class CartService {
     }
 
     public function getNumberItems() {
-        return count($this->cart->getProducts());
+        $i = 0 ; 
+        foreach($this->cart->getProducts() as $cartItem){
+            $i++;
+        }
+        return $i ;
     }
 
     public function removeItem($id) {
@@ -193,7 +218,7 @@ class CartService {
                 ->em
                 ->getRepository('ShopCartBundle:CartItem')
                 ->find($id);
-        
+
         if ($cartItem != null) {
             $this->cart->removeProduct($cartItem);
             $this->em->remove($cartItem);
@@ -424,7 +449,7 @@ class CartService {
             if ($prices->getOneTime() == 0) {
                 if ($prices->getMonthly() != 0) {
                     $price = $this->container->get('shop_core.currency')->convertPrice(
-                            $product->getPrice()->getMonthly()* $prices->getMonthly(), $product->getPrice()->getCurrency()->getCode()
+                            $product->getPrice()->getMonthly() * $prices->getMonthly(), $product->getPrice()->getCurrency()->getCode()
                     );
                     $invoiceLine->addOption(
                             $this->createNewInvoiceLineOption(
@@ -434,7 +459,7 @@ class CartService {
                 }
                 if ($prices->getQuarterly() != 0) {
                     $price = $this->container->get('shop_core.currency')->convertPrice(
-                            $product->getPrice()->getQuarterly() * $prices->getQuarterly(), $product->getPrice()>getCurrency()->getCode()
+                            $product->getPrice()->getQuarterly() * $prices->getQuarterly(), $product->getPrice() > getCurrency()->getCode()
                     );
                     $invoiceLine->addOption(
                             $this->createNewInvoiceLineOption(
@@ -444,7 +469,7 @@ class CartService {
                 }
                 if ($prices->getSemiannually() != 0) {
                     $price = $this->container->get('shop_core.currency')->convertPrice(
-                            $product->getPrice()->getSemiannually() * $prices->getSemiannually(), $product->getPrice()>getCurrency()->getCode()
+                            $product->getPrice()->getSemiannually() * $prices->getSemiannually(), $product->getPrice() > getCurrency()->getCode()
                     );
                     $invoiceLine->addOption(
                             $this->createNewInvoiceLineOption(
@@ -454,7 +479,7 @@ class CartService {
                 }
                 if ($prices->getAnnually() != 0) {
                     $price = $this->container->get('shop_core.currency')->convertPrice(
-                            $product->getPrice()->getAnnually() * $prices->getAnnually(), $product->getPrice()>getCurrency()->getCode()
+                            $product->getPrice()->getAnnually() * $prices->getAnnually(), $product->getPrice() > getCurrency()->getCode()
                     );
                     $invoiceLine->addOption(
                             $this->createNewInvoiceLineOption(

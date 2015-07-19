@@ -22,6 +22,7 @@ class CartController extends Controller {
      */
     public function checkoutAction(Request $request) {
 
+
         $cart = $this->get('shop_cart.cart')->getCart();
 
         if (!$this->isFieldsCheckoutValid($cart) || !$this->checkConfiguration($cart)) {
@@ -72,6 +73,7 @@ class CartController extends Controller {
      * @Security("has_role('ROLE_USER')")
      */
     public function addressesAction(Request $request) {
+
         if ($this->get('shop_cart.cart')->getNumberItems() <= 0) {
             return $this->redirect($this->generateUrl('shop_cart_view'));
         }
@@ -123,6 +125,7 @@ class CartController extends Controller {
         $cart = $this->get('shop_cart.cart')->getCart();
 
         $cartItems = $cart->getProducts();
+
         $this->get('shop_cart.cart')->addOptionsOnCartItemsIfNotExist($cartItems);
 
 
@@ -134,7 +137,9 @@ class CartController extends Controller {
 
             $isCheckoutClicked = $form->get('next_step')->isClicked();
 
-            $this->cartFormValidation($cart);
+
+
+
             $form = $this->get('form.factory')->create(new CartType, $cart);
 
             $em = $this->getDoctrine()->getManager();
@@ -188,6 +193,12 @@ class CartController extends Controller {
 
         foreach ($cart->getProducts() as $cartItem) {
             // On commence par vérifier si on a mis à 0 une quantité
+            $totalPriceConfiguration = $cartItem->getConfigurationValue(CartItem::TYPE_PRICE, CartItem::PRICE_TOTAL);
+
+            if ($totalPriceConfiguration != null) {
+                continue;
+            }
+
             $prices = $cartItem->getPrices();
             if ($prices->getAnnually() + $prices->getSemiannually() + $prices->getQuarterly() + $prices->getMonthly() + $prices->getOneTime() < 1) {
                 // on doit la supprimer
@@ -236,13 +247,17 @@ class CartController extends Controller {
         foreach ($cart->getProducts() as $cartItem) {
 
             $cartItemOptions = $cartItem->getOptionsValues();
-
-            if ($cartItem->getConfigurationValue(CartItem::TYPE_FIELD) == NULL){
-                continue ;
+            $cartItemConfigurationValue = $cartItem->getConfigurationValue(CartItem::TYPE_FIELD);
+            if ($cartItemConfigurationValue == NULL) {
+                continue;
             }
-            foreach ($cartItem->getConfigurationValue(CartItem::TYPE_FIELD) as $detailId) {
-                $fieldValue = $cartItem->getConfigurationValue(CartItem::TYPE_FIELD, $detailId, CartItem::FIELD_VALUE);
-                $cartItemOptions[$option->getCanonicalName()] = $fieldValue;
+
+
+            foreach ($cartItemOptions as $option) {
+                if (array_key_exists($option, $cartItemConfigurationValue)) {
+                    $fieldValue = $cartItemConfigurationValue[$option];
+                    $cartItemOptions[$option] = $fieldValue;
+                }
             }
         }
         return true;
@@ -254,6 +269,11 @@ class CartController extends Controller {
         }
 
         foreach ($cart->getProducts() as $cartItem) {
+
+            if ($cartItem->isFirstTime() == false) {
+                continue;
+            }
+
             $cartItemOptions = $cartItem->getOptionsValues();
 
             foreach ($cartItem->getProduct()->getOptions() as $option) {

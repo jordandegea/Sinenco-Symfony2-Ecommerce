@@ -1,6 +1,10 @@
 services:
+    price:
+        monthly: (%price% / m)
+        onetime: (%price% / u)
     services: Services
     renting_edited: La location a été modifié
+    renting_edited_partial: Vous souhaitez modifier des champs payants. Ajouté au panier. 
     renting_forbidden_fields: Vous avez modifié des champs interdits
     expiration: expiration
     my_services : Mes services

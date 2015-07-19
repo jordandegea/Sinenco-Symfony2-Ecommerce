@@ -1,6 +1,10 @@
 services:
+    price:
+        monthly: (%price% / m)
+        onetime: (%price% / u)
     services: Services
     renting_edited: The renting has been changed
+    renting_edited_partial: You want to change option with prices, changes added to cart. 
     renting_forbidden_fields: You changed the prohibited fields
     expiration: expire
     my_services : My services

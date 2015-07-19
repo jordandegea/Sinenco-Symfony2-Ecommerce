@@ -8,7 +8,7 @@
 
 
 {% block services_body %}
-    
+
     <div class="container">
         <div class="col col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <h2>{{ form.vars.data.service.name|trans() }}</h2>
@@ -30,26 +30,63 @@
                         <div class="form-group">                
                             <label for="{{ detail.vars.id }}" class="col-lg-4 control-label">
                                 {{ detailName.translate.name }} 
+
+                                {% if detailName.attribute.type == "checkbox" %}
+                                    <br />
+                                    <small>
+                                        {% for option in detailName.attribute.values %}
+                                            {% if not option.price is empty %}
+                                                {% if option.price.monthly > 0 %}
+                                                    {{ "services.price.monthly"|trans({"%price%" : option.price.monthly|ConvertPrice(option.price.currency.code)|FormatPrice}) }}
+                                                {% elseif option.price.oneTime > 0 %}
+                                                    {{ "services.price.monthly"|trans({"%price%" : option.price.oneTime|ConvertPrice(option.price.currency.code)|FormatPrice}) }}
+                                                {% endif %}
+                                            {% endif %}
+                                        {% endfor %}
+                                    </small>
+                                {% endif %}
                             </label><div class="col-lg-8">
                                 {# si nous avons des options #}
-                                {% if detailName.attribute.values|length > 0 %}
+
+                                {% if detailName.attribute.type == "textfield" %}
+                                    {% if detailName.attribute.isEditable %}
+                                        {{ form_widget(detailValue, {'attr':{ } } ) }}
+                                    {% else %}
+                                        {{ form_widget(detailValue, {'attr':{ } }) }}
+                                    {% endif %}
+                                {% elseif detailName.attribute.type == "checkbox" %}
+
+                                    <input type="checkbox"
+                                           id="{{ detail.vars.id }}" 
+                                           class="form-control" type="text" 
+                                           name="{{ detail.vars.full_name }}" 
+                                           {% if detail.value.vars.value == "on" %}
+                                               checked
+                                           {% endif %}
+                                           />
+
+
+                                {% elseif detailName.attribute.type == "choice" %}
                                     <select id="{{ detailValue.vars.id }}" 
                                             name="{{ detailValue.vars.full_name }}" 
                                             class="form-control" >
                                         {% for option in detailName.attribute.values %}
                                             <option value="{{ option.canonicalName }}" {% if option.canonicalName == detailValue.vars.value %}selected="selected"{% endif %}>
                                                 {{ option.translate.value }}
+                                                {% if not option.price is empty %}
+                                                    {% if option.price.monthly > 0 %}
+                                                        {{ "services.price.monthly"|trans({"%price%" : option.price.monthly|ConvertPrice(option.price.currency.code)|FormatPrice}) }}
+                                                    {% elseif option.price.oneTime > 0 %}
+                                                        {{ "services.price.monthly"|trans({"%price%" : option.price.oneTime|ConvertPrice(option.price.currency.code)|FormatPrice}) }}
+                                                    {% endif %}
+                                                {% endif %}
                                             </option>
                                         {% endfor %}
 
                                     </select>
-                                {% else %}
-                                    {% if detailName.attribute.isEditable %}
-                                        {{ form_widget(detailValue, {'attr':{ } } ) }}
-                                    {% else %}
-                                        {{ form_widget(detailValue, {'attr':{ } }) }}
-                                    {% endif %}
+
                                 {% endif %}
+
                             </div>
                         </div>
                     {% endfor %}

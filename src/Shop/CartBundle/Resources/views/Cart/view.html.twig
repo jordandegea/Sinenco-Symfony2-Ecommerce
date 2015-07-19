@@ -32,6 +32,8 @@
 
         {% for cartItem in form.children.products.children %}
             <div class="row">
+                {% set cartItemObject = cartItem.vars.value %}
+                {% set cartItemObjectPriceConfiguration = null %}
 
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 
@@ -45,10 +47,37 @@
                             {{ include("ShopProductBundle:Products/Includes:ProductNotAvailable.html.twig") }}
                         {% endif %}
                     </div>
+                    {% if cartItemObject.configuration[constant('Shop\\CartBundle\\Entity\\CartItem::TYPE_PRICE')] is defined and 
+                        cartItemObject.configuration[constant('Shop\\CartBundle\\Entity\\CartItem::TYPE_PRICE')][constant('Shop\\CartBundle\\Entity\\CartItem::PRICE_TOTAL')] is defined
+                    %}
+                    {% set cartItemObjectPriceConfiguration = cartItemObject.configuration[constant('Shop\\CartBundle\\Entity\\CartItem::TYPE_PRICE')][constant('Shop\\CartBundle\\Entity\\CartItem::PRICE_TOTAL')] %}
+                    <div class="col-xs-12 col-sm-8 col-md-5 col-lg-5">
+                        <a class="btn btn-danger btn-xs" href="{{ path("shop_cart_remove_item", {'id':cartItem.vars.value.id}) }}">
+                            <span class="glyphicon glyphicon-trash"></span>
+                        </a> 
+                        <strong>{{ cartItem.children.product.vars.value.translate.name }}</strong>
+                    </div>
 
-                    {% if cartItem.children.product.vars.value.price|getFieldPrice('oneTime') > 0 %}
+                    <div class="form-group col-xs-12 col-sm-8 col-md-4 col-lg-4">
+                        <div class="input-group col-xs-12">
+                            <span class="input-group-addon">
+                                {{ cartItemObject.
+                                    configuration
+                                    [constant('Shop\\CartBundle\\Entity\\CartItem::TYPE_PRICE')]
+                                    [constant('Shop\\CartBundle\\Entity\\CartItem::PRICE_TOTAL')]
+                                    [0]|
+                                    ConvertPrice(cartItemObject.
+                                    configuration
+                                    [constant('Shop\\CartBundle\\Entity\\CartItem::TYPE_PRICE')]
+                                    [constant('Shop\\CartBundle\\Entity\\CartItem::PRICE_TOTAL')]
+                                    [1])|
+                                    FormatPrice }}
+                            </span>
+                        </div>
+                    </div>
+                    {% elseif cartItem.children.product.vars.value.price|getFieldPrice('oneTime') > 0 %}
                         <div class="col-xs-12 col-sm-8 col-md-5 col-lg-5">
-                            <a class="btn btn-danger btn-xs">
+                            <a class="btn btn-danger btn-xs" href="{{ path("shop_cart_remove_item", {'id':cartItem.vars.value.id}) }}">
                                 <span class="glyphicon glyphicon-trash"></span>
                             </a> 
                             <strong>{{ cartItem.children.product.vars.value.translate.name }}</strong>
@@ -67,158 +96,147 @@
                             </div>
                         </div>
 
-                    {% else %}
-                        <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9" 
-                             style="font-weight:bold;">
-                            <a class="btn btn-danger btn-xs" href="{{ path("shop_cart_remove_item", {'id':cartItem.vars.value.id}) }}">
-                                <span class="glyphicon glyphicon-trash"></span>
-                            </a> 
-                            {{ cartItem.children.product.vars.value.translate.name }}
-                        </div>
-                    {% endif %}
-
-                    <fieldset class="col-xs-12 col-sm-8 col-md-9 col-lg-9" >
-                        {% if cartItem.children.product.vars.value.price|getFieldPrice('oneTime') == 0 %}
-                            <legend>{{ "cart.prices"|trans }}</legend>
-                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 form-group">
-                                {% include 'ShopCartBundle:Cart/View:price_row.html.twig' with {'field': 'monthly'} %}
-                                {% include 'ShopCartBundle:Cart/View:price_row.html.twig' with {'field': 'quarterly'} %}
-                                {% include 'ShopCartBundle:Cart/View:price_row.html.twig' with {'field': 'semiannually'} %}
-                                {% include 'ShopCartBundle:Cart/View:price_row.html.twig' with {'field': 'annually'} %}
+                        {% else %}
+                            <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9" 
+                                 style="font-weight:bold;">
+                                <a class="btn btn-danger btn-xs" href="{{ path("shop_cart_remove_item", {'id':cartItem.vars.value.id}) }}">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </a> 
+                                {{ cartItem.children.product.vars.value.translate.name }}
                             </div>
-                        {% endif %}
-                        {% if cartItem.children.product.vars.value.options|length > 0 %}
-                            <legend>{{ "cart.options"|trans }}</legend>
+                            {% endif %}
 
-                            {% for option in cartItem.children.product.vars.value.options %}
-                                {% set optionOnProduct = cartItem.children.product.vars.value.options|findRowOnArrayWithCanonicalName(option.canonicalName) %}
+                                <fieldset class="col-xs-12 col-sm-8 col-md-9 col-lg-9" >
+                                    {% if cartItem.children.product.vars.value.price|getFieldPrice('oneTime') == 0 and cartItemObjectPriceConfiguration == null %}
+                                        <legend>{{ "cart.prices"|trans }}</legend>
+                                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 form-group">
+                                            {% include 'ShopCartBundle:Cart/View:price_row.html.twig' with {'field': 'monthly'} %}
+                                            {% include 'ShopCartBundle:Cart/View:price_row.html.twig' with {'field': 'quarterly'} %}
+                                            {% include 'ShopCartBundle:Cart/View:price_row.html.twig' with {'field': 'semiannually'} %}
+                                            {% include 'ShopCartBundle:Cart/View:price_row.html.twig' with {'field': 'annually'} %}
+                                        </div>
+                                    {% endif %}
+                                    {% if cartItem.children.product.vars.value.options|length > 0 %}
+                                        <legend>{{ "cart.options"|trans }}</legend>
 
-                                <div class="form-group col-xs-12">
-                                    <label class="control-label col-xs-7 col-sm-4">
-                                        {{ optionOnProduct.translate.fieldName }}{% if optionOnProduct.required %}*{% endif %}
+                                        {% for option in cartItem.children.product.vars.value.options %}
+                                            {% set optionOnProduct = cartItem.children.product.vars.value.options|findRowOnArrayWithCanonicalName(option.canonicalName) %}
 
-                                        {% if optionOnProduct.type == "checkbox" %}
-                                            <br />
-                                            <small>
-                                            {% for option in optionOnProduct.values %}
-                                                {% if not option.price is empty %}
-                                                    {{ displayPriceOption(cartItem.vars.value, option)|raw }}
-                                                {% endif %}
-                                            {% endfor %}
-                                            </small>
-                                        {% endif %}
-                                    </label>
-                                    <div class="input-group col-xs-5 col-sm-8">
-                                        {% if optionOnProduct.type == "textfield" %}
-                                            <input id="{{ cartItem.children.optionsValues.children[optionOnProduct.canonicalName].vars.id }}" 
-                                                   class="form-control" type="text" 
-                                                   {% if optionOnProduct.required %}
-                                                       required
-                                                   {% endif %}
-                                                   name="{{ cartItem.children.optionsValues.children[optionOnProduct.canonicalName].vars.full_name }}" 
-                                                   value="{{ cartItem.children.optionsValues.children[optionOnProduct.canonicalName].vars.value }}" 
-                                                   {% if cartItem.vars.value.configuration[0] == false and optionOnProduct.isEditable == false %}
-                                                       readonly
-                                                   {% endif %} />
-                                        {% elseif optionOnProduct.type == "checkbox" %}
+                                            <div class="form-group col-xs-12">
+                                                <label class="control-label col-xs-7 col-sm-4">
+                                                    {{ optionOnProduct.translate.fieldName }}{% if optionOnProduct.required %}*{% endif %}
 
-                                            <input type="checkbox"
-                                                   id="{{ cartItem.children.optionsValues.children[optionOnProduct.canonicalName].vars.id }}" 
-                                                   class="form-control" type="text" 
-                                                   {% if optionOnProduct.required %}
-                                                       required
-                                                   {% endif %}
-                                                   name="{{ cartItem.children.optionsValues.children[
+                                                    {% if optionOnProduct.type == "checkbox" %}
+                                                        <br />
+                                                        <small>
+                                                            {% for option in optionOnProduct.values %}
+                                                                {% if not option.price is empty %}
+                                                                    {{ displayPriceOption(cartItem.vars.value, option)|raw }}
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        </small>
+                                                    {% endif %}
+                                                </label>
+                                                <div class="input-group col-xs-5 col-sm-8">
+                                                    {% if optionOnProduct.type == "textfield" %}
+                                                        <input id="{{ cartItem.children.optionsValues.children[optionOnProduct.canonicalName].vars.id }}" 
+                                                               class="form-control" type="text" 
+                                                               name="{{ cartItem.children.optionsValues.children[optionOnProduct.canonicalName].vars.full_name }}" 
+                                                               value="{{ cartItem.children.optionsValues.children[optionOnProduct.canonicalName].vars.value }}" 
+
+                                                               {% if cartItem.vars.value.configuration[0] == false %}
+                                                                   readonly
+                                                               {% else %}
+                                                                   {% if optionOnProduct.required %}
+                                                                       required
+                                                                   {% endif %}   
+                                                               {% endif %} />
+                                                    {% elseif optionOnProduct.type == "checkbox" %}
+
+                                                        <input type="checkbox"
+                                                               id="{{ cartItem.children.optionsValues.children[optionOnProduct.canonicalName].vars.id }}" 
+                                                               class="form-control" type="text" 
+                                                               name="{{ cartItem.children.optionsValues.children[
                                                         optionOnProduct.canonicalName ].vars.full_name }}" 
-                                                   {% if cartItem.children.optionsValues.children[optionOnProduct.canonicalName].vars.value == "on" %}
-                                                       checked
-                                                   {% endif %}
-                                                   {% if cartItem.vars.value.configuration[0] == false and optionOnProduct.isEditable == false %}
-                                                       disabled readonly
-                                                   {% endif %}
-                                                   />
+                                                               {% if cartItem.children.optionsValues.children[optionOnProduct.canonicalName].vars.value == "on" %}
+                                                                   checked
+                                                               {% endif %}
+                                                               {% if cartItem.vars.value.configuration[0] == false %}
+                                                                   readonly
+                                                               {% else %}
+                                                                   {% if optionOnProduct.required %}
+                                                                       required
+                                                                   {% endif %}   
+                                                               {% endif %}
+                                                               />
 
 
-                                        {% elseif optionOnProduct.type == "choice" %}
-                                            <select class="form-control" 
-                                                    name="{{ cartItem.children.optionsValues.children[
+                                                    {% elseif optionOnProduct.type == "choice" %}
+                                                        <select class="form-control" 
+                                                                name="{{ cartItem.children.optionsValues.children[
                                                         optionOnProduct.canonicalName
                                                     ].vars.full_name }}"
-                                                    id="{{ cartItem.children.optionsValues.children[
+                                                                id="{{ cartItem.children.optionsValues.children[
                                                         optionOnProduct.canonicalName
                                                     ].vars.id }}" 
-                                                    {% if optionOnProduct.required %}
-                                                        required
+                                                                {% if cartItem.vars.value.configuration[0] == false %}
+                                                                    readonly
+                                                                {% else %}
+                                                                    {% if optionOnProduct.required %}
+                                                                        required
+                                                                    {% endif %}   
+                                                                {% endif %}
+                                                                >
+                                                            <option value="" >{{ optionOnProduct.translate.helps }}</option>
+                                                            {% for option in optionOnProduct.values %}
+                                                                <option value="{{ option }}"
+                                                                        {% if cartItem.children.optionsValues.children[optionOnProduct.canonicalName].vars.value == option %} 
+                                                                            selected
+                                                                        {% endif %}>
+                                                                    {{ option.translate.value }}
+                                                                    {% if not option.price is empty %}
+                                                                        {{ displayPriceOption(cartItem.vars.value, option)|raw }}
+                                                                    {% endif %}
+                                                                </option>
+                                                            {% endfor %}
+                                                        </select>
                                                     {% endif %}
-                                                    {% if cartItem.vars.value.configuration[0] == false and optionOnProduct.isEditable == false %}
-                                                        disabled
-                                                    {% endif %}
-                                                    >
-                                                <option value="" >{{ optionOnProduct.translate.helps }}</option>
-                                                {% for option in optionOnProduct.values %}
-                                                    <option value="{{ option }}"
-                                                            {% if cartItem.children.optionsValues.children[optionOnProduct.canonicalName].vars.value == option %} 
-                                                                selected
-                                                            {% endif %}>
-                                                        {{ option.translate.value }}
-                                                        {% if not option.price is empty %}
-                                                            {{ displayPriceOption(cartItem.vars.value, option)|raw }}
-                                                        {% endif %}
-                                                    </option>
-                                                {% endfor %}
-                                            </select>
-                                        {% endif %}
+                                                </div>
+                                            </div>
+
+                                        {% endfor %}
+                                    {% endif %}
+                            </div>
+
+                        </div>
+                        <hr>
+                        {% endfor %}
+
+                            {% endif %}
+
+                                <hr>
+
+                                <div class="row">
+                                    <div class="col-xs-12
+                                         col-sm-6
+                                         text-left">
+                                        {{ "cart.text_about_TVA_bottom_view"|trans }}
+                                    </div>
+                                    <div class="col-xs-12 
+                                         col-sm-6
+                                         text-right">
+                                        {{ "totalPrice"|trans({'%price%':  shop_cart_service.getTotalPriceHT()|FormatPrice }) }}
                                     </div>
                                 </div>
 
-                            {% endfor %}
-                        {% endif %}
-                </div>
 
-            </div>
-            <hr>
-        {% endfor %}
+                                {{ buttonsMenu|raw }}
 
-    {% endif %}
-    {#
-    <div class="row">
-        <div class="col-xs-12 col-sm-6 col-md-7 col-lg-8">
-            <input id="discount_code" 
-                   class="form-control input-md"
-                   style="width:100%;"
-                   placeholder="{{ "discountCode"|trans }}" />
-        </div>
-        <div class="col-xs-12 col-sm-6 col-md-5 col-lg-4">
-            <a class="btn btn-md btn-info"
-               style="width:100%;">
-                {{ "applyDiscountCart"|trans }}
-            </a>
-        </div>
-    </div>
-    #}
-    <hr>
-
-    <div class="row">
-        <div class="col-xs-12
-             col-sm-6
-             text-left">
-            {{ "cart.text_about_TVA_bottom_view"|trans }}
-        </div>
-        <div class="col-xs-12 
-             col-sm-6
-             text-right">
-            {{ "totalPrice"|trans({'%price%':  shop_cart_service.getTotalPriceHT()|FormatPrice }) }}
-        </div>
-    </div>
-
-
-    {{ buttonsMenu|raw }}
-
-</form>
+                            </form>
 
 
 
-{% endblock %}
+                            {% endblock %}
 
 
 

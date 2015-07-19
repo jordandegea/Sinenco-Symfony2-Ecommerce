@@ -136,7 +136,95 @@ class ServicesController extends Controller {
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($renting);
                 $em->flush();
-                $request->getSession()->getFlashBag()->add('success', $this->get('translator')->trans('services.renting_edited'));
+
+                /* Si un champ payant a été modifié, alors il faut faire un carteItem */
+
+                $productCartItem = $this->get('shop_cart.cart')->addProductToCart($renting->getService()->getProduct()->getId(), null);
+
+                $productCartItem->setFirstTime(false);
+
+                $productCartItem->addConfiguration(true, CartItem::HIDE_FIELDS);
+                $productCartItem->addConfiguration(true, CartItem::CHANGE_FIELDS);
+
+                $totalPriceForConfiguration = 0;
+                $daysDiff = $renting->getExpiration()->diff(new \DateTime());
+
+                foreach ($renting->getDetails() as $key => $detail) {
+
+                    $price = 0;
+
+                    if ($oldDetails[$key] != $detail->getValue()) {
+                        if ($detail->getDetailName()->getAttribute()->getType() == "checkbox") {
+                            if ($detail->getValue() == "on") {
+                                // On viens de selectionner une checkbox
+                                $detailAttributeValues = $detail->getDetailName()->getAttribute()->getValues();
+                                if (count($detailAttributeValues) > 0) {
+                                    // Alors il y a un prix
+                                    foreach ($detailAttributeValues as $val) {
+                                        $price = $val->getPrice()->getMonthly() / 30 * $daysDiff->days;
+                                        $totalPriceForConfiguration += $this->container->get('shop_core.currency')->convertPrice(
+                                                $price, $val->getPrice()->getCurrency()->getCode()
+                                        );
+                                    }
+                                }
+                            }
+                        } elseif ($detail->getDetailName()->getAttribute()->getType() == "choice") {
+                            $detailAttributeValues = $detail->getDetailName()->getAttribute()->getValues();
+                            foreach ($detailAttributeValues as $val) {
+                                if ($oldDetails[$key] == $val->getCanonicalName()) {
+                                    $price = $val->getPrice()->getMonthly() / 30 * $daysDiff->days;
+                                    $price /= -2;
+                                    $totalPriceForConfiguration += $this->container->get('shop_core.currency')->convertPrice(
+                                            $price, $val->getPrice()->getCurrency()->getCode()
+                                    );
+                                }
+                                if ($detail->getValue() == $val->getCanonicalName()) {
+                                    $price = $val->getPrice()->getMonthly() / 30 * $daysDiff->days;
+                                    $totalPriceForConfiguration += $this->container->get('shop_core.currency')->convertPrice(
+                                            $price, $val->getPrice()->getCurrency()->getCode()
+                                    );
+                                }
+                            }
+                        }
+                    }
+
+                    $productCartItem->addOptionsValues(
+                            $detail->getDetailName()->getAttribute()->getCanonicalName(), $detail->getValue());
+
+                    $productCartItem->addConfiguration(null, CartItem::TYPE_FIELD);
+                    $productCartItem->addConfiguration(null, CartItem::TYPE_FIELD, $detail->getDetailName()->getAttribute()->getCanonicalName());
+                    $productCartItem->addConfiguration($detail->getValue(), CartItem::TYPE_FIELD, $detail->getDetailName()->getAttribute()->getCanonicalName(), CartItem::FIELD_VALUE);
+
+                    if ($price > 0) {
+                        $detail->setValue($oldDetails[$key]);
+                    }
+                }
+                if ($totalPriceForConfiguration > 0) {
+                    $productCartItem->addConfiguration(null, CartItem::TYPE_PRICE);
+                    $productCartItem->addConfiguration(null, CartItem::TYPE_PRICE, CartItem::PRICE_TOTAL);
+                    $productCartItem->addConfiguration(
+                            $totalPriceForConfiguration, CartItem::TYPE_PRICE, CartItem::PRICE_TOTAL, CartItem::PRICE_TOTAL_AMOUNT
+                    );
+                    $productCartItem->addConfiguration(
+                            $this->container->get('shop_core.currency')->getCurrency(), CartItem::TYPE_PRICE, CartItem::PRICE_TOTAL, CartItem::PRICE_TOTAL_CURRENCY
+                    );
+
+                    $productCartItem->addHiddenValues("renting", $renting->getId());
+
+                    $em->persist($productCartItem);
+                    $em->flush();
+                    $this->get('shop_cart.cart')->flush();
+                    
+                    $request->getSession()->getFlashBag()->add('warning', $this->get('translator')->trans('services.renting_edited_partial'));
+                    return $this->redirect($this->generateUrl('services_mine_edit', array('id' => $id)));
+                    
+                } else {
+                    $this->get('shop_cart.cart')->removeItem($productCartItem->getId());
+                    $request->getSession()->getFlashBag()->add('success', $this->get('translator')->trans('services.renting_edited'));
+                }
+
+
+                $form = $this->get('form.factory')->create(new RentingType(), $renting);
             } else {
                 $request->getSession()->getFlashBag()->add('danger', $this->get('translator')->trans('services.renting_forbidden_fields'));
                 return $this->redirect($this->generateUrl('services_mine_edit', array('id' => $id)));
@@ -200,10 +288,9 @@ class ServicesController extends Controller {
             $productCartItem->addOptionsValues(
                     $detail->getDetailName()->getAttribute()->getCanonicalName(), $detail->getValue());
 
-            $productCartItem->addConfiguration(true, CartItem::LOCK_FIELD);
             $productCartItem->addConfiguration(null, CartItem::TYPE_FIELD);
-            $productCartItem->addConfiguration(null, CartItem::TYPE_FIELD, $detail->getDetailName()->getId() );
-            $productCartItem->addConfiguration($detail->getValue(), CartItem::TYPE_FIELD, $detail->getDetailName()->getId(), CartItem::FIELD_VALUE);
+            $productCartItem->addConfiguration(null, CartItem::TYPE_FIELD, $detail->getDetailName()->getAttribute()->getCanonicalName());
+            $productCartItem->addConfiguration($detail->getValue(), CartItem::TYPE_FIELD, $detail->getDetailName()->getAttribute()->getCanonicalName(), CartItem::FIELD_VALUE);
         }
 
         $productCartItem->addHiddenValues("renting", $renting->getId());

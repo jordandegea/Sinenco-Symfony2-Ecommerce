@@ -30,7 +30,34 @@
                         {{ include("ShopProductBundle:Products/Includes:ProductNotAvailable.html.twig") }}
                     {% endif %}
                 </div>
-                {% if cartItem.product.price|getFieldPrice('oneTime') > 0 %}
+                {% if cartItem.configuration[constant('Shop\\CartBundle\\Entity\\CartItem::TYPE_PRICE')] is defined and 
+                        cartItem.configuration[constant('Shop\\CartBundle\\Entity\\CartItem::TYPE_PRICE')][constant('Shop\\CartBundle\\Entity\\CartItem::PRICE_TOTAL')] is defined
+                %}
+                <div class="col-xs-7 col-sm-8 col-md-9 col-lg-5" 
+                     style="font-weight:bold;">
+                    {{ cartItem.product.translate.name }}
+                </div>
+                <div class="row col-xs-7 col-sm-8 col-md-9 col-lg-4">
+                    <div class="col-xs-12 col-sm-4 
+                         col-lg-offset-0 col-lg-4
+                         col-md-offset-3 col-md-3
+                         text-right" 
+                         style="padding:3px">
+
+                        {{ cartItem.
+                            configuration
+                            [constant('Shop\\CartBundle\\Entity\\CartItem::TYPE_PRICE')]
+                            [constant('Shop\\CartBundle\\Entity\\CartItem::PRICE_TOTAL')]
+                            [0]|
+                            ConvertPrice(cartItem.
+                            configuration
+                            [constant('Shop\\CartBundle\\Entity\\CartItem::TYPE_PRICE')]
+                            [constant('Shop\\CartBundle\\Entity\\CartItem::PRICE_TOTAL')]
+                            [1])|
+                            FormatPrice }}
+                    </div>
+                </div> 
+                {% elseif cartItem.product.price|getFieldPrice('oneTime') > 0 %}
                     <div class="col-xs-7 col-sm-8 col-md-9 col-lg-5" 
                          style="font-weight:bold;">
                         {{ cartItem.product.translate.name }}
@@ -52,138 +79,138 @@
                                     'oneTime' ) }}
                         </div>
                     </div> 
-                {% else %}
-                    <div class="col-xs-7 col-sm-8 col-md-9 col-lg-9" 
-                         style="font-weight:bold;">
-                        {{ cartItem.product.translate.name }}
-                    </div>
-                {% endif %}
-
-                <fieldset>
-                    {% if cartItem.product.price|getFieldPrice('oneTime') == 0 %}
-                        <legend>{{ "cart.prices"|trans }}</legend>
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                            <ul>
-                                {% include 'ShopCartBundle:Cart/View:price_row.html.twig' with {'field': 'monthly'} %}
-                                {% include 'ShopCartBundle:Cart/View:price_row.html.twig' with {'field': 'quarterly'} %}
-                                {% include 'ShopCartBundle:Cart/View:price_row.html.twig' with {'field': 'semiannually'} %}
-                                {% include 'ShopCartBundle:Cart/View:price_row.html.twig' with {'field': 'annually'} %}
-                            </ul>
+                    {% else %}
+                        <div class="col-xs-7 col-sm-8 col-md-9 col-lg-9" 
+                             style="font-weight:bold;">
+                            {{ cartItem.product.translate.name }}
                         </div>
-                    {% endif %}
+                        {% endif %}
+
+                            <fieldset>
+                                {% if cartItem.product.price|getFieldPrice('oneTime') == 0 %}
+                                    <legend>{{ "cart.prices"|trans }}</legend>
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                        <ul>
+                                            {% include 'ShopCartBundle:Cart/View:price_row.html.twig' with {'field': 'monthly'} %}
+                                            {% include 'ShopCartBundle:Cart/View:price_row.html.twig' with {'field': 'quarterly'} %}
+                                            {% include 'ShopCartBundle:Cart/View:price_row.html.twig' with {'field': 'semiannually'} %}
+                                            {% include 'ShopCartBundle:Cart/View:price_row.html.twig' with {'field': 'annually'} %}
+                                        </ul>
+                                    </div>
+                                {% endif %}
 
 
-                    {% if cartItem.product.options|length > 0 %}
-                        <hr style="margin-bottom:5px;">
-                        <legend>{{ "cart.options"|trans }}</legend>
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                            <ul>
-                                {% for option in cartItem.product.options %}
-                                    {% set optionOnProduct = cartItem.product.options|findRowOnArrayWithCanonicalName(option.canonicalName) %}
-                                    {% if cartItem.optionsValues[optionOnProduct.canonicalName] is not empty %}
-                                        <li>
-                                            {{ optionOnProduct.translate.fieldName }}{% if optionOnProduct.required %}*{% endif %} : 
-                                            {% if optionOnProduct.type == "choice" %}
-                                                {% set optionValue = displayOptionValue(
+                                {% if cartItem.product.options|length > 0 %}
+                                    <hr style="margin-bottom:5px;">
+                                    <legend>{{ "cart.options"|trans }}</legend>
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                        <ul>
+                                            {% for option in cartItem.product.options %}
+                                                {% set optionOnProduct = cartItem.product.options|findRowOnArrayWithCanonicalName(option.canonicalName) %}
+                                                {% if cartItem.optionsValues[optionOnProduct.canonicalName] is not empty %}
+                                                    <li>
+                                                        {{ optionOnProduct.translate.fieldName }}{% if optionOnProduct.required %}*{% endif %} : 
+                                                        {% if optionOnProduct.type == "choice" %}
+                                                            {% set optionValue = displayOptionValue(
                                                     optionOnProduct, 
                                                     cartItem.optionsValues[optionOnProduct.canonicalName]
                                                 ) %}
-                                                <strong>
-                                                    {{ optionValue.translate.value}}
-                                                </strong>
-                                                {% if not optionValue.price is empty %}
-                                                    {{ displayPriceOption(cartItem, optionValue)|raw }}
-                                                {% endif %}
-                                            {% elseif optionOnProduct.type == "checkbox" %}
-                                                {% if cartItem.optionsValues[optionOnProduct.canonicalName] == "on" %}
-                                                    <strong>
-                                                        <span class="glyphicon glyphicon-ok"></span>
-                                                    </strong>
-                                                    {% for option in optionOnProduct.values %}
-                                                        {% if not option.price is empty %}
-                                                            {{ displayPriceOption(cartItem, option)|raw }}
+                                                            <strong>
+                                                                {{ optionValue.translate.value}}
+                                                            </strong>
+                                                            {% if not optionValue.price is empty %}
+                                                                {{ displayPriceOption(cartItem, optionValue)|raw }}
+                                                            {% endif %}
+                                                        {% elseif optionOnProduct.type == "checkbox" %}
+                                                            {% if cartItem.optionsValues[optionOnProduct.canonicalName] == "on" %}
+                                                                <strong>
+                                                                    <span class="glyphicon glyphicon-ok"></span>
+                                                                </strong>
+                                                                {% for option in optionOnProduct.values %}
+                                                                    {% if not option.price is empty %}
+                                                                        {{ displayPriceOption(cartItem, option)|raw }}
+                                                                    {% endif %}
+                                                                {% endfor %}
+                                                            {% endif %}
+                                                        {% else %}
+                                                            <strong>
+                                                                {{ cartItem.optionsValues[optionOnProduct.canonicalName] }}
+                                                            </strong>
                                                         {% endif %}
-                                                    {% endfor %}
+
+                                                    </li>
                                                 {% endif %}
-                                            {% else %}
-                                                <strong>
-                                                    {{ cartItem.optionsValues[optionOnProduct.canonicalName] }}
-                                                </strong>
-                                            {% endif %}
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                {% endif %}
 
-                                        </li>
-                                    {% endif %}
-                                {% endfor %}
-                            </ul>
+
                         </div>
-                    {% endif %}
+
+                    </div>
+                    <hr>
+                    {% endfor %}
 
 
-            </div>
+                        <hr>
 
-        </div>
-        <hr>
-    {% endfor %}
+                        <div class="row">
+                            <div class="col-xs-12
+                                 col-sm-6
+                                 text-left">
+                                {{ "cart.text_about_TVA_bottom_view"|trans }}
+                            </div>
+                            <div class="col-xs-12 
+                                 col-sm-6
+                                 text-right">
+                                {{ "totalPrice"|trans({'%price%':  shop_cart_service.getTotalPriceHT()|FormatPrice }) }}
+                            </div>
+                        </div>
 
-
-    <hr>
-
-    <div class="row">
-        <div class="col-xs-12
-             col-sm-6
-             text-left">
-            {{ "cart.text_about_TVA_bottom_view"|trans }}
-        </div>
-        <div class="col-xs-12 
-             col-sm-6
-             text-right">
-            {{ "totalPrice"|trans({'%price%':  shop_cart_service.getTotalPriceHT()|FormatPrice }) }}
-        </div>
-    </div>
-
-    <hr />
+                        <hr />
 
 
 
 
-    {# On affiche l'adresse de facturation choisi #}
-    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-        <div class="panel panel-primary">
-            <div class="panel-heading">
-                <h3 class="panel-title">{{ "cart.billing_address"|trans }}</h3>
-            </div>
-            <div class="panel-body">
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <div class="well well-sm"
-                         {{ cart.billingAddress|nl2br }}
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+                        {# On affiche l'adresse de facturation choisi #}
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                            <div class="panel panel-primary">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">{{ "cart.billing_address"|trans }}</h3>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                        <div class="well well-sm"
+                                             {{ cart.billingAddress|nl2br }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
 
-{{ form_start(form, { 'method': 'POST'}) }}  
-{{ form_row(form.children._token) }}                
-<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-    <div class="panel panel-primary">
-        <div class="panel-heading">
-            <h3 class="panel-title">Commentaire, a traduiore </h3>
-        </div>
-        <div class="panel-body">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <div class="well well-sm">
-                    {{ form_widget(form.comment, {"attr":{"class":"form-control"} }) }}
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+                    {{ form_start(form, { 'method': 'POST'}) }}  
+                    {{ form_row(form.children._token) }}                
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Commentaire, a traduiore </h3>
+                            </div>
+                            <div class="panel-body">
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                    <div class="well well-sm">
+                                        {{ form_widget(form.comment, {"attr":{"class":"form-control"} }) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-    <input type="submit" class="btn btn-success btn-block btn-md" value="{{ 'cart.invoice_transform'|trans }}" />
-</div>
-{% endblock %}
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                        <input type="submit" class="btn btn-success btn-block btn-md" value="{{ 'cart.invoice_transform'|trans }}" />
+                    </div>
+                    {% endblock %}
 
 
 

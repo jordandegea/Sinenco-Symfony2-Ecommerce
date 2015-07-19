@@ -1,10 +1,10 @@
 <?php
- 
+
 namespace Shop\CartBundle\Entity\Traits;
- 
+
 use Doctrine\ORM\Mapping as ORM;
- 
-trait CartOptionsTrait{
+
+trait CartOptionsTrait {
 
     /**
      * @var array
@@ -13,25 +13,25 @@ trait CartOptionsTrait{
      */
     private $configuration;
 
-    public function __initCartOptionsTrait(){
-        if ( $this->configuration == null ) {
+    public function __initCartOptionsTrait() {
+        if ($this->configuration == null) {
             $this->configuration = [0 => true];
         }
     }
-    public function __onPersistOrUpdate(){
-        if ( $this->configuration == null ) {
+
+    public function __onPersistOrUpdate() {
+        if ($this->configuration == null) {
             $this->configuration = [0 => true];
         }
     }
-    
+
     /**
      * Set configuration
      *
      * @param array $configuration
      * @return CartItem
      */
-    public function setConfiguration($configuration)
-    {
+    public function setConfiguration($configuration) {
         $this->configuration = $configuration;
 
         return $this;
@@ -42,80 +42,77 @@ trait CartOptionsTrait{
      *
      * @return array 
      */
-    public function getConfiguration()
-    {
+    public function getConfiguration() {
         return $this->configuration;
     }
-    
-    public function setFirstTime( $isTrue ){
-        $this->configuration[0] = $isTrue ;
+
+    public function setFirstTime($isTrue) {
+        $this->configuration[0] = $isTrue;
     }
-    
-    public function isFirstTIme(){
-        return $this->configuration[0] ; 
+
+    public function isFirstTIme() {
+        return $this->configuration[0];
     }
-    
-    
-    public function getConfigurationValue( $key1, $key2 = null, $key3 = null ){
-        if ( ! array_key_exists($key1, $this->configuration) ){
-            if ( $key2 == null ){
-                return $this->configuration[$key1]  ;
-                
+
+    public function getConfigurationValue($key1, $key2 = null, $key3 = null) {
+        if (array_key_exists($key1, $this->configuration)) {
+            if ($key2 === null) {
+                return $this->configuration[$key1];
             }
+        }else{
+            return null ; 
         }
-           
-        if ( $this->configuration[$key1] == null || ! array_key_exists($key2, $this->configuration[$key1]) ){
-            if ( $key3 == null ){
-                return $this->configuration[$key1][$key2] ; 
+
+        if (array_key_exists($key2, $this->configuration[$key1])) {
+            if ($key3 === null) {
+                return $this->configuration[$key1][$key2];
             }
+        }else{
+            return null ; 
         }
-        
-        if ( $this->configuration[$key1][$key2] == null || ! array_key_exists($key3, $this->configuration[$key1][$key2]) ){
-            return $this->configuration[$key1][$key2][$key3] ; 
+
+        if (array_key_exists($key3, $this->configuration[$key1][$key2])) {
+            return $this->configuration[$key1][$key2][$key3];
         }
         return null;
     }
-    
-    
-    public function addConfiguration($value, $key1, $key2 = null, $key3 = null ){
-        
-        if ( ! array_key_exists($key1, $this->configuration) ){
-            if ( $key2 == null ){
-                $this->configuration[$key1] = $value ;
-                return true ; 
+
+    public function addConfiguration($value, $key1, $key2 = null, $key3 = null) {
+
+        if (!array_key_exists($key1, $this->configuration)) {
+            if ($key2 == null) {
+                $this->configuration[$key1] = $value;
+                return true;
             }
         }
-           
-        if ( $this->configuration[$key1] == null || ! array_key_exists($key2, $this->configuration[$key1]) ){
-            if ( $key3 == null ){
-                $this->configuration[$key1][$key2] = $value ;
-                return true ; 
+
+        if ($this->configuration[$key1] == null || !array_key_exists($key2, $this->configuration[$key1])) {
+            if ($key3 == null) {
+                $this->configuration[$key1][$key2] = $value;
+                return true;
             }
         }
-        
-        if ( $this->configuration[$key1][$key2] == null || ! array_key_exists($key3, $this->configuration[$key1][$key2]) ){
-            $this->configuration[$key1][$key2][$key3] = $value ;
-            return true ; 
+
+        if ($this->configuration[$key1][$key2] == null || !array_key_exists($key3, $this->configuration[$key1][$key2])) {
+            $this->configuration[$key1][$key2][$key3] = $value;
+            return true;
         }
         return false;
     }
-    
-    
-    public function forceAdd($value, $key1, $key2 = null, $key3 = null ){
-        if ( $key2 == null ){
-            $this->configuration[$key1] = $value ;
-            return true ; 
+
+    public function forceAdd($value, $key1, $key2 = null, $key3 = null) {
+        if ($key2 == null) {
+            $this->configuration[$key1] = $value;
+            return true;
         }
 
-        if ( $key3 == null ){
-            $this->configuration[$key1][$key2] = $value ;
-            return true ; 
+        if ($key3 == null) {
+            $this->configuration[$key1][$key2] = $value;
+            return true;
         }
-        
-        $this->configuration[$key1][$key2][$key3] = $value ;
-        return true ;
+
+        $this->configuration[$key1][$key2][$key3] = $value;
+        return true;
     }
-    
-    
-    
+
 }

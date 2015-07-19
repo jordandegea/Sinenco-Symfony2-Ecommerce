@@ -11,7 +11,10 @@ interface CartOptionsInterface{
     
     const TYPE_FIELD = 1 ; 
     const TYPE_PRICE = 2 ;
-    const LOCK_FIELD = 3 ; 
+    
+    // Dans TYPE_FIELD
+    const CHANGE_FIELDS = 3 ; 
+    const HIDE_FIELDS = 4 ; 
     
     
     const FIELD_HIDE = 0 ; 
@@ -19,6 +22,11 @@ interface CartOptionsInterface{
     const FIELD_ADD = 2 ;
     const FIELD_NAME = 3 ;
     const FIELD_VALUE = 4 ;
+    
+    const PRICE_TOTAL = 0 ; 
+    
+    const PRICE_TOTAL_AMOUNT = 0 ; 
+    const PRICE_TOTAL_CURRENCY = 1 ; 
     
     public function _initCartOptionsTrait();
 }

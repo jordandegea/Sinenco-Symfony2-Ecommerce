@@ -16,30 +16,28 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="Shop\CartBundle\Entity\CartItemRepository")
  * @ORM\HasLifecycleCallbacks() 
  */
-class CartItem implements CartOptionsInterface{
+class CartItem implements CartOptionsInterface {
 
-    use CartOptionsTrait ;
-    
-    public function _initCartOptionsTrait(){
+    use CartOptionsTrait;
+
+    public function _initCartOptionsTrait() {
         $this->__initCartOptionsTrait();
     }
-    /** 
+
+    /**
      * @ORM\PreUpdate 
-     */  
-    public function setUpdatedAt()  
-    {  
-        $this->__onPersistOrUpdate(); 
-    }  
-    /** 
+     */
+    public function setUpdatedAt() {
+        $this->__onPersistOrUpdate();
+    }
+
+    /**
      * @ORM\PrePersist 
-     */  
-    public function setCreatedAt()  
-    {  
-        $this->__onPersistOrUpdate();  
-    }  
-    
-    
-    
+     */
+    public function setCreatedAt() {
+        $this->__onPersistOrUpdate();
+    }
+
     /**
      * @var integer
      *
@@ -68,13 +66,12 @@ class CartItem implements CartOptionsInterface{
      */
     private $product;
 
-    
     /**
      * @ORM\ManyToOne(targetEntity="Shop\ProductBundle\Entity\Purchases")
      * @ORM\JoinColumn(nullable=true)
      */
     private $purchase;
-    
+
     /**
      * @var array
      *
@@ -88,14 +85,15 @@ class CartItem implements CartOptionsInterface{
      * @ORM\Column(name="hiddenValues", type="array")
      */
     private $hiddenValues;
-    
+
     public function __toString() {
         return (string) $this->id;
     }
-    
+
     public function __construct() {
-        $this->hiddenValues = array() ;
+        $this->hiddenValues = array();
     }
+
     /**
      * Get id
      *
@@ -201,20 +199,19 @@ class CartItem implements CartOptionsInterface{
         return $this->prices;
     }
 
-    
     public function addHiddenValues($field, $optionValue) {
         $this->hiddenValues[$field] = $optionValue;
 
         return $this;
     }
+
     /**
      * Set hiddenValues
      *
      * @param array $hiddenValues
      * @return CartItem
      */
-    public function setHiddenValues($hiddenValues)
-    {
+    public function setHiddenValues($hiddenValues) {
         $this->hiddenValues = $hiddenValues;
 
         return $this;
@@ -225,11 +222,9 @@ class CartItem implements CartOptionsInterface{
      *
      * @return array 
      */
-    public function getHiddenValues()
-    {
+    public function getHiddenValues() {
         return $this->hiddenValues;
     }
-
 
     /**
      * Set purchase
@@ -238,8 +233,7 @@ class CartItem implements CartOptionsInterface{
      *
      * @return CartItem
      */
-    public function setPurchase(\Shop\ProductBundle\Entity\Purchases $purchase = null)
-    {
+    public function setPurchase(\Shop\ProductBundle\Entity\Purchases $purchase = null) {
         $this->purchase = $purchase;
 
         return $this;
@@ -250,8 +244,8 @@ class CartItem implements CartOptionsInterface{
      *
      * @return \Shop\ProductBundle\Entity\Purchases
      */
-    public function getPurchase()
-    {
+    public function getPurchase() {
         return $this->purchase;
     }
+
 }
