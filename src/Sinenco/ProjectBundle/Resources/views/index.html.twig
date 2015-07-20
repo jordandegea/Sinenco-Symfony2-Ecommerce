@@ -1,0 +1,58 @@
+{# src/OC/PlatformBundle/Resources/views/Advert/edit.html.twig #}
+
+{% extends "SinencoProjectBundle::layout.html.twig" %}
+
+{% block title %}
+    {{ parent() }}
+{% endblock %}
+
+
+{% block body %}
+
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+
+            <div class="row">
+                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                    <img src="{{ asset('bundles/sinencoproject/images/domains.png') }}" alt="domains" class="img-responsive" style='width:50%;margin:auto' >
+                    <h3>{{ "sinenco.project.presentation.domains.title"|trans() }}</h3>
+                    <p>
+                        {{ "sinenco.project.presentation.domains.content"|trans()|raw }}
+                    </p>
+                </div>
+
+                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                    <img src="{{ asset('bundles/sinencoproject/images/managment.png') }}" alt="managing" class="img-responsive" style='width:50%;margin:auto'>
+                    <h3>{{ "sinenco.project.presentation.managment.title"|trans() }}</h3>
+                    <p>
+                        {{ "sinenco.project.presentation.managment.content"|trans()|raw }} 
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                    <img src="{{ asset('bundles/sinencoproject/images/prices.png') }}" alt="prices" class="img-responsive" style='width:50%;margin:auto'>
+                    <h3>{{ "sinenco.project.presentation.prices.title"|trans() }}</h3>
+                    <p>
+                        {{ "sinenco.project.presentation.prices.content"|trans()|raw }}
+                    </p>
+                </div>
+
+                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                    <img src="{{ asset('bundles/sinencoproject/images/motivation.png') }}" alt="motivation" class="img-responsive" style='width:50%;margin:auto'>
+                    <h3>{{ "sinenco.project.presentation.motivation.title"|trans() }}</h3>
+                    <p> 
+                        {{ "sinenco.project.presentation.motivation.content"|trans()|raw }}
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+            <h3>{{ "sinenco.project.your_projects"|trans() }}</h3>
+            <a href="" class="btn btn-block btn-success">{{ "sinenco.project.ask"|trans() }}</a>
+        </div>
+    </div>
+
+{% endblock %}

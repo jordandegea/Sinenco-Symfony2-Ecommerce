@@ -4,6 +4,7 @@ assetic:
     use_controller: false
     bundles:
          - SinencoCoreBundle
+         - SinencoProjectBundle
          - ShopCartBundle
          - ShopCoreBundle
          - ShopProductBundle

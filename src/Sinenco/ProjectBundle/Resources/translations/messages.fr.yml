@@ -1,0 +1,27 @@
+sinenco:
+    project:
+        title: Projets
+        your_projects: Vos projets
+        ask: Faire une demande
+        presentation:
+            domains:
+                title: Compétences
+                content: |
+                    Mobile : iOS and Android<br />
+                    Bureau : C++, JAVA, Qt<br />
+                    Web : HTML, CSS, PHP, Symfony2<br />
+                    Autres : Mathematiques 
+            managment:
+                title: Gestion de projet
+                content: |
+                    Avant le projet, nous refléchissons ensemble à la réalisation de votre projet. <br />
+                    Durant le projet, vous pouvez voir son avancement.  
+            prices:
+                title: Prix honnete
+                content: |
+                    Nous trouverons la meilleure solution adaptée à votre budget. 
+            motivation:
+                title: Confiance et Motivation
+                content: |
+                    Nous demandons un petit acompte au début du projet dependant du prix. Puis le reste à la livraison. 
+                    

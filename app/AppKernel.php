@@ -64,7 +64,8 @@ class AppKernel extends Kernel
             
             //vendor Sinenco
             new Sinenco\AllopassPaymentBundle\SinencoAllopassPaymentBundle()
-            
+,
+            new Sinenco\ProjectBundle\SinencoProjectBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

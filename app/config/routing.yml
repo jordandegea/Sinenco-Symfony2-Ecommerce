@@ -1,3 +1,7 @@
+sinenco_project:
+    resource: "@SinencoProjectBundle/Resources/config/routing.yml"
+    prefix:   /{_locale}/project/
+
 
 
 services_allopass:

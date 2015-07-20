@@ -1,0 +1,27 @@
+sinenco:
+    project:
+        title: Projects
+        your_projects: Your projects
+        ask: Ask for a project
+        presentation:
+            domains:
+                title: Expertise
+                content: |
+                    Mobile : iOS and Android<br />
+                    Desktop : C++, JAVA, Qt<br />
+                    Web : HTML, CSS, PHP, Symfony2<br />
+                    Others : Mathematics 
+            managment:
+                title: Project Managing
+                content: |
+                    Before you're project, we think together about your project. <br />
+                    During the project, you can follow its advancement.  
+            prices:
+                title: Honest Prices
+                content: |
+                    We will find the best solution according to your budget. 
+            motivation:
+                title: Trust and Motivation
+                content: |
+                   We ask a little down payment at the start of the project depending of the price and the rest on delivery.
+                    
