@@ -28,6 +28,7 @@ doctrine:
                     SinencoCoreBundle: ~
                     SinencoUserBundle: ~
                     SinencoBlogBundle: ~
+                    SinencoProjectBundle: ~
                     ShopUserBundle: ~
                     ShopCartBundle: ~
                     ShopCoreBundle: ~

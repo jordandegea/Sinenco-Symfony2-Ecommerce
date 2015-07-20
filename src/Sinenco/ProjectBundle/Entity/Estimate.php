@@ -32,4 +32,3 @@ class Estimate
         return $this->id;
     }
 }
-

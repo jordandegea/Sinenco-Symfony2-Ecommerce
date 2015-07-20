@@ -1,0 +1,53 @@
+{# src/OC/PlatformBundle/Resources/views/Advert/edit.html.twig #}
+
+{% extends "SinencoProjectBundle::layout.html.twig" %}
+
+{% block title %}
+    {{ parent() }}
+{% endblock %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="//cdn.ckeditor.com/4.4.7/standard/ckeditor.js" type="text/javascript"></script>
+{% endblock %}
+
+
+{% block body %}
+
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <h2>New project</h2>
+            {{ form_start(form, {'attr':{ "class":"form-horizontal"} }) }}
+
+            <div class="form-group">
+                <label for="form.title.vars.id" class="col-xs-12 col-sm-3 col-md-3 col-lg-2 control-label">{{ "sinenco.project.new.name"|trans() }}</label>
+                <div class="col-xs-12 col-sm-9 col-md-9 col-lg-10">
+                    {{ form_widget(form.title, {"attr" : {"class":"form-control"} }) }}
+                </div>
+                <hr>
+            </div>
+            <div class="form-group">
+                <label for="form.title.vars.id" class="col-xs-12 col-sm-3 col-md-3 col-lg-2 control-label">{{ "sinenco.project.new.summary"|trans() }}</label>
+                <div class="col-xs-12 col-sm-9 col-md-9 col-lg-10">
+                    {{ form_widget(form.summary) }}
+                </div>            
+                <hr>
+            </div>
+            <div class="form-group">
+                <label for="form.title.vars.id" class="col-xs-12 col-sm-3 col-md-3 col-lg-2 control-label">{{ "sinenco.project.new.price"|trans() }}</label>
+                <div class="col-xs-12 col-sm-9 col-md-9 col-lg-10">
+                    {{ form_widget(form.priceMax, {"attr" : {"class":"form-control"} }) }}
+                </div>
+            </div>
+                
+            <input type="submit" class="btn btn-block btn-success" />
+
+
+            {{ form_widget(form._token) }}
+
+            {{ form_end(form) }}
+        </div>
+    </div>
+
+{% endblock %}

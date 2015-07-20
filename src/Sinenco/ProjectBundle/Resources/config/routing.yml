@@ -1,3 +1,7 @@
 sinenco_project_homepage:
     path:     /
     defaults: { _controller: SinencoProjectBundle:Project:index }
+    
+sinenco_project_new:
+    path:     /new
+    defaults: { _controller: SinencoProjectBundle:Project:new }

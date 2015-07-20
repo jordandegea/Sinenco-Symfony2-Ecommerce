@@ -3,6 +3,10 @@ sinenco:
         title: Projects
         your_projects: Your projects
         ask: Ask for a project
+        new:
+            name: Name
+            summary: Description
+            price: Budget
         presentation:
             domains:
                 title: Expertise

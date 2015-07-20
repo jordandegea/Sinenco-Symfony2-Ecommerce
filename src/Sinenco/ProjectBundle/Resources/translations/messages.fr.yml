@@ -3,6 +3,10 @@ sinenco:
         title: Projets
         your_projects: Vos projets
         ask: Faire une demande
+        new:
+            name: Nom
+            summary: Description
+            price: Budget
         presentation:
             domains:
                 title: Compétences

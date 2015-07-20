@@ -51,7 +51,34 @@
 
         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
             <h3>{{ "sinenco.project.your_projects"|trans() }}</h3>
-            <a href="" class="btn btn-block btn-success">{{ "sinenco.project.ask"|trans() }}</a>
+
+            {% for project in projects %}
+                <div class="panel 
+                     {% if project.state == constant("Sinenco\\ProjectBundle\\Entity\\Project::STATE_WAITING_DEV") %}
+                     panel-primary
+                     {% elseif project.state == constant("Sinenco\\ProjectBundle\\Entity\\Project::STATE_WAITING_USER") %}
+                     panel-warning
+                     {%  elseif project.state == constant("Sinenco\\ProjectBundle\\Entity\\Project::STATE_WAITING_REFUSE") %}
+                     panel-danger
+                     {%  elseif project.state == constant("Sinenco\\ProjectBundle\\Entity\\Project::STATE_WAITING_ACTIVE") %}
+                     panel-success
+                     {% else %}
+                     panel-primary
+                     {% endif %}
+                     ">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">{{project.title}}</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="well col-xs-12 col-lg-6">
+                            
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+            <a href="{{ path("sinenco_project_new") }}" class="btn btn-block btn-success">{{ "sinenco.project.ask"|trans() }}</a>
+
         </div>
     </div>
 

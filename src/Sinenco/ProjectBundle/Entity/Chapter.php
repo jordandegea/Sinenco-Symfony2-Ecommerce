@@ -40,6 +40,12 @@ class Chapter {
      * @ORM\Column(name="content", type="text")
      */
     private $content;
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="content_temp", type="text")
+     */
+    private $content_temp;
 
     /**
      * Get id
@@ -72,6 +78,8 @@ class Chapter {
         return $this->title;
     }
 
+
+
     /**
      * Set content
      *
@@ -79,7 +87,8 @@ class Chapter {
      *
      * @return Chapter
      */
-    public function setContent($content) {
+    public function setContent($content)
+    {
         $this->content = $content;
 
         return $this;
@@ -90,8 +99,56 @@ class Chapter {
      *
      * @return string
      */
-    public function getContent() {
+    public function getContent()
+    {
         return $this->content;
     }
 
+    /**
+     * Set contentTemp
+     *
+     * @param string $contentTemp
+     *
+     * @return Chapter
+     */
+    public function setContentTemp($contentTemp)
+    {
+        $this->content_temp = $contentTemp;
+
+        return $this;
+    }
+
+    /**
+     * Get contentTemp
+     *
+     * @return string
+     */
+    public function getContentTemp()
+    {
+        return $this->content_temp;
+    }
+
+    /**
+     * Set document
+     *
+     * @param \Sinenco\ProjectBundle\Entity\Document $document
+     *
+     * @return Chapter
+     */
+    public function setDocument(\Sinenco\ProjectBundle\Entity\Document $document = null)
+    {
+        $this->document = $document;
+
+        return $this;
+    }
+
+    /**
+     * Get document
+     *
+     * @return \Sinenco\ProjectBundle\Entity\Document
+     */
+    public function getDocument()
+    {
+        return $this->document;
+    }
 }
