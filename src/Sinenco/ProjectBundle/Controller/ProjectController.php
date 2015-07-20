@@ -22,6 +22,17 @@ class ProjectController extends Controller {
     /**
      * @Security("has_role('ROLE_USER')")
      */
+    public function detailAction($id) {
+        $repository = $this->getDoctrine()->getManager()->getRepository('SinencoProjectBundle:Project');
+
+        $project = $repository->find($id);
+
+        return $this->render('SinencoProjectBundle::detail.html.twig', array('projects' => $project));
+    }
+
+    /**
+     * @Security("has_role('ROLE_USER')")
+     */
     public function newAction(Request $request) {
 
 

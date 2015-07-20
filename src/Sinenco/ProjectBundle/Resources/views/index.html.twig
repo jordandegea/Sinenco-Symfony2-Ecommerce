@@ -55,23 +55,42 @@
             {% for project in projects %}
                 <div class="panel 
                      {% if project.state == constant("Sinenco\\ProjectBundle\\Entity\\Project::STATE_WAITING_DEV") %}
-                     panel-primary
+                         panel-primary
                      {% elseif project.state == constant("Sinenco\\ProjectBundle\\Entity\\Project::STATE_WAITING_USER") %}
-                     panel-warning
-                     {%  elseif project.state == constant("Sinenco\\ProjectBundle\\Entity\\Project::STATE_WAITING_REFUSE") %}
-                     panel-danger
-                     {%  elseif project.state == constant("Sinenco\\ProjectBundle\\Entity\\Project::STATE_WAITING_ACTIVE") %}
-                     panel-success
+                         panel-warning
+                     {%  elseif project.state == constant("Sinenco\\ProjectBundle\\Entity\\Project::STATE_REFUSE") %}
+                         panel-danger
+                     {%  elseif project.state == constant("Sinenco\\ProjectBundle\\Entity\\Project::STATE_ACTIVE") %}
+                         panel-success
                      {% else %}
-                     panel-primary
+                         panel-primary
                      {% endif %}
                      ">
                     <div class="panel-heading">
-                        <h3 class="panel-title">{{project.title}}</h3>
+                        <h3 class="panel-title">
+                            {{ project.title }}
+                            <a class="pull-right" href="{{ path("sinenco_project_detail", {"id":project.id}) }}">
+                                <strong><span class="glyphicon glyphicon-search" ></span></strong>
+                            </a>
+                        </h3>
+
                     </div>
                     <div class="panel-body">
                         <div class="well col-xs-12 col-lg-6">
-                            
+                            <strong>{{ "sinenco.project.list.state_"|trans() }}</strong>
+                            {{ "sinenco.project.list.state_number"|transchoice(project.state) }}
+                        </div>
+                        <div class="well col-xs-12 col-lg-6">
+                            {%  if project.state == constant("Sinenco\\ProjectBundle\\Entity\\Project::STATE_ACTIVE") %}
+                                <strong>{{ "sinenco.project.list.price"|trans() }}</strong>
+                                {{ project.priceMin }} {{ project.currency }}
+                            {% else %}
+                                <strong>{{ "sinenco.project.list.budget"|trans() }}</strong>
+                                {% if project.priceMin > 0 %}
+                                    {{ project.priceMin }}-
+                                {% endif %}
+                                {{ project.priceMax }} {{ project.currency }}
+                            {% endif %}
                         </div>
                     </div>
                 </div>

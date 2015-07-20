@@ -5,3 +5,9 @@ sinenco_project_homepage:
 sinenco_project_new:
     path:     /new
     defaults: { _controller: SinencoProjectBundle:Project:new }
+    
+sinenco_project_detail:
+    path:     /{id}
+    defaults: { _controller: SinencoProjectBundle:Project:detail }
+    requirements:
+        id: \d+

@@ -7,6 +7,11 @@ sinenco:
             name: Name
             summary: Description
             price: Budget
+        list:
+            state_: "State: "
+            state_number: "{0} Waiting dev response|{1} Waiting your response|{2} Refused|{3} In progress|[4,+Inf]Unknown"
+            price: "Price : "
+            budget: "Budget : "
         presentation:
             domains:
                 title: Expertise
