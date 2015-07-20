@@ -46,7 +46,7 @@ class MailReminderCommand extends ContainerAwareCommand {
 
         $repository = $em
                 ->getRepository('SinencoUserBundle:User');
-        
+
         $users = $repository->findAll();
 
         $i = 0;
@@ -93,20 +93,22 @@ class MailReminderCommand extends ContainerAwareCommand {
             }
         }
 
-        if ($send == true && $result == true) {
-            // Alors on envoie le mail
-            $this
-                    ->getContainer()
-                    ->get('mail_service')
-                    ->sendMail(
-                            $this->getContainer(), $this
-                            ->getContainer()->get('translator')
-                            ->trans('services.mail.subject'), $user
-                            ->getEmail(), "ServicesCoreBundle:Mails:reminder.text.twig", array(
-                        'user' => $user,
-                        'rentings' => $rentings
-                            ), true, "ServicesCoreBundle:Mails:reminder.html.twig", true
-            );
+        if ($result == true) {
+            if ($send == true) {
+                // Alors on envoie le mail
+                $this
+                        ->getContainer()
+                        ->get('mail_service')
+                        ->sendMail(
+                                $this->getContainer(), $this
+                                ->getContainer()->get('translator')
+                                ->trans('services.mail.subject'), $user
+                                ->getEmail(), "ServicesCoreBundle:Mails:reminder.text.twig", array(
+                            'user' => $user,
+                            'rentings' => $rentings
+                                ), true, "ServicesCoreBundle:Mails:reminder.html.twig", true
+                );
+            }
             return true;
         }
 
