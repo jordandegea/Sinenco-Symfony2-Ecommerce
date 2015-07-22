@@ -13,7 +13,7 @@
                                 {% set diff = date().diff(renting.expiration)%}
                                 <p>
                                     {{ renting.service.translate.name }} 
-                                    {% if diff.invert == 0 %}
+                                    {% if diff.invert == 1 %}
                                         {{ "services.mail.expire_in"|trans({
                                             "%name%":renting.service.translate.name,    
                                             "%date%" : renting.expiration|date("Y-m-d"),
