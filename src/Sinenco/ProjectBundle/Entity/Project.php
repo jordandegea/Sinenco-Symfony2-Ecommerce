@@ -5,6 +5,9 @@ namespace Sinenco\ProjectBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Sinenco\ProjectBundle\Entity\Document,
     Sinenco\ProjectBundle\Entity\Estimate;
+use Sinenco\UserBundle\Entity\User,
+    Sinenco\ProjectBundle\Entity\ChatLine,
+    Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Project
@@ -15,11 +18,11 @@ use Sinenco\ProjectBundle\Entity\Document,
  */
 class Project {
 
-    const STATE_WAITING_DEV  = 0;
-    const STATE_WAITING_USER  = 1;
-    const STATE_REFUSED  = 2;
+    const STATE_WAITING_DEV = 0;
+    const STATE_WAITING_USER = 1;
+    const STATE_REFUSED = 2;
     const STATE_ACTIVE = 3;
-    
+
     /**
      * @var integer
      *
@@ -34,6 +37,13 @@ class Project {
      *  @ORM\JoinTable()
      * */
     private $user;
+
+    /**
+     * @var datetime $created
+     *
+     * @ORM\Column(type="datetime")
+     */
+    protected $createdAt;
 
     /**
      * @var string
@@ -103,9 +113,14 @@ class Project {
     private $estimate; // Devis
 
     /**
+     * @ORM\OneToMany(targetEntity="Sinenco\ProjectBundle\Entity\ChatLine", mappedBy="project", cascade={"remove", "persist"})
+     * @ORM\JoinColumn(nullable=true)
+     */
+    protected $chatLines;
+
+    /**
      * @ORM\PrePersist
      */
-
     public function onPrePersist() {
         if ($this->currency == null) {
             $this->currency = "EUR";
@@ -243,7 +258,6 @@ class Project {
         return $this->currency;
     }
 
-
     /**
      * Set state
      *
@@ -251,8 +265,7 @@ class Project {
      *
      * @return Project
      */
-    public function setState($state)
-    {
+    public function setState($state) {
         $this->state = $state;
 
         return $this;
@@ -263,8 +276,7 @@ class Project {
      *
      * @return string
      */
-    public function getState()
-    {
+    public function getState() {
         return $this->state;
     }
 
@@ -275,8 +287,7 @@ class Project {
      *
      * @return Project
      */
-    public function setReference($reference)
-    {
+    public function setReference($reference) {
         $this->reference = $reference;
 
         return $this;
@@ -287,8 +298,7 @@ class Project {
      *
      * @return string
      */
-    public function getReference()
-    {
+    public function getReference() {
         return $this->reference;
     }
 
@@ -299,8 +309,7 @@ class Project {
      *
      * @return Project
      */
-    public function setUser(\Sinenco\UserBundle\Entity\User $user = null)
-    {
+    public function setUser(User $user = null) {
         $this->user = $user;
 
         return $this;
@@ -311,8 +320,7 @@ class Project {
      *
      * @return \Sinenco\UserBundle\Entity\User
      */
-    public function getUser()
-    {
+    public function getUser() {
         return $this->user;
     }
 
@@ -323,8 +331,7 @@ class Project {
      *
      * @return Project
      */
-    public function setSpecification(\Sinenco\ProjectBundle\Entity\Document $specification = null)
-    {
+    public function setSpecification(Document $specification = null) {
         $this->specification = $specification;
 
         return $this;
@@ -335,8 +342,7 @@ class Project {
      *
      * @return \Sinenco\ProjectBundle\Entity\Document
      */
-    public function getSpecification()
-    {
+    public function getSpecification() {
         return $this->specification;
     }
 
@@ -347,8 +353,7 @@ class Project {
      *
      * @return Project
      */
-    public function setProposition(\Sinenco\ProjectBundle\Entity\Document $proposition = null)
-    {
+    public function setProposition(Document $proposition = null) {
         $this->proposition = $proposition;
 
         return $this;
@@ -359,8 +364,7 @@ class Project {
      *
      * @return \Sinenco\ProjectBundle\Entity\Document
      */
-    public function getProposition()
-    {
+    public function getProposition() {
         return $this->proposition;
     }
 
@@ -371,8 +375,7 @@ class Project {
      *
      * @return Project
      */
-    public function setEstimate(\Sinenco\ProjectBundle\Entity\Estimate $estimate = null)
-    {
+    public function setEstimate(Estimate $estimate = null) {
         $this->estimate = $estimate;
 
         return $this;
@@ -383,8 +386,68 @@ class Project {
      *
      * @return \Sinenco\ProjectBundle\Entity\Estimate
      */
-    public function getEstimate()
-    {
+    public function getEstimate() {
         return $this->estimate;
     }
+
+    /**
+     * Constructor
+     */
+    public function __construct() {
+        $this->chatLines = new ArrayCollection();
+    }
+
+    /**
+     * Add chatLine
+     *
+     * @param \Sinenco\ProjectBundle\Entity\ChatLine $chatLine
+     *
+     * @return Project
+     */
+    public function addChatLine(ChatLine $chatLine) {
+        $this->chatLines[] = $chatLine;
+        $chatLine->setProject($this);
+        return $this;
+    }
+
+    /**
+     * Remove chatLine
+     *
+     * @param \Sinenco\ProjectBundle\Entity\ChatLine $chatLine
+     */
+    public function removeChatLine(ChatLine $chatLine) {
+        $this->chatLines->removeElement($chatLine);
+    }
+
+    /**
+     * Get chatLines
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getChatLines() {
+        return $this->chatLines;
+    }
+
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt
+     *
+     * @return Project
+     */
+    public function setCreatedAt($createdAt) {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime
+     */
+    public function getCreatedAt() {
+        return $this->createdAt;
+    }
+
 }

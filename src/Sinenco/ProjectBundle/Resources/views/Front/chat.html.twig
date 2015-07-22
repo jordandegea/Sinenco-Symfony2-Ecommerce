@@ -1,0 +1,55 @@
+{# src/OC/PlatformBundle/Resources/views/Advert/edit.html.twig #}
+
+{% extends "SinencoProjectBundle::layout.html.twig" %}
+
+{% block title %}
+    {{ parent() }}
+{% endblock %}
+
+
+{% block body %}
+
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <br />
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        {{ "sinenco.project.detail.chat.title"|trans() }} - {{ "sinenco.project.detail.chat.5_last"|trans() }}
+                        <a class="pull-right"><span class="glyphicon glyphicon-fullscreen"></span></a>
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    {% for chatLine in project.chatLines %}
+                        <div {% if project.chatLines|length-1 == loop.index %}id="anchor"{% endif %} class="col-xs-12" style="vertical-align:middle">
+                            <p class="pull-right" style="margin-left:10px;margin-bottom:10px">
+                                {{chatLine.createdAt|date("Y-m-d h:m")}}
+                                <strong>
+                                    {% if chatLine.isClient %}
+                                        {{ "sinenco.project.detail.chat.you"|trans() }}
+                                    {% else %}
+                                        {{ "sinenco.project.detail.chat.dev"|trans() }}
+                                    {% endif %}
+                                </strong>
+                            </p> 
+                            {{ chatLine.content|raw }}
+                            {% if not loop.last %}
+                                <hr>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="panel-footer">
+                    {{ form_start(form) }}
+
+                    {{ form_widget(form.content) }}
+                    <input type="submit" class="btn btn-block btn-sm btn-success" id="btn-chat" />
+
+                    {{ form_widget(form._token) }}
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

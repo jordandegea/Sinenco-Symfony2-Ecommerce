@@ -7,7 +7,19 @@ sinenco_project_new:
     defaults: { _controller: SinencoProjectBundle:Project:new }
     
 sinenco_project_detail:
-    path:     /{id}
+    path:     /detail/{id}
     defaults: { _controller: SinencoProjectBundle:Project:detail }
+    requirements:
+        id: \d+
+        
+sinenco_project_chat:
+    path:     /chat/{id}
+    defaults: { _controller: SinencoProjectBundle:Project:chat }
+    requirements:
+        id: \d+
+        
+sinenco_project_document:
+    path:     /document/{id}
+    defaults: { _controller: SinencoProjectBundle:Project:document }
     requirements:
         id: \d+

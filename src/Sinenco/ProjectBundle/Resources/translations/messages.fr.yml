@@ -7,11 +7,27 @@ sinenco:
             name: Nom
             summary: Description
             price: Budget
+            chatline_content: Nouveau projet créé
         list: 
             state_: "Etat : "
             state_number: "{0} Waiting dev response|{1} Waiting your response|{2} Refused|{3} In progress|[4,+Inf]Unknown"
             price: "Prix : "
             budget: "Budget : "
+        detail:
+            chat: 
+                5_last: 5 derniers
+                title: Communication
+                dev: Le Dev
+                you: Vous
+            specification:
+                title: Cahier des charges
+                explain: dd
+            proposition: 
+                title: Proposition Commerciale
+                explain: dd
+            estimate: 
+                title: Devis
+                explain: dd
         presentation:
             domains:
                 title: Compétences

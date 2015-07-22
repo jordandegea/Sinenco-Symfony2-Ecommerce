@@ -23,7 +23,7 @@ class Chapter {
 
     /**
      * @ORM\ManyToOne(targetEntity="Sinenco\ProjectBundle\Entity\Document", inversedBy="parts", cascade={"remove"})
-     * @ORM\JoinColumn(name="desk_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="document_id", referencedColumnName="id")
      */
     protected $document;
 
@@ -40,6 +40,8 @@ class Chapter {
      * @ORM\Column(name="content", type="text")
      */
     private $content;
+    
+    
     /**
      * @var string
      *
