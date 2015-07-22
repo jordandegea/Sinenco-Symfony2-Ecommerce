@@ -55,6 +55,13 @@ sonata_admin:
                     - sonata.admin.blog.post
                     - sonata.admin.blog.comment
                     - sonata.admin.blog.subcomment
+            Projects:
+                items:
+                    - sinenco.project.project
+                    - sinenco.project.chapter
+                    - sinenco.project.chatline
+                    - sinenco.project.document
+                    - sinenco.project.estimate
             ECommerce:
                 items:
                     - sonata.admin.review

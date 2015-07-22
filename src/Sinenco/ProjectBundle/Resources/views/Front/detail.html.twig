@@ -59,6 +59,11 @@
         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
 
             <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        {{ "sinenco.project.detail.chat.title"|trans() }}
+                    </h3>
+                </div>
                 <div class="panel-body small">
                     {% for chatLine in project.chatLines|slice(project.chatLines|length-5, project.chatLines|length) %}
                         <div class="col-xs-12" style="vertical-align:middle">

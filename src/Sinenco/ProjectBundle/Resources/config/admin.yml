@@ -1,0 +1,58 @@
+services:
+    
+    sinenco.project.project:
+        class: Sinenco\ProjectBundle\Admin\ProjectAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Project", label: "Projects" }
+        arguments:
+            - ~
+            - Sinenco\ProjectBundle\Entity\Project
+            - ~
+        calls:
+            - [ setTranslationDomain, [SinencoProjectBundle]]
+    
+    sinenco.project.chapter:
+        class: Sinenco\ProjectBundle\Admin\ChapterAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Project", label: "Chapters" }
+        arguments:
+            - ~
+            - Sinenco\ProjectBundle\Entity\Chapter
+            - ~
+        calls:
+            - [ setTranslationDomain, [SinencoProjectBundle]]
+    
+    sinenco.project.chatline:
+        class: Sinenco\ProjectBundle\Admin\ChatLineAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Project", label: "ChatLines" }
+        arguments:
+            - ~
+            - Sinenco\ProjectBundle\Entity\ChatLine
+            - ~
+        calls:
+            - [ setTranslationDomain, [SinencoProjectBundle]]
+    
+    sinenco.project.document:
+        class: Sinenco\ProjectBundle\Admin\DocumentAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Project", label: "Documents" }
+        arguments:
+            - ~
+            - Sinenco\ProjectBundle\Entity\Document
+            - ~
+        calls:
+            - [ setTranslationDomain, [SinencoProjectBundle]]
+    
+    sinenco.project.estimate:
+        class: Sinenco\ProjectBundle\Admin\EstimateAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Project", label: "Estimates" }
+        arguments:
+            - ~
+            - Sinenco\ProjectBundle\Entity\Estimate
+            - ~
+        calls:
+            - [ setTranslationDomain, [SinencoProjectBundle]]
+         
+    

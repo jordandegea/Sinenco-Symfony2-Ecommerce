@@ -10,8 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table()
  * @ORM\Entity
  */
-class Estimate
-{
+class Estimate {
+
     /**
      * @var integer
      *
@@ -21,14 +21,17 @@ class Estimate
      */
     private $id;
 
+    public function __toString() {
+        return (string)$this->id;
+    }
 
     /**
      * Get id
      *
      * @return integer
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
+
 }

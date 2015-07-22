@@ -21,19 +21,22 @@ class Document {
      */
     private $id;
 
-    
     /**
      * @var string
      *
      * @ORM\Column(name="reference", type="string", length=255)
      */
     private $reference;
-    
+
     /**
      * @ORM\OneToMany(targetEntity="Sinenco\ProjectBundle\Entity\Chapter", mappedBy="document", cascade={"remove", "persist"})
      * @ORM\JoinColumn(nullable=true)
      */
     protected $parts;
+
+    public function __toString() {
+        return (string)$this->id;
+    }
 
     /**
      * Get id
@@ -47,8 +50,7 @@ class Document {
     /**
      * Constructor
      */
-    public function __construct()
-    {
+    public function __construct() {
         $this->parts = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
@@ -59,8 +61,7 @@ class Document {
      *
      * @return Document
      */
-    public function setReference($reference)
-    {
+    public function setReference($reference) {
         $this->reference = $reference;
 
         return $this;
@@ -71,8 +72,7 @@ class Document {
      *
      * @return string
      */
-    public function getReference()
-    {
+    public function getReference() {
         return $this->reference;
     }
 
@@ -83,8 +83,7 @@ class Document {
      *
      * @return Document
      */
-    public function addPart(\Sinenco\ProjectBundle\Entity\Chapter $part)
-    {
+    public function addPart(\Sinenco\ProjectBundle\Entity\Chapter $part) {
         $this->parts[] = $part;
 
         return $this;
@@ -95,8 +94,7 @@ class Document {
      *
      * @param \Sinenco\ProjectBundle\Entity\Chapter $part
      */
-    public function removePart(\Sinenco\ProjectBundle\Entity\Chapter $part)
-    {
+    public function removePart(\Sinenco\ProjectBundle\Entity\Chapter $part) {
         $this->parts->removeElement($part);
     }
 
@@ -105,8 +103,8 @@ class Document {
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getParts()
-    {
+    public function getParts() {
         return $this->parts;
     }
+
 }

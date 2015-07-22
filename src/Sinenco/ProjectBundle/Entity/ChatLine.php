@@ -49,6 +49,10 @@ class ChatLine {
      */
     private $content;
 
+    public function __toString() {
+        return (string)$this->id;
+    }
+
     /**
      * Get id
      *
