@@ -69,7 +69,7 @@ class ProjectController extends Controller {
     /**
      * @Security("has_role('ROLE_USER')")
      */
-    public function detailAction(Request $request, $id) {
+    public function chatAction(Request $request, $id) {
         
         $repository = $this->getDoctrine()->getManager()->getRepository('SinencoProjectBundle:Project');
 
