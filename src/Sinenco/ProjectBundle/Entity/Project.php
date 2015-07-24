@@ -13,7 +13,7 @@ use Sinenco\UserBundle\Entity\User,
  * Project
  *
  * @ORM\Table()
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Sinenco\ProjectBundle\Entity\ProjectRepository")
  * @ORM\HasLifecycleCallbacks
  */
 class Project {
@@ -95,23 +95,26 @@ class Project {
     private $currency;
 
     /**
-     * @ORM\OneToOne(targetEntity="Sinenco\ProjectBundle\Entity\Document", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=true)
+     * 
+     * @ORM\ManyToMany(targetEntity="Sinenco\ProjectBundle\Entity\ProjectFile",cascade={"persist", "remove"})
+     * @ORM\JoinTable(name="project_specifications",
+     *      joinColumns={@ORM\JoinColumn(name="project_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="file_id", referencedColumnName="id",unique=true)}
+     *      )
      */
-    private $specification; // Cahier des charges
+    public $specifications; // Cahier des charges
 
     /**
-     * @ORM\OneToOne(targetEntity="Sinenco\ProjectBundle\Entity\Document", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=true)
+     * 
+     * @ORM\ManyToMany(targetEntity="Sinenco\ProjectBundle\Entity\ProjectFile",cascade={"persist", "remove"})
+     * @ORM\JoinTable(name="project_propositions",
+     *      joinColumns={@ORM\JoinColumn(name="project_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="file_id", referencedColumnName="id",unique=true)}
+     *      )
      */
-    private $proposition; // Proposition commerciale
+    public $propositions; // Cahier des charges
 
-    /**
-     * @ORM\OneToOne(targetEntity="Sinenco\ProjectBundle\Entity\Estimate", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=true)
-     */
-    private $estimate; // Devis
-
+    
     /**
      * @ORM\OneToMany(targetEntity="Sinenco\ProjectBundle\Entity\ChatLine", mappedBy="project", cascade={"remove", "persist"})
      * @ORM\JoinColumn(nullable=true)
@@ -140,7 +143,7 @@ class Project {
     }
 
     public function __toString() {
-        return (string)$this->id;
+        return (string) $this->id;
     }
 
     /**
@@ -329,72 +332,6 @@ class Project {
     }
 
     /**
-     * Set specification
-     *
-     * @param \Sinenco\ProjectBundle\Entity\Document $specification
-     *
-     * @return Project
-     */
-    public function setSpecification(Document $specification = null) {
-        $this->specification = $specification;
-
-        return $this;
-    }
-
-    /**
-     * Get specification
-     *
-     * @return \Sinenco\ProjectBundle\Entity\Document
-     */
-    public function getSpecification() {
-        return $this->specification;
-    }
-
-    /**
-     * Set proposition
-     *
-     * @param \Sinenco\ProjectBundle\Entity\Document $proposition
-     *
-     * @return Project
-     */
-    public function setProposition(Document $proposition = null) {
-        $this->proposition = $proposition;
-
-        return $this;
-    }
-
-    /**
-     * Get proposition
-     *
-     * @return \Sinenco\ProjectBundle\Entity\Document
-     */
-    public function getProposition() {
-        return $this->proposition;
-    }
-
-    /**
-     * Set estimate
-     *
-     * @param \Sinenco\ProjectBundle\Entity\Estimate $estimate
-     *
-     * @return Project
-     */
-    public function setEstimate(Estimate $estimate = null) {
-        $this->estimate = $estimate;
-
-        return $this;
-    }
-
-    /**
-     * Get estimate
-     *
-     * @return \Sinenco\ProjectBundle\Entity\Estimate
-     */
-    public function getEstimate() {
-        return $this->estimate;
-    }
-
-    /**
      * Constructor
      */
     public function __construct() {
@@ -454,4 +391,72 @@ class Project {
         return $this->createdAt;
     }
 
+
+    /**
+     * Add specification
+     *
+     * @param \Sinenco\ProjectBundle\Entity\ProjectFile $specification
+     *
+     * @return Project
+     */
+    public function addSpecification(\Sinenco\ProjectBundle\Entity\ProjectFile $specification)
+    {
+        $this->specifications[] = $specification;
+
+        return $this;
+    }
+
+    /**
+     * Remove specification
+     *
+     * @param \Sinenco\ProjectBundle\Entity\ProjectFile $specification
+     */
+    public function removeSpecification(\Sinenco\ProjectBundle\Entity\ProjectFile $specification)
+    {
+        $this->specifications->removeElement($specification);
+    }
+
+    /**
+     * Get specifications
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getSpecifications()
+    {
+        return $this->specifications;
+    }
+
+    /**
+     * Add proposition
+     *
+     * @param \Sinenco\ProjectBundle\Entity\ProjectFile $proposition
+     *
+     * @return Project
+     */
+    public function addProposition(\Sinenco\ProjectBundle\Entity\ProjectFile $proposition)
+    {
+        $this->propositions[] = $proposition;
+
+        return $this;
+    }
+
+    /**
+     * Remove proposition
+     *
+     * @param \Sinenco\ProjectBundle\Entity\ProjectFile $proposition
+     */
+    public function removeProposition(\Sinenco\ProjectBundle\Entity\ProjectFile $proposition)
+    {
+        $this->propositions->removeElement($proposition);
+    }
+
+    /**
+     * Get propositions
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPropositions()
+    {
+        return $this->propositions;
+    }
 }

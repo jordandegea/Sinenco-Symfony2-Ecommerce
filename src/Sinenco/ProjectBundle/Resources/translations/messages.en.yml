@@ -14,6 +14,9 @@ sinenco:
             price: "Price : "
             budget: "Budget : "
         detail:
+            files:
+                new_specifications: Send new specifications
+                specification_name: Name
             chat:
                 5_last: last 5
                 title: Communication

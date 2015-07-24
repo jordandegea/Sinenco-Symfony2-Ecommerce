@@ -29,19 +29,15 @@ class ProjectAdmin extends Admin {
                         Project::STATE_REFUSED => 'Refused'
             )))
                 ->add('reference')
-                ->add('specification')
-                ->add('proposition')
-                ->add('estimate')
                 ->end()
                 ->end()
                 ->with('Contents', array('tab' => false, 'class' => 'col-md-6'))
                 ->add('title')
-                ->add('summary','textarea',
-                        array(
-                            'attr' => array(
-                                'class' => "ckeditor"
-                            )
-                        ))
+                ->add('summary', 'textarea', array(
+                    'attr' => array(
+                        'class' => "ckeditor"
+                    )
+                ))
                 ->add('priceMin')
                 ->add('priceMax')
                 ->add('currency')
@@ -67,11 +63,21 @@ class ProjectAdmin extends Admin {
     // Fields to be shown on lists
     protected function configureListFields(ListMapper $listMapper) {
         $listMapper
+                ->add('id', 'url', array(
+                    'label' => 'link',
+                    'route' => array(
+                        'name' => 'sinenco_project_detail',
+                        'absolute' => true,
+                        'parameters' => array('id' => 'id'),
+                        'identifier_parameter_name' => 'id')))
                 ->addIdentifier('title')
                 ->add('priceMax')
-                ->addIdentifier('specification')
-                ->addIdentifier('proposition')
-                ->addIdentifier('estimate')
+                ->add('state', 'choice', array('choices' => array(
+                        Project::STATE_WAITING_DEV => 'Attente du dev',
+                        Project::STATE_WAITING_USER => 'Attente du client',
+                        Project::STATE_ACTIVE => 'Active',
+                        Project::STATE_REFUSED => 'Refused'
+            )))
                 ->add('_action', 'actions', [
                     'actions' => [
                         'show' => [],

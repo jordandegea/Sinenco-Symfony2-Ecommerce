@@ -37,6 +37,14 @@ sonata_media:
                 - sonata.media.provider.file
             formats: 
                 
+        project_file:
+            download:
+                strategy: sonata.media.security.project.user_strategy
+                mode: http
+            providers:
+                - sonata.media.provider.file
+            formats: 
+                
     providers:
         file:
             service:    sonata.media.provider.file

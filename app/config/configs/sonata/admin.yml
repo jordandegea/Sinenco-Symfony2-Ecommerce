@@ -58,10 +58,7 @@ sonata_admin:
             Projects:
                 items:
                     - sinenco.project.project
-                    - sinenco.project.chapter
                     - sinenco.project.chatline
-                    - sinenco.project.document
-                    - sinenco.project.estimate
             ECommerce:
                 items:
                     - sonata.admin.review

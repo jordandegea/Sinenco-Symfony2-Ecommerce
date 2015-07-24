@@ -18,8 +18,3 @@ sinenco_project_chat:
     requirements:
         id: \d+
         
-sinenco_project_document:
-    path:     /document/{id}
-    defaults: { _controller: SinencoProjectBundle:Project:document }
-    requirements:
-        id: \d+

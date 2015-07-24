@@ -14,6 +14,9 @@ sinenco:
             price: "Prix : "
             budget: "Budget : "
         detail:
+            files:
+                new_specifications: Envoyer un nouveau cahier des charges
+                specification_name: Nom
             chat: 
                 5_last: 5 derniers
                 title: Communication

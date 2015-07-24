@@ -6,6 +6,36 @@
     {{ parent() }}
 {% endblock %}
 
+{% block javascripts %}
+    {{ parent() }}
+    <script src="//cdn.ckeditor.com/4.4.7/standard/ckeditor.js" type="text/javascript"></script>
+    <script>
+        CKEDITOR.replace('{{ form.content.vars.id }}', {
+            toolbar: [
+                {name: 'tools', items: ['Maximize']},
+                {name: 'document', groups: ['mode', 'document', 'doctools'], items: ['Source']},
+                {name: 'clipboard', groups: ['clipboard', 'undo'], items: ['Undo', 'Redo']},
+                {name: 'editing', groups: ['find', 'selection', 'spellchecker'], items: ['Scayt']},
+                {name: 'basicstyles', groups: ['basicstyles', 'cleanup'], items: ['Bold', 'Italic', 'Strike', '-', 'RemoveFormat']},
+                {name: 'paragraph', groups: ['list', 'indent', 'blocks', 'align', 'bidi'], items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote']},
+                {name: 'links', items: ['Link', 'Unlink', 'Anchor']},
+                {name: 'insert', items: ['Image', 'Table', 'HorizontalRule', 'SpecialChar']},
+                {name: 'styles', items: ['Styles', 'Format']},
+            ],
+            height: ['100px']
+        });
+    </script>
+
+    {# On ajoute les modales #}
+    {% javascripts filter='?yui_css' 
+            "@SinencoProjectBundle/Resources/public/js/bootstrap-filestyle.js"   %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+
+    <script>
+        $(":file").filestyle({buttonBefore: true});
+    </script>
+{% endblock %}
 
 {% block body %}
 
@@ -37,23 +67,50 @@
 
             <div class="panel panel-info">
                 <div class="panel-body">
-                    {% if project.specification is not empty %}
-                        <a href="{{ path("sinenco_project_document", {"id":project.specification.id}) }}">
-                            {{ "sinenco.project.detail.specification.title"|trans() }}
-                        </a>
-                        <hr>
-                    {% endif %}
-                    {% if project.proposition is not empty %}
-                        <a href="{{ path("sinenco_project_document", {"id":project.proposition.id}) }}">
-                            {{ "sinenco.project.detail.proposition.title"|trans() }}
-                        </a>
-                        <hr>
-                    {% endif %}
-                    {% if project.estimate is not empty %}
-                        {{ "sinenco.project.detail.estimate.title"|trans() }}
-                    {% endif %}
+                    {% for specification in project.specifications  %}
+                        <a href="{{ path('sonata_media_download', {'id': specification.file|sonata_urlsafeid }) }}"><span class="glyphicon glyphicon-download-alt"></span></a> {{ specification.name }}<br />
+                    {% endfor %}
+                    
+                    <hr>
+
+                    {% for proposition in project.propositions  %}
+                        <a href="{{ path('sonata_media_download', {'id': proposition.file|sonata_urlsafeid }) }}"><span class="glyphicon glyphicon-download-alt"></span></a> {{ proposition.name }}<br />
+                    {% endfor %}
                 </div>
             </div>
+
+            <div class="panel panel-info">
+                <div class="panel-body">
+                    
+
+                    {{form_start(formFileSpecification, { 'attr':{'class':'form-horizontal'} })}}
+                    <fieldset>
+                        <legend>{{"sinenco.project.detail.files.new_specifications"|trans}}</legend>
+                        <div class="form-group">
+                            <label for="textArea" class="col-xs-12 col-md-4 col-lg-2 control-label">
+                                {{"sinenco.project.detail.files.specification_name"|trans}}
+                            </label>
+                            <div class="col-xs-12 col-md-8 col-lg-10">
+                                {{form_widget(formFileSpecification.name,  { 'attr':{'class':'form-control'} })}}
+                            </div>
+                        </div>
+                        
+
+                        <div class="form-group">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                {{form_widget(formFileSpecification.children.file.children.binaryContent,  { 'attr':{'class':'form-control'} })}}
+                            </div>
+                            {{form_widget(formFileSpecification.children.file.children.unlink)}}
+                           
+                            {{form_widget(formFileSpecification._token)}}
+                        </div>
+                        <input type="submit" class="btn btn-success" />
+                    </fieldset>
+                    {{form_end(formFileSpecification)}}
+
+                </div>
+            </div>
+
         </div>
 
         <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
@@ -62,6 +119,9 @@
                 <div class="panel-heading">
                     <h3 class="panel-title">
                         {{ "sinenco.project.detail.chat.title"|trans() }}
+                        <a class="pull-right" href="{{ path("sinenco_project_detail", {"id":project.id}) }}">
+                            <strong><span class="glyphicon glyphicon-fullscreen" ></span></strong>
+                        </a>
                     </h3>
                 </div>
                 <div class="panel-body small">

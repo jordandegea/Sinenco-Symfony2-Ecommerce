@@ -7,7 +7,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Sinenco\ProjectBundle\Form\Type\NewProjectType,
     Sinenco\ProjectBundle\Form\Type\NewChatLineType;
 use Sinenco\ProjectBundle\Entity\Project,
-    Sinenco\ProjectBundle\Entity\ChatLine;
+    Sinenco\ProjectBundle\Entity\ChatLine,
+    Sinenco\ProjectBundle\Entity\ProjectFile,
+    Sinenco\ProjectBundle\Form\Type\NewProjectFileType
+;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class ProjectController extends Controller {
@@ -25,18 +28,22 @@ class ProjectController extends Controller {
      * @Security("has_role('ROLE_USER')")
      */
     public function detailAction(Request $request, $id) {
-        
+
         $repository = $this->getDoctrine()->getManager()->getRepository('SinencoProjectBundle:Project');
 
         $project = $repository->find($id);
 
-        if ( $project->getUser() != $this->getUser() ){
-            if ( ! $this->get('security.context')->isGranted('ROLE_ADMIN') ){
+        if ($project == null) {
+            return $this->redirect($this->generateUrl('sinenco_project_homepage'));
+        }
+
+        if ($project->getUser() != $this->getUser()) {
+            if (!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
                 return $this->redirect($this->generateUrl('sinenco_project_homepage'));
             }
         }
-        
-        
+
+        /* Form pour une nouvell conversation */
         $chatLine = new ChatLine();
 
         $form = $this->get('form.factory')->create(new NewChatLineType, $chatLine);
@@ -60,28 +67,54 @@ class ProjectController extends Controller {
             return $this->redirect($this->generateUrl('sinenco_project_detail', ['id' => $id]));
         }
 
+
+
+
+
+        $newProjectFile = new ProjectFile();
+
+        $formFileSpecification = $this->get('form.factory')->create(new NewProjectFileType, $newProjectFile);
+
+        $formFileSpecification->handleRequest($request);
+
+        if ($formFileSpecification->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+
+            $project->addSpecification($newProjectFile);
+
+            $em->persist($project);
+            $em->persist($newProjectFile);
+            $em->flush();
+        }
+
+
         return $this->render('SinencoProjectBundle:Front:detail.html.twig', array(
                     'project' => $project,
-                    'form' => $form->createView()
+                    'form' => $form->createView(),
+                    'formFileSpecification' => $formFileSpecification->createView()
         ));
     }
-    
+
     /**
      * @Security("has_role('ROLE_USER')")
      */
     public function chatAction(Request $request, $id) {
-        
+
         $repository = $this->getDoctrine()->getManager()->getRepository('SinencoProjectBundle:Project');
 
         $project = $repository->find($id);
 
-        if ( $project->getUser() != $this->getUser() ){
-            if ( ! $this->get('security.context')->isGranted('ROLE_ADMIN') ){
+        if ($project == null) {
+            return $this->redirect($this->generateUrl('sinenco_project_homepage'));
+        }
+
+        if ($project->getUser() != $this->getUser()) {
+            if (!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
                 return $this->redirect($this->generateUrl('sinenco_project_homepage'));
             }
         }
-        
-        
+
+
         $chatLine = new ChatLine();
 
         $form = $this->get('form.factory')->create(new NewChatLineType, $chatLine);
@@ -111,32 +144,62 @@ class ProjectController extends Controller {
         ));
     }
 
-    
     /**
      * @Security("has_role('ROLE_USER')")
      */
     public function documentAction(Request $request, $id) {
-        
+
         $repository = $this->getDoctrine()->getManager()->getRepository('SinencoProjectBundle:Project');
 
-        $project = $repository->find($id);
+        $project = $repository->findOneBySpecification($id);
+        $documentType = "specification";
 
-        if ( $project->getUser() != $this->getUser() ){
-            if ( ! $this->get('security.context')->isGranted('ROLE_ADMIN') ){
+        if ($project == null) {
+            $project = $repository->findOneByProposition($id);
+            if ($project == null) {
+                return $this->redirect($this->generateUrl('sinenco_project_homepage'));
+            }
+            $documentType = "proposition";
+            $document = $project->getProposition();
+        } else {
+            $document = $project->getSpecification();
+        }
+
+        if ($project->getUser() != $this->getUser()) {
+            if (!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
                 return $this->redirect($this->generateUrl('sinenco_project_homepage'));
             }
         }
-        
-        
-        
+
+        $form = $this->get('form.factory')->create(new DocumentType, $document);
+
+        $form->handleRequest($request);
+
+
+        if ($form->isValid()) {
+
+            $em = $this->getDoctrine()->getManager();
+
+            if ($form->get('new')->isClicked()) {
+                $chapter = new Chapter();
+            }
+            $document->addPart($chapter);
+
+            $em->persist($document);
+            $em->flush();
+
+            return $this->redirect($this->generateUrl('sinenco_project_document', ['id' => $id]));
+        }
+
 
         return $this->render('SinencoProjectBundle:Front:document.html.twig', array(
                     'project' => $project,
+                    'documentType' => $documentType,
+                    'document' => $document,
+                    'form' => $form->createView()
         ));
     }
 
-    
-    
     /**
      * @Security("has_role('ROLE_USER')")
      */

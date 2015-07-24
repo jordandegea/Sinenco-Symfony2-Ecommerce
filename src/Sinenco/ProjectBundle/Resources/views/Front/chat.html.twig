@@ -7,6 +7,27 @@
 {% endblock %}
 
 
+{% block javascripts %}
+    {{ parent() }}
+    <script src="//cdn.ckeditor.com/4.4.7/standard/ckeditor.js" type="text/javascript"></script>
+    <script>
+        CKEDITOR.replace('{{ form.content.vars.id }}', {
+            toolbar: [
+                {name: 'tools', items: ['Maximize']},
+                {name: 'document', groups: ['mode', 'document', 'doctools'], items: ['Source']},
+                {name: 'clipboard', groups: ['clipboard', 'undo'], items: ['Undo', 'Redo']},
+                {name: 'editing', groups: ['find', 'selection', 'spellchecker'], items: ['Scayt']},
+                {name: 'basicstyles', groups: ['basicstyles', 'cleanup'], items: ['Bold', 'Italic', 'Strike', '-', 'RemoveFormat']},
+                {name: 'paragraph', groups: ['list', 'indent', 'blocks', 'align', 'bidi'], items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote']},
+                {name: 'links', items: ['Link', 'Unlink', 'Anchor']},
+                {name: 'insert', items: ['Image', 'Table', 'HorizontalRule', 'SpecialChar']},
+                {name: 'styles', items: ['Styles', 'Format']},
+            ],
+            height: ['100px']
+        });
+    </script>
+{% endblock %}
+
 {% block body %}
 
     <div class="row">
