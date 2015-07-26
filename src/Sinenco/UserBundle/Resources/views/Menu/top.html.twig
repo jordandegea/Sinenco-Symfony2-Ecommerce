@@ -1,7 +1,0 @@
-<li><a href="{{ path('sinenco_core_profile') }}">
-        {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-            {{ app.user.username }} 
-        {% else %}
-            Invité
-        {% endif %}
-    </a></li>
