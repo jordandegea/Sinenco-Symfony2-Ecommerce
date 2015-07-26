@@ -9,7 +9,10 @@ use Sinenco\ProjectBundle\Form\Type\NewProjectType,
 use Sinenco\ProjectBundle\Entity\Project,
     Sinenco\ProjectBundle\Entity\ChatLine,
     Sinenco\ProjectBundle\Entity\ProjectFile,
-    Sinenco\ProjectBundle\Form\Type\NewProjectFileType
+    Sinenco\ProjectBundle\Form\Type\NewProjectFileType,
+    Sinenco\ProjectBundle\Entity\Task,
+    Sinenco\ProjectBundle\Form\Type\ProjectTaskType,
+    Sinenco\ProjectBundle\Form\Type\TaskType
 ;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
@@ -142,6 +145,83 @@ class ProjectController extends Controller {
                     'project' => $project,
                     'form' => $form->createView()
         ));
+    }
+
+    /**
+     * @Security("has_role('ROLE_USER')")
+     */
+    public function tasksAction(Request $request, $id) {
+
+        $repository = $this->getDoctrine()->getManager()->getRepository('SinencoProjectBundle:Project');
+
+        $project = $repository->find($id);
+
+        if ($project == null) {
+            return $this->redirect($this->generateUrl('sinenco_project_homepage'));
+        }
+
+        if ($project->getUser() != $this->getUser()) {
+            if (!$this->get('security.context')->isGranted('ROLE_ADMIN')) {
+                return $this->redirect($this->generateUrl('sinenco_project_homepage'));
+            }
+        }
+
+        if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            $form = $this->get('form.factory')->create(new ProjectTaskType, $project);
+
+            $form->handleRequest($request);
+
+
+            if ($form->isValid()) {
+
+                $em = $this->getDoctrine()->getManager();
+
+                $em->flush();
+
+                return $this->redirect($this->generateUrl('sinenco_project_tasks', ['id' => $id]));
+            }
+        }
+
+        if (isset($form)) {
+            return $this->render('SinencoProjectBundle:Front:tasks.html.twig', array(
+                        'project' => $project,
+                        'form' => $form->createView()
+            ));
+        } else {
+            return $this->render('SinencoProjectBundle:Front:tasks.html.twig', array(
+                        'project' => $project,
+            ));
+        }
+    }
+
+    /**
+     * @Security("has_role('ROLE_ADMIN')")
+     */
+    public function addTaskAction(Request $request, $id, $taskID) {
+
+        $em = $this->getDoctrine()->getManager();
+
+        if ($taskID > 0) {
+            $repository = $this->getDoctrine()->getManager()->getRepository('SinencoProjectBundle:Task');
+            $task = $repository->find($taskID);
+
+            if ($task != null) {
+                $task->addTask(new Task());
+
+                $em->persist($task);
+            }
+        } else {
+            $repository = $this->getDoctrine()->getManager()->getRepository('SinencoProjectBundle:Project');
+            $project = $repository->find($id);
+
+            $project->addTask(new Task());
+
+            $em->persist($project);
+        }
+
+        $em->flush();
+
+        return $this->redirect($this->generateUrl('sinenco_project_tasks', ['id' => $id]));
     }
 
     /**

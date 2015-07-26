@@ -102,7 +102,7 @@ class Project {
      *      inverseJoinColumns={@ORM\JoinColumn(name="file_id", referencedColumnName="id",unique=true)}
      *      )
      */
-    public $specifications; // Cahier des charges
+    private $specifications; // Cahier des charges
 
     /**
      * 
@@ -112,7 +112,7 @@ class Project {
      *      inverseJoinColumns={@ORM\JoinColumn(name="file_id", referencedColumnName="id",unique=true)}
      *      )
      */
-    public $propositions; // Cahier des charges
+    private $propositions; // Cahier des charges
 
     
     /**
@@ -121,6 +121,16 @@ class Project {
      */
     protected $chatLines;
 
+    /**
+     * 
+     * @ORM\ManyToMany(targetEntity="Sinenco\ProjectBundle\Entity\Task",cascade={"persist", "remove"})
+     * @ORM\JoinTable(name="project_task",
+     *      joinColumns={@ORM\JoinColumn(name="project_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="task_id", referencedColumnName="id",unique=true)}
+     *      )
+     */
+    private $tasks; 
+    
     /**
      * @ORM\PrePersist
      */
@@ -458,5 +468,39 @@ class Project {
     public function getPropositions()
     {
         return $this->propositions;
+    }
+
+    /**
+     * Add task
+     *
+     * @param \Sinenco\ProjectBundle\Entity\Task $task
+     *
+     * @return Project
+     */
+    public function addTask(\Sinenco\ProjectBundle\Entity\Task $task)
+    {
+        $this->tasks[] = $task;
+
+        return $this;
+    }
+
+    /**
+     * Remove task
+     *
+     * @param \Sinenco\ProjectBundle\Entity\Task $task
+     */
+    public function removeTask(\Sinenco\ProjectBundle\Entity\Task $task)
+    {
+        $this->tasks->removeElement($task);
+    }
+
+    /**
+     * Get tasks
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getTasks()
+    {
+        return $this->tasks;
     }
 }

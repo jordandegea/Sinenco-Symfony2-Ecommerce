@@ -3,6 +3,8 @@ sinenco:
         title: Projets
         your_projects: Vos projets
         ask: Faire une demande
+        tasks:
+            title: Tâches
         new:
             name: Nom
             summary: Description

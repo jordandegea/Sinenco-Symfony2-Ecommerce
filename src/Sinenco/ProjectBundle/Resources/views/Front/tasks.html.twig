@@ -1,0 +1,140 @@
+{# src/OC/PlatformBundle/Resources/views/Advert/edit.html.twig #}
+
+{% extends "SinencoProjectBundle::layout.html.twig" %}
+
+{% block title %}
+    {{ "sinenco.project.tasks.title"|trans() }} - {{ project.title }} - {{ parent() }}
+{% endblock %}
+
+{% macro rec_tasks(tasks) %}
+    {% if tasks is not empty %}
+        {% import _self as macros %}
+        {% for task in tasks %} 
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-9 col-lg-8">
+                            <h3 class="panel-title">
+                                {{ task.name}}
+                            </h3>
+                        </div>
+                        <div class="col-xs-6 col-sm-8 col-md-3 col-lg-4">
+                            <div class="progress" style="margin-bottom:0px">
+                                <div class="progress-bar progress-bar-success" 
+                                     aria-valuenow="{{ task.value }}" aria-valuemin="0" aria-valuemax="100" 
+                                     style="width: {{ task.value }}%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-body">
+                    {{ task.description}}
+                    {{ macros.rec_tasks(task.tasks) }}
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endmacro %}
+
+
+{% macro rec_tasks_form(project, tasks) %}
+    {% if tasks is not empty %}
+        {% import _self as macros %}
+        {% for task in tasks %} 
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+                            {{ form_widget(task.name, {'attr':{'class':'form-control input-sm'} }  )}}
+                        </div>
+                        <div class="col-xs-6 col-sm-8 col-md-3 col-lg-3">
+                            {{ form_widget(task.value, {'attr':{'class':'form-control input-sm'} })}}
+                        </div>
+                        <div class="col-xs-6 col-sm-4 col-md-1 col-lg-1">
+                            <a href="{{ path("sinenco_project_addtask", {'id':project.id , 'taskID':task.vars.value.id}) }}" 
+                               class="btn btn-block btn-sm btn-success">
+                                <span class="glyphicon glyphicon-plus"></span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="panel-body">
+                    {{ form_widget(task.description, {'attr':{'class':'form-control'} } )}}
+
+                    {{ macros.rec_tasks_form(project, task.children.tasks) }}
+                    {{form_widget(task.tasks) }}
+                </div>
+
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endmacro %}
+
+
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="//cdn.ckeditor.com/4.4.7/standard/ckeditor.js" type="text/javascript"></script>
+    <script>
+        CKEDITOR.replace('', {
+            toolbar: [
+                {name: 'tools', items: ['Maximize']},
+                {name: 'document', groups: ['mode', 'document', 'doctools'], items: ['Source']},
+                {name: 'clipboard', groups: ['clipboard', 'undo'], items: ['Undo', 'Redo']},
+                {name: 'editing', groups: ['find', 'selection', 'spellchecker'], items: ['Scayt']},
+                {name: 'basicstyles', groups: ['basicstyles', 'cleanup'], items: ['Bold', 'Italic', 'Strike', '-', 'RemoveFormat']},
+                {name: 'paragraph', groups: ['list', 'indent', 'blocks', 'align', 'bidi'], items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote']},
+                {name: 'links', items: ['Link', 'Unlink', 'Anchor']},
+                {name: 'insert', items: ['Image', 'Table', 'HorizontalRule', 'SpecialChar']},
+                {name: 'styles', items: ['Styles', 'Format']},
+            ],
+            height: ['100px']
+        });
+    </script>
+
+    {# On ajoute les modales #}
+    {% javascripts filter='?yui_css' 
+            "@SinencoProjectBundle/Resources/public/js/bootstrap-filestyle.js"   %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+
+    <script>
+        $(":file").filestyle({buttonBefore: true});
+    </script>
+{% endblock %}
+
+{% block body %}
+    {% import _self as macros %}
+
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <h3>{{ project.title }} - {{ "sinenco.project.tasks.title"|trans() }}</h3>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            {% if form is not empty %}
+                <div class="well">
+                    {{ form_start(form) }}
+                    {{ macros.rec_tasks_form(project, form.children.tasks) }}
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <a href="{{ path("sinenco_project_addtask", {'id':project.id , 'taskID':"0"}) }}" 
+                               class="btn btn-block btn-primary">Add task</a>
+                        </div>
+                        <div class="col-xs-6">
+                            <input type="submit" class="btn btn-block btn-success" />
+                        </div>
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            {% endif %}
+            {{ macros.rec_tasks(project.tasks) }} 
+        </div>
+    </div>
+
+{% endblock %}

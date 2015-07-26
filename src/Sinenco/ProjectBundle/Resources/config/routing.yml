@@ -12,6 +12,18 @@ sinenco_project_detail:
     requirements:
         id: \d+
         
+sinenco_project_tasks:
+    path:     /tasks/{id}
+    defaults: { _controller: SinencoProjectBundle:Project:tasks }
+    requirements:
+        id: \d+
+        
+sinenco_project_addtask:
+    path:     /addtask/{id}/{taskID}
+    defaults: { _controller: SinencoProjectBundle:Project:addTask }
+    requirements:
+        id: \d+
+        
 sinenco_project_chat:
     path:     /chat/{id}
     defaults: { _controller: SinencoProjectBundle:Project:chat }

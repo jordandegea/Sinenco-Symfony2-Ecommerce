@@ -3,7 +3,7 @@
 {% extends "SinencoProjectBundle::layout.html.twig" %}
 
 {% block title %}
-    {{ parent() }}
+    {{ "sinenco.project.detail.chat.title"|trans() }} - {{ project.title }} - {{ parent() }}
 {% endblock %}
 
 
@@ -36,7 +36,7 @@
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     <h3 class="panel-title">
-                        {{ "sinenco.project.detail.chat.title"|trans() }} - {{ "sinenco.project.detail.chat.5_last"|trans() }}
+                        {{ project.title }} - {{ "sinenco.project.detail.chat.title"|trans() }}
                         <a class="pull-right"><span class="glyphicon glyphicon-fullscreen"></span></a>
                     </h3>
                 </div>
