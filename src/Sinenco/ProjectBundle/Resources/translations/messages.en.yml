@@ -6,6 +6,7 @@ sinenco:
         tasks:
             title: Tasks
         new:
+            title: New project
             name: Name
             summary: Description
             price: Budget

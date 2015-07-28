@@ -312,7 +312,34 @@ class ProjectController extends Controller {
 
             $em->persist($project);
             $em->flush();
-
+            
+            $user = $project->getUser() ; 
+            $subject = $this->get('translator')->trans("sinenco.project.title.new") ;
+            
+            $this
+                    ->getContainer()
+                    ->get('mail_service')
+                    ->sendMail(
+                            $this->getContainer(), $subject, 
+                            "webmaster@sinenco.com", 
+                            "SinencoProjectBundle:Mails:new_project.text.twig", array(
+                        'user' => $user,
+                        'project' => $project
+                            ), true, "SinencoProjectBundle:Mails:new_project.html.twig", true
+            );
+            
+            $this
+                    ->getContainer()
+                    ->get('mail_service')
+                    ->sendMail(
+                            $this->getContainer(), $subject, 
+                            $user->getEmail() , 
+                            "SinencoProjectBundle:Mails:new_project.text.twig", array(
+                        'user' => $user,
+                        'project' => $project
+                            ), true, "SinencoProjectBundle:Mails:new_project.html.twig", true
+            );
+            
             return $this->redirect($this->generateUrl('sinenco_project_homepage'));
         }
 
