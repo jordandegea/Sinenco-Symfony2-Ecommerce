@@ -1,0 +1,19 @@
+{% extends sonata_block.templates.block_base %}
+
+{% block block %}
+    <div class="small-box {{settings.color}} }}">
+        
+        <div class="inner">
+            <h3>{{ settings.number|raw }}</h3>
+
+            <p>{{ settings.title }}</p>
+        </div>
+        <div class="icon">
+            <i class="fa {{settings.icon }}"></i>
+        </div>
+        <a href="{{ settings.path }}" class="small-box-footer">
+            View more <i class="fa fa-arrow-circle-right"></i>
+        </a>
+    
+    </div>
+{% endblock %}

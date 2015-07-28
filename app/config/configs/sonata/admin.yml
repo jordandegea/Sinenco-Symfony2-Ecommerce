@@ -20,6 +20,12 @@ sonata_admin:
         blocks:
             -
                 position: left
+                type: sonata.block.project
+            -
+                position: left
+                type: sonata.block.user
+            -
+                position: left
                 type: sonata.admin.block.admin_list
                 settings:
                     groups: [Users, Services]

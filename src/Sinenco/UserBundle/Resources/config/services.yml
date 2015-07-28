@@ -10,3 +10,9 @@ services:
         class: Sinenco\UserBundle\Mailer\UserMailer
         arguments: 
             container: "@service_container"
+            
+    sonata.block.user:
+        class: Sinenco\UserBundle\Admin\UserBlock
+        tags:
+            - { name: sonata.block }
+        arguments: [sonata.block.service.rss, '@templating', @doctrine.orm.entity_manager]

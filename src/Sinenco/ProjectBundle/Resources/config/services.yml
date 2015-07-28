@@ -2,3 +2,9 @@ services:
     sonata.media.security.project.user_strategy:
         class: Sinenco\ProjectBundle\Security\UserDownloadStrategy
         arguments: ['@translator', '@service_container', 1]
+        
+    sonata.block.project:
+        class: Sinenco\ProjectBundle\Admin\ProjectBlock
+        tags:
+            - { name: sonata.block }
+        arguments: [sonata.block.service.rss, '@templating', @doctrine.orm.entity_manager]

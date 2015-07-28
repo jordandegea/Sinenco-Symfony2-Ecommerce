@@ -2,6 +2,8 @@ sonata_block:
     default_contexts: [cms]
     blocks:
         # Enable the SonataAdminBundle block
+        sonata.block.project: ~
+        sonata.block.user: ~
         sonata.admin.block.admin_list:
             contexts:   [admin]
         sonata.admin.block.search_result:

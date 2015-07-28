@@ -11,5 +11,22 @@ use Doctrine\ORM\EntityRepository;
  * repository methods below.
  */
 class UserRepository extends EntityRepository {
-    
+
+    public function count() {
+        return $this->createQueryBuilder('a')
+                        ->select('COUNT(a)')
+                        ->getQuery()
+                        ->getSingleScalarResult();
+    }
+
+    public function findProductsExpensiveThan($price) {
+        return $this->createQueryBuilder('a')
+                        ->select('COUNT(a)')
+                        ->where(
+                                $qb->expr()->gt('a.price', $price)
+                        )
+                        ->getQuery()
+                        ->getSingleScalarResult();
+    }
+
 }
