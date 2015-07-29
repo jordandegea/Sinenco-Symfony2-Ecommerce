@@ -86,13 +86,13 @@ class ServicesController extends Controller {
             $rentings[$rentingServiceId][] = array();
             $i = sizeof($rentings[$rentingServiceId]) - 1;
             // Calcule pour rentings si on doit le mettre en success, danger, ou warning
-            if (new DateTime(date("Y-m-d", time() + 3600 * 24 * 7)) > $renting->getExpiration()) {
+            if (new DateTime(date("Y-m-d", time() ) ) > $renting->getExpiration()) {
                 $rentings[$rentingServiceId][0][3] ++;
                 $rentings[$rentingServiceId][$i]["state"] = "danger";
-            } elseif (new DateTime(date("Y-m-d", time() + 3600 * 24 * 15)) > $renting->getExpiration()) {
+            } elseif (new DateTime(date("Y-m-d", time() + 3600 * 24 * 7)) > $renting->getExpiration()) {
                 $rentings[$rentingServiceId][0][2] ++;
                 $rentings[$rentingServiceId][$i]["state"] = "warning";
-            } elseif (new DateTime(date("Y-m-d", time() + 3600 * 24 * 30)) > $renting->getExpiration()) {
+            } elseif (new DateTime(date("Y-m-d", time() + 3600 * 24 * 15)) > $renting->getExpiration()) {
                 $rentings[$rentingServiceId][0][1] ++;
                 $rentings[$rentingServiceId][$i]["state"] = "info";
             } else {
