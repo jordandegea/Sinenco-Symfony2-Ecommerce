@@ -65,7 +65,37 @@ class ProjectController extends Controller {
 
             $em->persist($chatLine);
             $em->persist($project);
+            
+            $subject = "Sinenco - ".$project->getTitle()." - New messsage" ; 
+            $user = $project->getUser() ; 
+            
+            $this
+                    ->get('mail_service')
+                    ->sendMail(
+                            $this->container, $subject, 
+                            "webmaster@sinenco.com" , 
+                            "SinencoProjectBundle:Mails:new_message.text.twig", array(
+                        'user' => $user,
+                        'project' => $project,
+                        'chatLine' => $chatLine
+                            ), true, "SinencoProjectBundle:Mails:new_message.html.twig", true
+            );
+            
+            $this
+                    ->get('mail_service')
+                    ->sendMail(
+                            $this->container, $subject, 
+                            $user->getEmail() , 
+                            "SinencoProjectBundle:Mails:new_message.text.twig", array(
+                        'user' => $user,
+                        'project' => $project,
+                        'chatLine' => $chatLine
+                            ), true, "SinencoProjectBundle:Mails:new_message.html.twig", true
+            );
+            
             $em->flush();
+            
+            
 
             return $this->redirect($this->generateUrl('sinenco_project_detail', ['id' => $id]));
         }
@@ -317,10 +347,9 @@ class ProjectController extends Controller {
             $subject = $this->get('translator')->trans("sinenco.project.title.new") ;
             
             $this
-                    ->getContainer()
                     ->get('mail_service')
                     ->sendMail(
-                            $this->getContainer(), $subject, 
+                            $this->container, $subject, 
                             "webmaster@sinenco.com", 
                             "SinencoProjectBundle:Mails:new_project.text.twig", array(
                         'user' => $user,
@@ -329,10 +358,9 @@ class ProjectController extends Controller {
             );
             
             $this
-                    ->getContainer()
                     ->get('mail_service')
                     ->sendMail(
-                            $this->getContainer(), $subject, 
+                            $this->container, $subject, 
                             $user->getEmail() , 
                             "SinencoProjectBundle:Mails:new_project.text.twig", array(
                         'user' => $user,

@@ -1,0 +1,19 @@
+
+{% extends "::email_layout.html.twig" %}
+
+{% block core_mail %}
+    <table>
+        <tr>
+            <td>
+                <p>Hello {{ user.username }} ! New message for the project <strong>{{ project.title }}</strong> :</p>
+                <table>
+                    <tr>
+                        <td class="padding">
+                            {{ chatLine.content }}
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+{% endblock %}
