@@ -3,7 +3,7 @@
         <div class="form-group col-xs-12">
             <label class="control-label col-xs-7 col-sm-4 col-md-2">{{ field|trans }}</label>
             <div class="input-group col-xs-5 col-sm-8 col-md-10">
-                {{ form_widget(cartItem.prices[field]) }}
+                {{ form_widget(cartItem.prices[field], { 'attr':{'class':'form-control'} }) }}
                 <span class="input-group-addon">
                     {{ cartItem.children.product.vars.value.price|getFormattedFieldPrice(field) }}
                 </span>
