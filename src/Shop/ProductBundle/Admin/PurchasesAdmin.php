@@ -17,6 +17,7 @@ class PurchasesAdmin extends Admin {
                 ->add('file', 'sonata_type_model_list', array(), array(
                     'link_parameters' => array('context' => 'products_file')
                 ))
+                ->add('product')
                 ->add('purchasedAt', 'sonata_type_datetime_picker', array(
                     'dp_side_by_side' => true,
                     'dp_use_current' => false,
