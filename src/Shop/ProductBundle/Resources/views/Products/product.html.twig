@@ -32,6 +32,14 @@
                         <p>{{ product.translate.longDescription|raw }}</p>
                     </div> 
                     <hr />
+                    {% if canAddToCart(product.price) %}
+                        <a class="btn btn-sm btn-success" 
+                           onClick="addToCart('{{ path('shop_cart_rest_add') }}/{{ product.id }}');"
+                           style="width:100%;"
+                           href="#">
+                            {{ "add_to_cart"|trans }}
+                        </a>
+                    {% endif %} 
                 </div>
 
 
@@ -45,10 +53,10 @@
                                 {% endfor %}
                         </ul>
                     </div>
-                {% endif %#}
+                {% endif %
 
                 <div class="col-xs-12 col-sm-12 col-md-8" >
-                    {#<div class="ratings">
+                    <div class="ratings">
                         <p class="pull-right">3 reviews</p>
                         <p>
                             <span class="glyphicon glyphicon-star"></span>
@@ -58,16 +66,8 @@
                             <span class="glyphicon glyphicon-star-empty"></span>
                             4.0 stars
                         </p>
-                    </div>#}
-                    {% if canAddToCart(product.price) %}
-                        <a class="btn btn-sm btn-success" 
-                           onClick="addToCart('{{ path('shop_cart_rest_add') }}/{{ product.id }}');"
-                           style="width:100%;"
-                           href="#">
-                            {{ "add_to_cart"|trans }}
-                        </a>
-                    {% endif %} 
-                </div>
+                    </div>
+                </div>#}
 
             </div>
         </div>
