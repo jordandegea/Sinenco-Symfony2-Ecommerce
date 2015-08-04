@@ -83,6 +83,9 @@ class PaymentController extends Controller {
         foreach ($paymentsAvailable['payum'] as $value) {
             $ConcatPaymentAvailable[$value] = $translator->trans($value);
         }
+        if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            $ConcatPaymentAvailable["paypal_express_debug"] = "paypal_express_debug";
+        }
 
         foreach ($paymentsAvailable['others'] as $value) {
             if ($value == "balance") {
@@ -155,7 +158,8 @@ class PaymentController extends Controller {
                                 'data' => $invoice->getId()
             )));
         }
-        if (in_array($paymentName, $this->container->getParameter('payments')['available']['payum'])) {
+        if (in_array($paymentName, $this->container->getParameter('payments')['available']['payum']) ||
+                $this->get('security.context')->isGranted('ROLE_ADMIN')) {
             return $this->preparePayum($paymentName, $invoice);
         }
     }
