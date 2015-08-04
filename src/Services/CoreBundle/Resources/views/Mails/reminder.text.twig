@@ -3,7 +3,7 @@ Hello {{ user.username }} ! Here is your services :
     {% set diff = date().diff(renting.expiration)%}
     
         {{ renting.service.translate.name }} 
-        {% if diff.invert == 1 %}
+        {% if diff.invert == 0 %}
             expire {{renting.expiration|date("Y-m-d")}} ({{ diff.days }} days)
         {% else %}
             Service expired. 

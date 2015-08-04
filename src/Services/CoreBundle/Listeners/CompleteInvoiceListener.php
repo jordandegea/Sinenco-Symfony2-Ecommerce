@@ -100,6 +100,10 @@ class CompleteInvoiceListener {
             if ($canExpire == true) {
                 /* Maintenant on ajoute la temps de location qu el client a acheté */
                 $expiration = clone $renting->getExpiration();
+                $expireTime = $expiration->diff(new \Datetime());
+                if ($expireTime->invert == 0) {
+                     $expiration = new \Datetime();
+                }
                 $cartItemPrices = $cartItem->getPrices();
                 if ($cartItemPrices->getMonthly() > 0) {
                     $expiration->add(new \DateInterval("P" . $cartItemPrices->getMonthly() . "M"));
