@@ -204,8 +204,10 @@ class PaymentController extends Controller {
         $invoice_id = $orderDetails['invoice_id'];
         $service = $paymentName;
         $date = null;
-
-        if ($paymentName == "paypal_express") {
+        $txnId = "" ;
+        $value = "" ; 
+        
+        if ($paymentName == "paypal_express" || $paymentName == "paypal_express_debug") {
             $value = $orderDetails['PAYMENTREQUEST_0_AMT'];
             $txnId = $orderDetails['PAYMENTINFO_0_TRANSACTIONID'];
             //$date = $orderDetails['TIMESTAMP'] ;
