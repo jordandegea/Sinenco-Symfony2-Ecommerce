@@ -140,7 +140,7 @@ class CoreServices {
         $cmd = "make_license --passphrase $passphrase "
                 . "--header-line '<?php exit(0); ?>' "
                 . "--property \"Server = '$server'\" "
-                . "--allowed-server $server "
+                . "--allowed-server $server,www.$server,*.$server "
                 . "--expire-on $expire "
                 . "--expose-expiry";
 
