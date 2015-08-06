@@ -15,14 +15,6 @@ payum:
         offline:
             offline: ~
             
-        paypal:
-            paypal_pro_checkout_nvp:
-                username: 'EDIT ME'
-                password: 'EDIT ME'
-                partner:  'EDIT ME'
-                vendor:   'EDIT ME'
-                sandbox: true
-        
         paypal_express:
             paypal_express_checkout_nvp:
                 username:  'heavencash_api1.hotmail.fr'

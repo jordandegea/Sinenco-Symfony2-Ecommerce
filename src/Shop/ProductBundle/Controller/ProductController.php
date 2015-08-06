@@ -136,7 +136,6 @@ class ProductController extends BaseController {
 
             if (is_numeric($category)) {
                 $category = $categoryRepository->find($category);
-                var_dump($category);
             } else {
                 $category = $categoryRepository->findOneByCanonicalName($category);
             }
