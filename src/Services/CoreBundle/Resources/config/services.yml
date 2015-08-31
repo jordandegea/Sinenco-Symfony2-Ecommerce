@@ -6,6 +6,7 @@ parameters:
         - whmcs_starpass
         - whmcs_movefunds
         - whmcs_contribute
+        - whmcs_datatrans
         - hostbill_allopass_credit
         - hostbill_allopass_commission
         - hostbill_allopass
@@ -37,6 +38,10 @@ parameters:
     core_service.services_available.whmcs_contribute.passphrase: 80Yf67e4H2o17zaT8DDHmBipSmzc4a62
     core_service.services_available.whmcs_contribute.expire: true
     core_service.services_available.whmcs_contribute.renew_url: "/modules/licenses/contribute.php?activation=true"
+    
+    core_service.services_available.whmcs_datatrans.passphrase: 0NS2EZvTWXc5Oyy7E0R5blP2cVCAv5Cz
+    core_service.services_available.whmcs_datatrans.expire: true
+    core_service.services_available.whmcs_datatrans.renew_url: "/modules/licenses/datatrans.php?activation=true"
         
     core_service.services_available.hostbill_allopass_commission.passphrase: jAvLqvqThh3ea4JXY88xFC6KQKFD6LgB
     core_service.services_available.hostbill_allopass_commission.expire: false
