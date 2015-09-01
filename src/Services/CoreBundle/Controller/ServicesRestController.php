@@ -50,7 +50,7 @@ class ServicesRestController extends Controller {
             foreach ($renting->getDetails() as $detail) {
                 if ($detail->getDetailName()->getCanonicalName() == $field) {
                     if ($field == "domain-name-required") {
-                        if (strstr($detail->getValue(), $value) !== FALSE) {
+                        if (strstr($value, $detail->getValue()) !== FALSE) {
                             if ($renting->getExpiration() > $lastExpiration) {
                                 $lastExpiration = $renting->getExpiration();
                                 $return["license"] = $renting->getLicense();
