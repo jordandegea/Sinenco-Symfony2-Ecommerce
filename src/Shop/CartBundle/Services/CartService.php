@@ -89,9 +89,9 @@ class CartService {
         $totalPriceConfiguration = $cartItem->getConfigurationValue(CartItemEntity::TYPE_PRICE, CartItemEntity::PRICE_TOTAL);
 
         if ($totalPriceConfiguration != null) {
-            return $totalPrice ;
+            return $totalPrice;
         }
-        
+
         foreach ($options as $option) {
             /* Si l'option existe dans les valeurs d'options */
             if (array_key_exists($option->getCanonicalName(), $optionsValues)) {
@@ -205,11 +205,11 @@ class CartService {
     }
 
     public function getNumberItems() {
-        $i = 0 ; 
-        foreach($this->cart->getProducts() as $cartItem){
+        $i = 0;
+        foreach ($this->cart->getProducts() as $cartItem) {
             $i++;
         }
-        return $i ;
+        return $i;
     }
 
     public function removeItem($id) {
@@ -459,7 +459,7 @@ class CartService {
                 }
                 if ($prices->getQuarterly() != 0) {
                     $price = $this->container->get('shop_core.currency')->convertPrice(
-                            $product->getPrice()->getQuarterly() * $prices->getQuarterly(), $product->getPrice() > getCurrency()->getCode()
+                            $product->getPrice()->getQuarterly() * $prices->getQuarterly(), $product->getPrice()->getCurrency()->getCode()
                     );
                     $invoiceLine->addOption(
                             $this->createNewInvoiceLineOption(
@@ -469,7 +469,7 @@ class CartService {
                 }
                 if ($prices->getSemiannually() != 0) {
                     $price = $this->container->get('shop_core.currency')->convertPrice(
-                            $product->getPrice()->getSemiannually() * $prices->getSemiannually(), $product->getPrice() > getCurrency()->getCode()
+                            $product->getPrice()->getSemiannually() * $prices->getSemiannually(), $product->getPrice()->getCurrency()->getCode()
                     );
                     $invoiceLine->addOption(
                             $this->createNewInvoiceLineOption(
@@ -479,7 +479,7 @@ class CartService {
                 }
                 if ($prices->getAnnually() != 0) {
                     $price = $this->container->get('shop_core.currency')->convertPrice(
-                            $product->getPrice()->getAnnually() * $prices->getAnnually(), $product->getPrice() > getCurrency()->getCode()
+                            $product->getPrice()->getAnnually() * $prices->getAnnually(), $product->getPrice() -> getCurrency()->getCode()
                     );
                     $invoiceLine->addOption(
                             $this->createNewInvoiceLineOption(
