@@ -32,11 +32,6 @@ class LoadUser implements FixtureInterface {
             $user->setRoles(array('ROLE_ADMIN'));
 
 
-            $userAddress = new UserAddress();
-            $userAddress->setFirstName($user->getFirstName());
-            $userAddress->setLastName($user->getLastName());
-
-            $user->addUserAddress($userAddress);
 
             // On le persiste
             $manager->persist($user);

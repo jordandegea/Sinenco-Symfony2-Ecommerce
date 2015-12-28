@@ -42,7 +42,7 @@ class LoadProducts extends AbstractFixture implements DependentFixtureInterface 
             $product->translate("en")->setLongDescription("en_" . "d" . $i);
             $product->setCategory($this->getReference("c" . $i));
 
-            $product->addPrice($this->getReference("price_" . $i));
+            //$product->addPrice($this->getReference("price_" . $i));
 
             // On le persiste
             $manager->persist($product);

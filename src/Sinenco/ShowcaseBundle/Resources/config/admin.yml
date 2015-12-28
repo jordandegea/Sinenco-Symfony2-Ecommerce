@@ -1,0 +1,35 @@
+services:
+    
+    sinenco.admin.showcase.page:
+        class: Sinenco\ShowcaseBundle\Admin\PageAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Showcase", label: "Page" }
+        arguments:
+            - ~
+            - Sinenco\ShowcaseBundle\Entity\Page
+            - ~
+        calls:
+            - [ setTranslationDomain, [SinencoShowcaseBundle]]
+            
+    sinenco.admin.showcase.language_page:
+        class: Sinenco\ShowcaseBundle\Admin\LanguagePageAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Showcase", label: "Language Page" }
+        arguments:
+            - ~
+            - Sinenco\ShowcaseBundle\Entity\LanguagePage
+            - ~
+        calls:
+            - [ setTranslationDomain, [SinencoShowcaseBundle]]
+            
+    sinenco.admin.showcase.section:
+        class: Sinenco\ShowcaseBundle\Admin\SectionAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Showcase", label: "Section" }
+        arguments:
+            - ~
+            - Sinenco\ShowcaseBundle\Entity\Section
+            - ~
+        calls:
+            - [ setTranslationDomain, [SinencoShowcaseBundle]]
+         

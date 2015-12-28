@@ -1,0 +1,3 @@
+sinenco_showcase_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: SinencoShowcaseBundle:Default:index }

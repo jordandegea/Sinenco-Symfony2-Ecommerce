@@ -65,6 +65,10 @@ sonata_admin:
                 items:
                     - sinenco.project.project
                     - sinenco.project.chatline
+            Showcase:
+                items:
+                    - sinenco.admin.showcase.page
+                    - sinenco.admin.showcase.language_page
             ECommerce:
                 items:
                     - sonata.admin.review
