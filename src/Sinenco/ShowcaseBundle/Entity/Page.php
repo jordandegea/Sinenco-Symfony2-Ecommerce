@@ -10,8 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table()
  * @ORM\Entity
  */
-class Page
-{
+class Page {
+
     /**
      * @var integer
      *
@@ -30,7 +30,8 @@ class Page
 
     /**
      *
-     * @ORM\OneToMany(targetEntity="Sinenco\ShowcaseBundle\Entity\LanguagePage", mappedBy="page", cascade={"all"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="Sinenco\ShowcaseBundle\Entity\LanguagePage", mappedBy="page", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true)
      */
     private $languagePages;
 
@@ -39,8 +40,7 @@ class Page
      *
      * @return integer
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -51,8 +51,7 @@ class Page
      *
      * @return Page
      */
-    public function setCanonicalName($canonicalName)
-    {
+    public function setCanonicalName($canonicalName) {
         $this->canonicalName = $canonicalName;
 
         return $this;
@@ -63,39 +62,47 @@ class Page
      *
      * @return string
      */
-    public function getCanonicalName()
-    {
+    public function getCanonicalName() {
         return $this->canonicalName;
     }
+
     /**
      * Constructor
      */
-    public function __construct()
-    {
+    public function __construct() {
         $this->languagePages = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    public function setLanguagePages($languagePages) {
+        if (count($languagePages) > 0) {
+            foreach ($languagePages as $i) {
+                $this->addLanguagePage($i);
+            }
+        }
+
+        return $this;
     }
 
     /**
      * Add languagePage
      *
-     * @param \Sinenco\ShowcaseBundle\Entity\PageLanguage $languagePage
+     * @param \Sinenco\ShowcaseBundle\Entity\LanguagePage $languagePage
      *
      * @return Page
      */
-    public function addLanguagePage(\Sinenco\ShowcaseBundle\Entity\PageLanguage $languagePage)
-    {
+    public function addLanguagePage(\Sinenco\ShowcaseBundle\Entity\LanguagePage $languagePage) {
         $this->languagePages[] = $languagePage;
-
+        $languagePage->setPage($this);
         return $this;
     }
 
     /**
      * Remove languagePage
      *
-     * @param \Sinenco\ShowcaseBundle\Entity\PageLanguage $languagePage
+     * @param \Sinenco\ShowcaseBundle\Entity\LanguagePage $languagePage
      */
-    public function removeLanguagePage(\Sinenco\ShowcaseBundle\Entity\PageLanguage $languagePage)
-    {
+    public function removeLanguagePage(\Sinenco\ShowcaseBundle\Entity\LanguagePage $languagePage) {
+        
         $this->languagePages->removeElement($languagePage);
     }
 
@@ -104,8 +111,12 @@ class Page
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getLanguagePages()
-    {
+    public function getLanguagePages() {
         return $this->languagePages;
     }
+
+    public function __toString() {
+        return $this->canonicalName;
+    }
+
 }

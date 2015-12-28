@@ -13,9 +13,14 @@ class PageAdmin extends Admin {
     protected function configureFormFields(FormMapper $formMapper) {
 
         $formMapper
-                ->add('id')
                 ->add('canonicalName')
-                ->add('languagePages')
+                ->add('languagePages', null, array(
+                    'by_reference' => false
+                ), array(
+                    'edit' => 'inline',
+                    'inline' => 'table',
+                    'sortable' => 'position'
+                ))
         ;
     }
 

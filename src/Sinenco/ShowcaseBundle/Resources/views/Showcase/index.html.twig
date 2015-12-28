@@ -1,0 +1,18 @@
+{# src/OC/PlatformBundle/Resources/views/Advert/edit.html.twig #}
+
+{% extends "SinencoProjectBundle::layout.html.twig" %}
+
+{% block title %}
+    {{ parent() }}
+{% endblock %}
+
+
+{% block body %}
+
+        {{ dump(showcase) }}
+    {% for page in showcase.pages %}
+        {{ dump(page) }}
+    {% endfor %}
+
+
+{% endblock %}

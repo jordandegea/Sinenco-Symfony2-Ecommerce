@@ -14,6 +14,10 @@ class LanguagePageAdmin extends Admin {
 
         $formMapper
                 ->add('canonicalName')
+                ->add('page')
+                ->add('image', 'sonata_type_model_list', array(), array(
+                    'link_parameters' => array('context' => 'showcase_image')
+                ))
                 ->add('language')
                 ->add('name')
                 ->add('sections', 'sonata_type_collection', array(

@@ -5,7 +5,7 @@ namespace Sinenco\ShowcaseBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * PageLanguage
+ * LanguagePage
  *
  * @ORM\Table()
  * @ORM\Entity
@@ -28,6 +28,13 @@ class LanguagePage
      */
     private $canonicalName;
 
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="Application\Sonata\MediaBundle\Entity\Media", cascade={"persist"}, fetch="LAZY" )
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $image;
+    
     /**
      * @var string
      *
@@ -72,7 +79,7 @@ class LanguagePage
      *
      * @param string $language
      *
-     * @return PageLanguage
+     * @return LanguagePage
      */
     public function setLanguage($language)
     {
@@ -202,5 +209,58 @@ class LanguagePage
     public function getCanonicalName()
     {
         return $this->canonicalName;
+    }
+    
+    
+    public function __toString() {
+        return $this->canonicalName;
+    }
+
+    /**
+     * Add image
+     *
+     * @param \Application\Sonata\MediaBundle\Entity\Media $image
+     *
+     * @return LanguagePage
+     */
+    public function addImage(\Application\Sonata\MediaBundle\Entity\Media $image)
+    {
+        $this->image[] = $image;
+
+        return $this;
+    }
+
+    /**
+     * Remove image
+     *
+     * @param \Application\Sonata\MediaBundle\Entity\Media $image
+     */
+    public function removeImage(\Application\Sonata\MediaBundle\Entity\Media $image)
+    {
+        $this->image->removeElement($image);
+    }
+
+    /**
+     * Get image
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    /**
+     * Set image
+     *
+     * @param \Application\Sonata\MediaBundle\Entity\Media $image
+     *
+     * @return LanguagePage
+     */
+    public function setImage(\Application\Sonata\MediaBundle\Entity\Media $image = null)
+    {
+        $this->image = $image;
+
+        return $this;
     }
 }

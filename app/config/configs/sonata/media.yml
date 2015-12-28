@@ -29,6 +29,17 @@ sonata_media:
                 small: { width: 100 , quality: 95}
                 big:   { width: 500 , quality: 90}
                 
+        showcase_image:
+            providers:
+                - sonata.media.provider.image
+                - sonata.media.provider.file
+
+            formats:
+                350: { width: 350 , quality: 90}
+                small: { width: 128 , quality: 95}
+                medium:   { width: 512 , quality: 90}
+                lg:   { width: 1024 , quality: 90}
+                
         products_file:
             download:
                 strategy: sonata.media.security.connected_strategy

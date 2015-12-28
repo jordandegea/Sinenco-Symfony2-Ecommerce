@@ -1,6 +1,6 @@
 sinenco_showcase:
     resource: "@SinencoShowcaseBundle/Resources/config/routing.yml"
-    prefix:   /
+    prefix:   /{_locale}/showcase
 
 sinenco_project:
     resource: "@SinencoProjectBundle/Resources/config/routing.yml"
