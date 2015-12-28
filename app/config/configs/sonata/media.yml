@@ -70,7 +70,7 @@ sonata_media:
                 
     cdn:
         server:
-            path: %kernel.root_dir%/../web/uploads/media # http://media.sonata-project.org/
+            path: /uploads/media # http://media.sonata-project.org/
 
     filesystem:
         local:
