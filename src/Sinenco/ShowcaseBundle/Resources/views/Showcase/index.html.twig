@@ -9,9 +9,29 @@
 
 {% block body %}
 
-        {{ dump(showcase) }}
     {% for page in showcase.pages %}
         {{ dump(page) }}
+        <div class="row previews">
+
+            <div class="col-md-12 col-lg-6">
+                <div class="thumbnail">
+                    <div class="caption">
+                        <a href="{{ path('sinenco_showcase_page', {'slug':page.page.canonicalName}) }}"><h3 class="text-center">{{page.name}}</h3></a>
+                                {#<p>Template Used: <a href="/template-overviews/agency">Agency</a></p>
+                                <p>Published: February 2015</p>
+                                <a href="http://www.pixelcreart.com/" class="btn btn-default">Visit Website</a>#}
+                    </div>
+                    <p>
+                        <a href="{{ path('sinenco_showcase_page', {'slug':page.page.canonicalName}) }}">
+                            {% media page.image, 'medium' with {'class': 'img-responsive', "style":"margin:auto" } %}
+                        </a>
+                    </p>
+
+                </div>
+            </div>		  
+
+
+        </div>
     {% endfor %}
 
 

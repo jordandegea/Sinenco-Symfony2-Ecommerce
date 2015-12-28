@@ -1,3 +1,9 @@
 sinenco_showcase_index:
     path:     /
     defaults: { _controller: SinencoShowcaseBundle:Showcase:index }
+    
+sinenco_showcase_page:
+    path:     /{slug}
+    defaults: { _controller: SinencoShowcaseBundle:Showcase:page }
+    requirements:
+        slug: ([a-z0-9\-]*)

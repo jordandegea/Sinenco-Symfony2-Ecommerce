@@ -53,5 +53,10 @@ class ShowcaseController extends Controller {
 
         return $this->render('SinencoShowcaseBundle:Showcase:index.html.twig', array('showcase' => $showcase));
     }
+    
+    
+    public function pageAction($slug){
+        
+    }
 
 }
