@@ -5,12 +5,12 @@ namespace Sinenco\ShowcaseBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * LanguagePage
+ * Tab
  *
  * @ORM\Table()
  * @ORM\Entity
  */
-class LanguagePage
+class Tab
 {
     /**
      * @var integer
@@ -34,14 +34,7 @@ class LanguagePage
      * @ORM\JoinColumn(nullable=true)
      */
     private $image;
-    
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="language", type="string", length=5)
-     */
-    private $language;
-    
+ 
     /**
      * @var string
      *
@@ -51,18 +44,18 @@ class LanguagePage
 
 
     /**
-     * @ORM\ManyToOne(targetEntity="Sinenco\ShowcaseBundle\Entity\Page", inversedBy="languagePages")
+     * @ORM\ManyToOne(targetEntity="Sinenco\ShowcaseBundle\Entity\LanguagePage", inversedBy="tabs")
      * @ORM\JoinColumn(nullable=true)
      */
-    private $page;
+    private $languagePage;
     
     
     /**
      *
-     * @ORM\OneToMany(targetEntity="Sinenco\ShowcaseBundle\Entity\Tab", mappedBy="languagePage", cascade={"all"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="Sinenco\ShowcaseBundle\Entity\Section", mappedBy="tab", cascade={"all"}, orphanRemoval=true)
      * @ORM\JoinColumn(nullable=true)
      */
-    private $tabs;
+    private $sections;
     
     /**
      * Get id
@@ -127,6 +120,42 @@ class LanguagePage
     public function getPage()
     {
         return $this->page;
+    }
+
+    /**
+     * Add section
+     *
+     * @param \Sinenco\ShowcaseBundle\Entity\Section $section
+     *
+     * @return LanguagePage
+     */
+    public function addSection(\Sinenco\ShowcaseBundle\Entity\Section $section, $first = true)
+    {
+        $this->sections[] = $section;
+        if ( $first ){
+            $section->setTab($this);
+        }
+        return $this;
+    }
+
+    /**
+     * Remove section
+     *
+     * @param \Sinenco\ShowcaseBundle\Entity\Section $section
+     */
+    public function removeSection(\Sinenco\ShowcaseBundle\Entity\Section $section)
+    {
+        $this->sections->removeElement($section);
+    }
+
+    /**
+     * Get sections
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getSections()
+    {
+        return $this->sections;
     }
 
     /**
@@ -231,36 +260,26 @@ class LanguagePage
     }
 
     /**
-     * Add tab
+     * Set languagePage
      *
-     * @param \Sinenco\ShowcaseBundle\Entity\Tab $tab
+     * @param \Sinenco\ShowcaseBundle\Entity\LanguagePage $languagePage
      *
-     * @return LanguagePage
+     * @return Tab
      */
-    public function addTab(\Sinenco\ShowcaseBundle\Entity\Tab $tab)
+    public function setLanguagePage(\Sinenco\ShowcaseBundle\Entity\LanguagePage $languagePage = null)
     {
-        $this->tabs[] = $tab;
+        $this->languagePage = $languagePage;
 
         return $this;
     }
 
     /**
-     * Remove tab
+     * Get languagePage
      *
-     * @param \Sinenco\ShowcaseBundle\Entity\Tab $tab
+     * @return \Sinenco\ShowcaseBundle\Entity\LanguagePage
      */
-    public function removeTab(\Sinenco\ShowcaseBundle\Entity\Tab $tab)
+    public function getLanguagePage()
     {
-        $this->tabs->removeElement($tab);
-    }
-
-    /**
-     * Get tabs
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getTabs()
-    {
-        return $this->tabs;
+        return $this->languagePage;
     }
 }

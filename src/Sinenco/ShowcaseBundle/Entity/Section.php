@@ -24,10 +24,18 @@ class Section
 
 
     /**
-     * @ORM\ManyToOne(targetEntity="Sinenco\ShowcaseBundle\Entity\LanguagePage", inversedBy="sections")
-     * @ORM\JoinColumn(nullable=false)
+     * @var string
+     *
+     * @ORM\Column(name="canonicalName", type="string", length=255)
      */
-    private $languagePage;
+    private $canonicalName;
+    
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="Sinenco\ShowcaseBundle\Entity\Tab", inversedBy="sections")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $tab;
     
     
     /**
@@ -56,29 +64,6 @@ class Section
         return $this->id;
     }
 
-    /**
-     * Set languagePage
-     *
-     * @param \Sinenco\ShowcaseBundle\Entity\LanguagePage $languagePage
-     *
-     * @return Section
-     */
-    public function setLanguagePage(\Sinenco\ShowcaseBundle\Entity\LanguagePage $languagePage)
-    {
-        $this->languagePage = $languagePage;
-
-        return $this;
-    }
-
-    /**
-     * Get languagePage
-     *
-     * @return \Sinenco\ShowcaseBundle\Entity\LanguagePage
-     */
-    public function getLanguagePage()
-    {
-        return $this->languagePage;
-    }
 
     /**
      * Set title
@@ -126,5 +111,57 @@ class Section
     public function getContent()
     {
         return $this->content;
+    }
+
+    /**
+     * Set canonicalName
+     *
+     * @param string $canonicalName
+     *
+     * @return Section
+     */
+    public function setCanonicalName($canonicalName)
+    {
+        $this->canonicalName = $canonicalName;
+
+        return $this;
+    }
+
+    /**
+     * Get canonicalName
+     *
+     * @return string
+     */
+    public function getCanonicalName()
+    {
+        return $this->canonicalName;
+    }
+    
+    public function __toString() {
+        return $this->canonicalName;
+    }
+
+    /**
+     * Set tab
+     *
+     * @param \Sinenco\ShowcaseBundle\Entity\Tab $tab
+     *
+     * @return Section
+     */
+    public function setTab(\Sinenco\ShowcaseBundle\Entity\Tab $tab = null)
+    {
+        $this->tab = $tab;
+        $tab->addSection($this, false);
+        return $this;
+    }
+
+    /**
+     * Get tab
+     *
+     * @return \Sinenco\ShowcaseBundle\Entity\Tab
+     */
+    public function getTab()
+    {
+        return $this->tab;
     }
 }

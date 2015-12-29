@@ -32,4 +32,15 @@ services:
             - ~
         calls:
             - [ setTranslationDomain, [SinencoShowcaseBundle]]
+            
+    sinenco.admin.showcase.tab:
+        class: Sinenco\ShowcaseBundle\Admin\TabAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "Showcase", label: "Tab" }
+        arguments:
+            - ~
+            - Sinenco\ShowcaseBundle\Entity\Tab
+            - ~
+        calls:
+            - [ setTranslationDomain, [SinencoShowcaseBundle]]
          

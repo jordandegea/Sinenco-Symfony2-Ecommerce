@@ -13,6 +13,7 @@ class LanguagePageAdmin extends Admin {
     protected function configureFormFields(FormMapper $formMapper) {
 
         $formMapper
+                
                 ->add('canonicalName')
                 ->add('page')
                 ->add('image', 'sonata_type_model_list', array(), array(
@@ -20,11 +21,10 @@ class LanguagePageAdmin extends Admin {
                 ))
                 ->add('language')
                 ->add('name')
-                ->add('sections', 'sonata_type_collection', array(
-                    'by_reference' => false
-                        ), array(
-                    'sortable' => 'id',
-                ))
+                
+                ->add('tabs', null)
+                
+                
         ;
     }
 

@@ -69,6 +69,8 @@ sonata_admin:
                 items:
                     - sinenco.admin.showcase.page
                     - sinenco.admin.showcase.language_page
+                    - sinenco.admin.showcase.tab
+                    - sinenco.admin.showcase.section
             ECommerce:
                 items:
                     - sonata.admin.review
