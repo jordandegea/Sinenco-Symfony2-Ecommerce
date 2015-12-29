@@ -29,7 +29,6 @@ class ShowcaseController extends Controller {
             $defaultLanguagePage = $firstLanguagePage = $selectedLanguagePage = null;
 
             foreach ($page->getLanguagePages() as $languagePage) {
-                echo "1;";
                 if ($languagePage->getLanguage() == $_locale) {
                     $selectedLanguagePage = $languagePage;
                 } elseif ($languagePage->getLanguage() == "en") {
@@ -39,24 +38,43 @@ class ShowcaseController extends Controller {
                 }
             }
             if ($selectedLanguagePage != null) {
-                echo "1;";
                 $showcase->pages[] = $selectedLanguagePage;
             } elseif ($defaultLanguagePage != null) {
                 $showcase->pages[] = $defaultLanguagePage;
-                echo "3;";
             } elseif ($firstLanguagePage != null) {
-                echo "2;";
                 $showcase->pages[] = $firstLanguagePage;
             }
-                echo "4;";
         }
 
         return $this->render('SinencoShowcaseBundle:Showcase:index.html.twig', array('showcase' => $showcase));
     }
-    
-    
-    public function pageAction($slug){
-        
+
+    public function pageAction($slug, $_locale) {
+        $repository = $this->getDoctrine()->getManager()->getRepository('SinencoShowcaseBundle:Page');
+
+        $page = $repository->findOneByCanonicalName($slug);
+
+        $defaultLanguagePage = $firstLanguagePage = $selectedLanguagePage = null;
+
+        foreach ($page->getLanguagePages() as $languagePage) {
+            if ($languagePage->getLanguage() == $_locale) {
+                $selectedLanguagePage = $languagePage;
+            } elseif ($languagePage->getLanguage() == "en") {
+                $defaultLanguagePage = $languagePage;
+            } elseif ($firstLanguagePage == null) {
+                $firstLanguagePage = $languagePage;
+            }
+        }
+        if ($selectedLanguagePage != null) {
+            $page = $selectedLanguagePage;
+        } elseif ($defaultLanguagePage != null) {
+            $page = $defaultLanguagePage;
+        } elseif ($firstLanguagePage != null) {
+            $page = $firstLanguagePage;
+        }
+
+
+        return $this->render('SinencoShowcaseBundle:Showcase:page.html.twig', array('page' => $page));
     }
 
 }
