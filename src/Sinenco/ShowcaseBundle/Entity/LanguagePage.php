@@ -33,7 +33,28 @@ class LanguagePage
      * @ORM\ManyToOne(targetEntity="Application\Sonata\MediaBundle\Entity\Media", cascade={"persist"}, fetch="LAZY" )
      * @ORM\JoinColumn(nullable=true)
      */
-    private $image;
+    private $imageIntro;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="Application\Sonata\MediaBundle\Entity\Media", cascade={"persist"}, fetch="LAZY" )
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $imageBanner;
+    
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="color_text_intro", type="string", length=6)
+     */
+    private $colorTextIntro;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="color_text_banner", type="string", length=6)
+     */
+    private $colorTextBanner;
     
     /**
      * @var string
@@ -45,9 +66,17 @@ class LanguagePage
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255)
+     * @ORM\Column(name="title", type="string", length=255)
      */
-    private $name;
+    private $title;
+    
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="subtitle", type="string", length=255)
+     */
+    private $subtitle;
 
 
     /**
@@ -130,30 +159,6 @@ class LanguagePage
     }
 
     /**
-     * Set name
-     *
-     * @param string $name
-     *
-     * @return LanguagePage
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * Get name
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
      * Set canonicalName
      *
      * @param string $canonicalName
@@ -180,54 +185,6 @@ class LanguagePage
     
     public function __toString() {
         return $this->canonicalName;
-    }
-
-    /**
-     * Add image
-     *
-     * @param \Application\Sonata\MediaBundle\Entity\Media $image
-     *
-     * @return LanguagePage
-     */
-    public function addImage(\Application\Sonata\MediaBundle\Entity\Media $image)
-    {
-        $this->image[] = $image;
-
-        return $this;
-    }
-
-    /**
-     * Remove image
-     *
-     * @param \Application\Sonata\MediaBundle\Entity\Media $image
-     */
-    public function removeImage(\Application\Sonata\MediaBundle\Entity\Media $image)
-    {
-        $this->image->removeElement($image);
-    }
-
-    /**
-     * Get image
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getImage()
-    {
-        return $this->image;
-    }
-
-    /**
-     * Set image
-     *
-     * @param \Application\Sonata\MediaBundle\Entity\Media $image
-     *
-     * @return LanguagePage
-     */
-    public function setImage(\Application\Sonata\MediaBundle\Entity\Media $image = null)
-    {
-        $this->image = $image;
-
-        return $this;
     }
 
     /**
@@ -262,5 +219,149 @@ class LanguagePage
     public function getTabs()
     {
         return $this->tabs;
+    }
+
+    /**
+     * Set title
+     *
+     * @param string $title
+     *
+     * @return LanguagePage
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    /**
+     * Get title
+     *
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * Set subtitle
+     *
+     * @param string $subtitle
+     *
+     * @return LanguagePage
+     */
+    public function setSubtitle($subtitle)
+    {
+        $this->subtitle = $subtitle;
+
+        return $this;
+    }
+
+    /**
+     * Get subtitle
+     *
+     * @return string
+     */
+    public function getSubtitle()
+    {
+        return $this->subtitle;
+    }
+
+    /**
+     * Set imageIntro
+     *
+     * @param \Application\Sonata\MediaBundle\Entity\Media $imageIntro
+     *
+     * @return LanguagePage
+     */
+    public function setImageIntro(\Application\Sonata\MediaBundle\Entity\Media $imageIntro = null)
+    {
+        $this->imageIntro = $imageIntro;
+
+        return $this;
+    }
+
+    /**
+     * Get imageIntro
+     *
+     * @return \Application\Sonata\MediaBundle\Entity\Media
+     */
+    public function getImageIntro()
+    {
+        return $this->imageIntro;
+    }
+
+    /**
+     * Set imageBanner
+     *
+     * @param \Application\Sonata\MediaBundle\Entity\Media $imageBanner
+     *
+     * @return LanguagePage
+     */
+    public function setImageBanner(\Application\Sonata\MediaBundle\Entity\Media $imageBanner = null)
+    {
+        $this->imageBanner = $imageBanner;
+
+        return $this;
+    }
+
+    /**
+     * Get imageBanner
+     *
+     * @return \Application\Sonata\MediaBundle\Entity\Media
+     */
+    public function getImageBanner()
+    {
+        return $this->imageBanner;
+    }
+
+    /**
+     * Set colorTextIntro
+     *
+     * @param \color $colorTextIntro
+     *
+     * @return LanguagePage
+     */
+    public function setColorTextIntro($colorTextIntro)
+    {
+        $this->colorTextIntro = $colorTextIntro;
+
+        return $this;
+    }
+
+    /**
+     * Get colorTextIntro
+     *
+     * @return \color
+     */
+    public function getColorTextIntro()
+    {
+        return $this->colorTextIntro;
+    }
+
+    /**
+     * Set colorTextBanner
+     *
+     * @param string $colorTextBanner
+     *
+     * @return LanguagePage
+     */
+    public function setColorTextBanner($colorTextBanner)
+    {
+        $this->colorTextBanner = $colorTextBanner;
+
+        return $this;
+    }
+
+    /**
+     * Get colorTextBanner
+     *
+     * @return string
+     */
+    public function getColorTextBanner()
+    {
+        return $this->colorTextBanner;
     }
 }

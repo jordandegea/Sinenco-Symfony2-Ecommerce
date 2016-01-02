@@ -16,11 +16,17 @@ class LanguagePageAdmin extends Admin {
                 
                 ->add('canonicalName')
                 ->add('page')
-                ->add('image', 'sonata_type_model_list', array(), array(
+                ->add('imageIntro', 'sonata_type_model_list', array(), array(
+                    'link_parameters' => array('context' => 'showcase_image')
+                ))
+                ->add('imageBanner', 'sonata_type_model_list', array(), array(
                     'link_parameters' => array('context' => 'showcase_image')
                 ))
                 ->add('language')
-                ->add('name')
+                ->add('title')
+                ->add('colorTextIntro')
+                ->add('subtitle')
+                ->add('colorTextBanner')
                 
                 ->add('tabs', null)
                 
