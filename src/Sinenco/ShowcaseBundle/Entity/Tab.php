@@ -12,6 +12,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Tab
 {
+    
+    const DEFAULT_COLOR = "default" ;
     /**
      * @var integer
      *
@@ -42,6 +44,13 @@ class Tab
      */
     private $name;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="btn_color", type="string", length=16)
+     */
+    private $btnColor;
+    
 
     /**
      * @ORM\ManyToOne(targetEntity="Sinenco\ShowcaseBundle\Entity\LanguagePage", inversedBy="tabs")
@@ -96,6 +105,7 @@ class Tab
     public function __construct()
     {
         $this->sections = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->btnColor = self::DEFAULT_COLOR;
     }
 
     /**
@@ -281,5 +291,29 @@ class Tab
     public function getLanguagePage()
     {
         return $this->languagePage;
+    }
+
+    /**
+     * Set btnColor
+     *
+     * @param string $btnColor
+     *
+     * @return Tab
+     */
+    public function setBtnColor($btnColor)
+    {
+        $this->btnColor = $btnColor;
+
+        return $this;
+    }
+
+    /**
+     * Get btnColor
+     *
+     * @return string
+     */
+    public function getBtnColor()
+    {
+        return $this->btnColor;
     }
 }

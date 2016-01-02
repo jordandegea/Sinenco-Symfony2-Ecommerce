@@ -18,6 +18,14 @@ class TabAdmin extends Admin {
                 ->add('image', 'sonata_type_model_list', array(), array(
                     'link_parameters' => array('context' => 'showcase_image')
                 ))
+                ->add('btnColor', 'choice', array('choices' => [
+                    'default' => "Default",
+                    'primary' => "Primary",
+                    'success' => "Success",
+                    'info' => "Info",
+                    'warning' => "Warning",
+                    'danger' => "Danger"
+                ]))
                 ->add('name')
                 ->add('sections', 'sonata_type_collection', ['label' => 'Images',
                     'required' => false, 'cascade_validation' => true,

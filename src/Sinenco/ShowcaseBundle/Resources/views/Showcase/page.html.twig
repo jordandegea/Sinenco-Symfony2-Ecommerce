@@ -60,7 +60,7 @@
                     <ul class="list-inline intro-social-buttons">
                         {% for tab in page.tabs %}
                             <li>
-                                <a href="#{{ tab.canonicalName }}" class="btn btn-default btn-lg">
+                                <a href="#{{ tab.canonicalName }}" class="btn btn-{{ tab.btnColor }} btn-lg">
                                     {#<i class="fa fa-twitter fa-fw"></i>#}
                                     <span class="network-name">{{ tab.name }}</span>
                                 </a>
@@ -129,7 +129,7 @@
                 <ul class="list-inline banner-social-buttons">
                     {% for tab in page.tabs %}
                         <li>
-                            <a href="#{{ tab.canonicalName }}" class="btn btn-default btn-lg">
+                            <a href="#{{ tab.canonicalName }}" class="btn btn-{{ tab.btnColor }} btn-lg">
                                 {#<i class="fa fa-twitter fa-fw"></i>#}
                                 <span class="network-name">{{ tab.name }}</span>
                             </a>
