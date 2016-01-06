@@ -22,7 +22,7 @@ set :use_sudo, true
 set :keep_releases, 3 # Le nombre de releases à garder après un déploiement réussi
 
 ## Symfony2
-set :shared_files, ["app/config/parameters.yml"] # Les fichiers à conserver entre chaque déploiement
+set :shared_files, ["app/config/parameters.yml", "web/.htaccess"] # Les fichiers à conserver entre chaque déploiement
 set :shared_children, [app_path + "/logs", "vendor"] # Idem, mais pour les dossiers
 set :use_composer, true
 set :update_vendors, false # Il est conseillé de laisser a false et de ne pas faire de ‘composer update’ directement sur la prod
@@ -44,5 +44,4 @@ after "deploy:finalize_update" do
 run "chown -R sinenco:www-data #{latest_release}"
 run "sudo chmod -R 777 #{latest_release}/#{cache_path}"
 run "sudo chmod -R 777 #{latest_release}/#{log_path}"
-run "php app/console cache:clear --env=prod"
 end
