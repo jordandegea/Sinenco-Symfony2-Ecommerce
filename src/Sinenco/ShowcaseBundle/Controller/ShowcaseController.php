@@ -18,7 +18,7 @@ class ShowcaseController extends Controller {
     public function indexAction($_locale) {
         $repository = $this->getDoctrine()->getManager()->getRepository('SinencoShowcaseBundle:Page');
 
-        $pages = $repository->findAll();
+        $pages = $repository->findBy(['active'=> true]);
 
         $showcase = new \stdClass();
 

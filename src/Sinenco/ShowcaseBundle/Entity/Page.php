@@ -29,6 +29,13 @@ class Page {
     private $canonicalName;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="active", type="boolean")
+     */
+    private $active;
+
+    /**
      *
      * @ORM\OneToMany(targetEntity="Sinenco\ShowcaseBundle\Entity\LanguagePage", mappedBy="page", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
@@ -102,7 +109,7 @@ class Page {
      * @param \Sinenco\ShowcaseBundle\Entity\LanguagePage $languagePage
      */
     public function removeLanguagePage(\Sinenco\ShowcaseBundle\Entity\LanguagePage $languagePage) {
-        
+
         $this->languagePages->removeElement($languagePage);
     }
 
@@ -119,4 +126,28 @@ class Page {
         return $this->canonicalName;
     }
 
+
+    /**
+     * Set active
+     *
+     * @param boolean $active
+     *
+     * @return Page
+     */
+    public function setActive($active)
+    {
+        $this->active = $active;
+
+        return $this;
+    }
+
+    /**
+     * Get active
+     *
+     * @return boolean
+     */
+    public function getActive()
+    {
+        return $this->active;
+    }
 }
