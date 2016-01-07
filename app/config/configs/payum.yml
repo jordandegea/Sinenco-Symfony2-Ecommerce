@@ -1,3 +1,7 @@
+imports:
+    - { resource: payments/paypal_express_debug.yml }
+    - { resource: payments/paypal_express.yml }
+    
 parameters:
     payum.class_order: 'Shop\PaymentBundle\Entity\Order'
     payum.done_route: 'shop_payment_done'
@@ -17,15 +21,15 @@ payum:
             
         paypal_express:
             paypal_express_checkout_nvp:
-                username:  'heavencash_api1.hotmail.fr'
-                password:  'GJYMQ4M9XKX5P42R'
-                signature: 'AFcWxV21C7fd0v3bYYYRCpSSRl31AXKjDQGh1uy1qKs.70bumH4mpB7y'
-                sandbox: false
+                username:  %paypal_express_checkout_nvp_conf.username%
+                password:  %paypal_express_checkout_nvp_conf.password%
+                signature: %paypal_express_checkout_nvp_conf.signature%
+                sandbox:   %paypal_express_checkout_nvp_conf.sandbox%
         
         paypal_express_debug:
             paypal_express_checkout_nvp:
-                username:  'company_api1.hotmail.fr'
-                password:  '1395167446'
-                signature: 'AXwG.ZweTH7GajuS34FJgNW5x1QaAYt5FYXs-XRaoObQ.q-.2oipDcwP'
-                sandbox: true
+                username:  %paypal_express_checkout_nvp_debug_conf.username%
+                password:  %paypal_express_checkout_nvp_debug_conf.password%
+                signature: %paypal_express_checkout_nvp_debug_conf.signature%
+                sandbox:   %paypal_express_checkout_nvp_debug_conf.sandbox%
             
