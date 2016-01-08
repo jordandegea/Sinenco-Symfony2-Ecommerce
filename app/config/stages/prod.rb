@@ -1,7 +1,7 @@
 
 set :application, "Sinenco"
 set :domain, "root@5.196.18.77" # Le SSH de destination
-set :deploy_to, "/home/sinenco/www/preprod" # Le répertoire de destination
+set :deploy_to, "/home/sinenco/www/prod" # Le répertoire de destination
 set :app_path, "app" # Le dossier d’application, laissez app
 set :user, "sinenco" # Le nom d’utilisateur du serveur distant
 
@@ -44,4 +44,5 @@ after "deploy:finalize_update" do
 run "chown -R sinenco:www-data #{latest_release}"
 run "sudo chmod -R 777 #{latest_release}/#{cache_path}"
 run "sudo chmod -R 777 #{latest_release}/#{log_path}"
+run "php #{latest_release}/app/console doctrine:migrations:migrate"
 end
