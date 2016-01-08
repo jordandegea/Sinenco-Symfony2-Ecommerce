@@ -14,7 +14,9 @@ class PageAdmin extends Admin {
 
         $formMapper
                 ->add('canonicalName')
-                ->add('active')
+                ->add('active', null, array(
+                    "required" => false
+                ))
                 ->add('languagePages', null, array(
                     'by_reference' => false
                 ), array(

@@ -15,19 +15,16 @@ class TabAdmin extends Admin {
         $formMapper
                 ->add('canonicalName')
                 ->add('languagePage')
-                ->add('image', 'sonata_type_model_list', array(), array(
-                    'link_parameters' => array('context' => 'showcase_image')
-                ))
                 ->add('btnColor', 'choice', array('choices' => [
-                    'default' => "Default",
-                    'primary' => "Primary",
-                    'success' => "Success",
-                    'info' => "Info",
-                    'warning' => "Warning",
-                    'danger' => "Danger"
-                ]))
+                        'default' => "Default",
+                        'primary' => "Primary",
+                        'success' => "Success",
+                        'info' => "Info",
+                        'warning' => "Warning",
+                        'danger' => "Danger"
+            ]))
                 ->add('name')
-                ->add('sections', 'sonata_type_collection', ['label' => 'Images',
+                ->add('sections', 'sonata_type_collection', ['label' => 'Section',
                     'required' => false, 'cascade_validation' => true,
                     'by_reference' => false], ['edit' => 'inline', 'inline' => 'table'])
                 ->end()

@@ -15,6 +15,10 @@ class SectionAdmin extends Admin {
         $formMapper
                 ->add('canonicalName')
                 ->add('title')
+                ->add('image', 'sonata_type_model_list', array(), array(
+                    'link_parameters' => array('context' => 'showcase_image')
+                ))
+                ->add('content', 'textarea', array('attr' => array('class' => 'ckeditor')))
         ;
     }
 

@@ -10,10 +10,10 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table()
  * @ORM\Entity
  */
-class Tab
-{
-    
-    const DEFAULT_COLOR = "default" ;
+class Tab {
+
+    const DEFAULT_COLOR = "default";
+
     /**
      * @var integer
      *
@@ -30,13 +30,6 @@ class Tab
      */
     private $canonicalName;
 
-    
-    /**
-     * @ORM\ManyToOne(targetEntity="Application\Sonata\MediaBundle\Entity\Media", cascade={"persist"}, fetch="LAZY" )
-     * @ORM\JoinColumn(nullable=true)
-     */
-    private $image;
- 
     /**
      * @var string
      *
@@ -50,29 +43,26 @@ class Tab
      * @ORM\Column(name="btn_color", type="string", length=16)
      */
     private $btnColor;
-    
 
     /**
      * @ORM\ManyToOne(targetEntity="Sinenco\ShowcaseBundle\Entity\LanguagePage", inversedBy="tabs")
      * @ORM\JoinColumn(nullable=true)
      */
     private $languagePage;
-    
-    
+
     /**
      *
      * @ORM\OneToMany(targetEntity="Sinenco\ShowcaseBundle\Entity\Section", mappedBy="tab", cascade={"all"}, orphanRemoval=true)
      * @ORM\JoinColumn(nullable=true)
      */
     private $sections;
-    
+
     /**
      * Get id
      *
      * @return integer
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -83,8 +73,7 @@ class Tab
      *
      * @return LanguagePage
      */
-    public function setLanguage($language)
-    {
+    public function setLanguage($language) {
         $this->language = $language;
 
         return $this;
@@ -95,15 +84,14 @@ class Tab
      *
      * @return string
      */
-    public function getLanguage()
-    {
+    public function getLanguage() {
         return $this->language;
     }
+
     /**
      * Constructor
      */
-    public function __construct()
-    {
+    public function __construct() {
         $this->sections = new \Doctrine\Common\Collections\ArrayCollection();
         $this->btnColor = self::DEFAULT_COLOR;
     }
@@ -115,8 +103,7 @@ class Tab
      *
      * @return LanguagePage
      */
-    public function setPage(\Sinenco\ShowcaseBundle\Entity\Page $page)
-    {
+    public function setPage(\Sinenco\ShowcaseBundle\Entity\Page $page) {
         $this->page = $page;
 
         return $this;
@@ -127,8 +114,7 @@ class Tab
      *
      * @return \Sinenco\ShowcaseBundle\Entity\Page
      */
-    public function getPage()
-    {
+    public function getPage() {
         return $this->page;
     }
 
@@ -139,10 +125,9 @@ class Tab
      *
      * @return LanguagePage
      */
-    public function addSection(\Sinenco\ShowcaseBundle\Entity\Section $section, $first = true)
-    {
+    public function addSection(\Sinenco\ShowcaseBundle\Entity\Section $section, $first = true) {
         $this->sections[] = $section;
-        if ( $first ){
+        if ($first) {
             $section->setTab($this);
         }
         return $this;
@@ -153,8 +138,7 @@ class Tab
      *
      * @param \Sinenco\ShowcaseBundle\Entity\Section $section
      */
-    public function removeSection(\Sinenco\ShowcaseBundle\Entity\Section $section)
-    {
+    public function removeSection(\Sinenco\ShowcaseBundle\Entity\Section $section) {
         $this->sections->removeElement($section);
     }
 
@@ -163,8 +147,7 @@ class Tab
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getSections()
-    {
+    public function getSections() {
         return $this->sections;
     }
 
@@ -175,8 +158,7 @@ class Tab
      *
      * @return LanguagePage
      */
-    public function setName($name)
-    {
+    public function setName($name) {
         $this->name = $name;
 
         return $this;
@@ -187,8 +169,7 @@ class Tab
      *
      * @return string
      */
-    public function getName()
-    {
+    public function getName() {
         return $this->name;
     }
 
@@ -199,8 +180,7 @@ class Tab
      *
      * @return LanguagePage
      */
-    public function setCanonicalName($canonicalName)
-    {
+    public function setCanonicalName($canonicalName) {
         $this->canonicalName = $canonicalName;
 
         return $this;
@@ -211,12 +191,10 @@ class Tab
      *
      * @return string
      */
-    public function getCanonicalName()
-    {
+    public function getCanonicalName() {
         return $this->canonicalName;
     }
-    
-    
+
     public function __toString() {
         return $this->canonicalName;
     }
@@ -228,8 +206,7 @@ class Tab
      *
      * @return LanguagePage
      */
-    public function addImage(\Application\Sonata\MediaBundle\Entity\Media $image)
-    {
+    public function addImage(\Application\Sonata\MediaBundle\Entity\Media $image) {
         $this->image[] = $image;
 
         return $this;
@@ -240,8 +217,7 @@ class Tab
      *
      * @param \Application\Sonata\MediaBundle\Entity\Media $image
      */
-    public function removeImage(\Application\Sonata\MediaBundle\Entity\Media $image)
-    {
+    public function removeImage(\Application\Sonata\MediaBundle\Entity\Media $image) {
         $this->image->removeElement($image);
     }
 
@@ -250,8 +226,7 @@ class Tab
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getImage()
-    {
+    public function getImage() {
         return $this->image;
     }
 
@@ -262,8 +237,7 @@ class Tab
      *
      * @return LanguagePage
      */
-    public function setImage(\Application\Sonata\MediaBundle\Entity\Media $image = null)
-    {
+    public function setImage(\Application\Sonata\MediaBundle\Entity\Media $image = null) {
         $this->image = $image;
 
         return $this;
@@ -276,8 +250,7 @@ class Tab
      *
      * @return Tab
      */
-    public function setLanguagePage(\Sinenco\ShowcaseBundle\Entity\LanguagePage $languagePage = null)
-    {
+    public function setLanguagePage(\Sinenco\ShowcaseBundle\Entity\LanguagePage $languagePage = null) {
         $this->languagePage = $languagePage;
 
         return $this;
@@ -288,8 +261,7 @@ class Tab
      *
      * @return \Sinenco\ShowcaseBundle\Entity\LanguagePage
      */
-    public function getLanguagePage()
-    {
+    public function getLanguagePage() {
         return $this->languagePage;
     }
 
@@ -300,8 +272,7 @@ class Tab
      *
      * @return Tab
      */
-    public function setBtnColor($btnColor)
-    {
+    public function setBtnColor($btnColor) {
         $this->btnColor = $btnColor;
 
         return $this;
@@ -312,8 +283,8 @@ class Tab
      *
      * @return string
      */
-    public function getBtnColor()
-    {
+    public function getBtnColor() {
         return $this->btnColor;
     }
+
 }

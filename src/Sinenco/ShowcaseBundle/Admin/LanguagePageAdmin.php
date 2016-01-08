@@ -39,7 +39,6 @@ class LanguagePageAdmin extends Admin {
         $datagridMapper
                 ->add('canonicalName')
                 ->add('language')
-                ->add('name')
         ;
     }
 
