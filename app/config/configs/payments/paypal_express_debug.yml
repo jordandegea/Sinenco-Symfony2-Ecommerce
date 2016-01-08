@@ -1,0 +1,5 @@
+parameters:
+    paypal_express_checkout_nvp_debug_conf.username:  'company_api1.hotmail.fr'
+    paypal_express_checkout_nvp_debug_conf.password:  '1395167446'
+    paypal_express_checkout_nvp_debug_conf.signature: 'AXwG.ZweTH7GajuS34FJgNW5x1QaAYt5FYXs-XRaoObQ.q-.2oipDcwP'
+    paypal_express_checkout_nvp_debug_conf.sandbox: true

@@ -1,0 +1,5 @@
+parameters:
+    paypal_express_checkout_nvp_conf.username:  'heavencash_api1.hotmail.fr'
+    paypal_express_checkout_nvp_conf.password:  'GJYMQ4M9XKX5P42R'
+    paypal_express_checkout_nvp_conf.signature: 'AFcWxV21C7fd0v3bYYYRCpSSRl31AXKjDQGh1uy1qKs.70bumH4mpB7y'
+    paypal_express_checkout_nvp_conf.sandbox: false
