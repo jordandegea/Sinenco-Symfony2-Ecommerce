@@ -44,5 +44,4 @@ after "deploy:finalize_update" do
 run "chown -R sinenco:www-data #{latest_release}"
 run "sudo chmod -R 777 #{latest_release}/#{cache_path}"
 run "sudo chmod -R 777 #{latest_release}/#{log_path}"
-run "php #{latest_release}/app/console doctrine:migrations:migrate"
 end
