@@ -33,6 +33,12 @@ class LanguagePage
      * @ORM\ManyToOne(targetEntity="Application\Sonata\MediaBundle\Entity\Media", cascade={"persist"}, fetch="LAZY" )
      * @ORM\JoinColumn(nullable=true)
      */
+    private $imageShowcase;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="Application\Sonata\MediaBundle\Entity\Media", cascade={"persist"}, fetch="LAZY" )
+     * @ORM\JoinColumn(nullable=true)
+     */
     private $imageIntro;
     
     /**
@@ -363,5 +369,29 @@ class LanguagePage
     public function getColorTextBanner()
     {
         return $this->colorTextBanner;
+    }
+
+    /**
+     * Set imageShowcase
+     *
+     * @param \Application\Sonata\MediaBundle\Entity\Media $imageShowcase
+     *
+     * @return LanguagePage
+     */
+    public function setImageShowcase(\Application\Sonata\MediaBundle\Entity\Media $imageShowcase = null)
+    {
+        $this->imageShowcase = $imageShowcase;
+
+        return $this;
+    }
+
+    /**
+     * Get imageShowcase
+     *
+     * @return \Application\Sonata\MediaBundle\Entity\Media
+     */
+    public function getImageShowcase()
+    {
+        return $this->imageShowcase;
     }
 }

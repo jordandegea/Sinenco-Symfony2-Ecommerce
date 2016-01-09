@@ -1,6 +1,6 @@
 {# src/OC/PlatformBundle/Resources/views/Advert/edit.html.twig #}
 
-{% extends "SinencoProjectBundle::layout.html.twig" %}
+{% extends "SinencoShowcaseBundle::layout.html.twig" %}
 
 {% block title %}
     {{ parent() }}
@@ -16,14 +16,14 @@
             <div class="col-md-12 col-lg-6">
                 <div class="thumbnail">
                     <div class="caption">
-                        <a href="{{ path('sinenco_showcase_page', {'slug':page.page.canonicalName}) }}"><h3 class="text-center">{{page.name}}</h3></a>
+                        <a href="{{ path('sinenco_showcase_page', {'slug':page.page.canonicalName}) }}"><h3 class="text-center">{{page.title}}</h3></a>
                                 {#<p>Template Used: <a href="/template-overviews/agency">Agency</a></p>
                                 <p>Published: February 2015</p>
                                 <a href="http://www.pixelcreart.com/" class="btn btn-default">Visit Website</a>#}
                     </div>
                     <p>
                         <a href="{{ path('sinenco_showcase_page', {'slug':page.page.canonicalName}) }}">
-                            {% media page.image, 'medium' with {'class': 'img-responsive', "style":"margin:auto" } %}
+                            {% media page.imageShowcase, 'medium' with {'class': 'img-responsive', "style":"margin:auto" } %}
                         </a>
                     </p>
 

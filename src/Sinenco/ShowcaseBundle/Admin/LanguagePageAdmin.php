@@ -16,6 +16,9 @@ class LanguagePageAdmin extends Admin {
                 
                 ->add('canonicalName')
                 ->add('page')
+                ->add('imageShowcase', 'sonata_type_model_list', array(), array(
+                    'link_parameters' => array('context' => 'showcase_image')
+                ))
                 ->add('imageIntro', 'sonata_type_model_list', array(), array(
                     'link_parameters' => array('context' => 'showcase_image')
                 ))
