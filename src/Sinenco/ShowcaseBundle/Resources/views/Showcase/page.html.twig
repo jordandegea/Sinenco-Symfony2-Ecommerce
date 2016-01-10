@@ -100,12 +100,14 @@
 
 {% for tab in page.tabs %}
     <section id="{{tab.canonicalName}}" >
-        {% for section in tab.sections %}
-            <div class="content-section-a">
+
+        <div class="content-section">
+            <h1 class="content-section-h1">{{ tab.name }}</h1>
+            {% for section in tab.sections %}
                 <div class="container">
                     {% if section.image is null %}
                         <div class="col-lg-12 text-center">
-                            <hr class="section-heading-spacer">
+                            <hr class="intro-divider">
                             <div class="clearfix"></div>
                             <h2 class="section-heading">{{ section.title|raw }}</h2>
                             <p class="lead">{{ section.content|raw }}</p>
@@ -113,7 +115,7 @@
                     {% else %}
                         <div class="row">
                             <div class="col-lg-5 col-sm-6">
-                                <hr class="section-heading-spacer">
+                                <hr class="intro-divider">
                                 <div class="clearfix"></div>
                                 <h2 class="section-heading">{{ section.title|raw }}</h2>
                                 <p class="lead">{{ section.content|raw }}</p>
@@ -125,11 +127,13 @@
 
                     {% endif %}
 
-                </div>
-                <!-- /.container -->
+                    <!-- /.container -->
 
-            </div>
-        {% endfor %}
+                </div>
+            {% endfor %}
+            <hr class="divider">
+        </div>
+
     </section>
 {% endfor %}
 
