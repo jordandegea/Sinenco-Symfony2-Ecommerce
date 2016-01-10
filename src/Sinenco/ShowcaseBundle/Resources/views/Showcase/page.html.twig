@@ -36,14 +36,24 @@
         .banner-bg h2 {
             color: #{{ page.colorTextBanner }};
         }
-        
+
         .intro-message-custom{
             padding:{{page.paddings}};
             text-align: {{page.align}};
         }
-            
+
 
     </style>
+
+{% endblock %}
+{% block javascripts %} 
+
+    {{ parent() }}
+    {% javascripts filter='?yui_css' 
+        "@SinencoCoreBundle/Resources/public/js/buttonGoTop.js" %}
+
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
 {% endblock %}
 
 {% block body %}
