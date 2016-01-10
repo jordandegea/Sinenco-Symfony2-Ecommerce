@@ -42,6 +42,11 @@
             text-align: {{page.align}};
         }
 
+        .img-custom{
+            -moz-border-radius:16px;
+            -webkit-border-radius:16px;
+            border-radius:16px;
+        }
 
     </style>
 
@@ -107,21 +112,23 @@
                 <div class="container">
                     {% if section.image is null %}
                         <div class="col-lg-12 text-center">
-                            <hr class="intro-divider">
+                            <hr class="intro-divider" />
                             <div class="clearfix"></div>
                             <h2 class="section-heading">{{ section.title|raw }}</h2>
                             <p class="lead">{{ section.content|raw }}</p>
                         </div>
                     {% else %}
                         <div class="row">
-                            <div class="col-lg-5 col-sm-6">
-                                <hr class="intro-divider">
+                            <hr class="intro-divider" />
+                            <div class="col-xs-12 col-sm-6 col-lg-5 text-center">
                                 <div class="clearfix"></div>
                                 <h2 class="section-heading">{{ section.title|raw }}</h2>
                                 <p class="lead">{{ section.content|raw }}</p>
                             </div>
-                            <div class="col-lg-5 col-lg-offset-2 col-sm-6">
-                                <img class="img-responsive" src="{% path section.image, 'medium' %}" alt="">
+                            <div class="col-xs-12 col-sm-6 col-lg-offset-2 col-lg-5 ">
+                                <center>
+                                <img class="img-responsive img-custom" src="{% path section.image, 'medium' %}" alt="">
+                                </center>
                             </div>
                         </div>
 
@@ -131,7 +138,7 @@
 
                 </div>
             {% endfor %}
-            <hr class="divider">
+            <hr class="divider" />
         </div>
 
     </section>
