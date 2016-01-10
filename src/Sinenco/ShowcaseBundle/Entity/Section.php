@@ -26,7 +26,7 @@ class Section
     /**
      * @var string
      *
-     * @ORM\Column(name="canonicalName", type="string", length=255)
+     * @ORM\Column(name="canonicalName", type="string", length=255, nullable=true)
      */
     private $canonicalName;
     
@@ -59,6 +59,14 @@ class Section
      * @ORM\Column(name="content", type="text")
      */
     private $content;
+    
+    
+    
+    public function __construct() {
+        $this->title = "";
+        $this->content = "";
+    }
+    
     
     /**
      * Get id

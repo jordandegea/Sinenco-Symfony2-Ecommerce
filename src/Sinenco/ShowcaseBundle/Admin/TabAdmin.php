@@ -25,7 +25,7 @@ class TabAdmin extends Admin {
             ]))
                 ->add('name')
                 ->add('sections', 'sonata_type_collection', ['label' => 'Section',
-                    'required' => false, 'cascade_validation' => true,
+                    'required' => false, 
                     'by_reference' => false], ['edit' => 'inline', 'inline' => 'table'])
                 ->end()
 

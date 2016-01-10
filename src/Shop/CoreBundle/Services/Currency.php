@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Response,
     Doctrine\ORM\EntityManager;
 
 class Currency {
+    /* var $em EntityManager */
 
     const CURRENCY_CHANGE_COMMISSION = 0.99;
     const DEFAULT_CURRENCY = "EUR";
@@ -27,7 +28,7 @@ class Currency {
     public function onControllerRequest(\Symfony\Component\HttpKernel\Event\FilterControllerEvent $event) {
         $this->request = $event->getRequest();
         $userToken = $this->container->get('security.context')->getToken();
-        if ($userToken != null && !is_string($userToken->getUser() ) ) {
+        if ($userToken != null && !is_string($userToken->getUser())) {
             $userId = $userToken
                     ->getUser()
                     ->getId();
@@ -86,8 +87,8 @@ class Currency {
     }
 
     public function getAssociatedCurrency($currency_name) {
-        if ( ! is_string ($currency_name)){
-            return $currency_name ;
+        if (!is_string($currency_name)) {
+            return $currency_name;
         }
         if ($this->container == null) {
             return null;
@@ -121,15 +122,18 @@ class Currency {
             return false;
         }
         if ($this->user != null) {
-            if ( !empty($this->currency) && $this->currency != $currency ){
-                $this->changeUserBalance($this->currency, $currency, $this->user) ;
+            if (!empty($this->currency) && $this->currency != $currency) {
+                $this->changeUserBalance($this->currency, $currency, $this->user);
             }
             $this->user->setCurrency($currency);
 
-            $this->em->persist($this->user);
-            $this->em->flush();
+            if ($this->em->isOpen()) {
+
+                $this->em->persist($this->user);
+                $this->em->flush();
+            }
         }
-        
+
         $this->currency = $currency;
         $cookie = new Cookie(
                 'currency', $currency, time() + 3600 * 24 * 7);
