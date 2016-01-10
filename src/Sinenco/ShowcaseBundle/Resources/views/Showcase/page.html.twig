@@ -17,15 +17,15 @@
     {% endstylesheets %}
 
     <style>
-        .intro-message-bg{
+        .intro-header-bg{
             background: url({% path page.imageIntro, 'lg'  %}) no-repeat center center;
             background-size: cover;
         }
-        .intro-message-bg h1 {
+        .intro-header-bg h1 {
             color: #{{ page.colorTextIntro }};
         }
 
-        .intro-message-bg h3 {
+        .intro-header-bg h3 {
             color: #{{ page.colorTextIntro }};
         }
         .banner-bg{
@@ -36,6 +36,12 @@
         .banner-bg h2 {
             color: #{{ page.colorTextBanner }};
         }
+        
+        .intro-message-custom{
+            padding:{{page.paddings}};
+            text-align: {{page.align}};
+        }
+            
 
     </style>
 {% endblock %}
@@ -48,15 +54,16 @@
 
 
 <a name="about"></a>
-<div class="intro-header intro-message-bg" >
+<div class="intro-header intro-header-bg" >
     <div class="container">
 
         <div class="row">
             <div class="col-lg-12">
-                <div class="intro-message">
+                <div class="intro-message intro-message-custom">
                     <h1>{{ page.title }}</h1>
-                    <h3>{{ page.subtitle }}</h3>
-                    <hr class="intro-divider">
+                    <h3>{{ page.subtitle|raw }}</h3>
+                    <hr class="intro-divider"  style="float:{{page.align}};" />
+                    <div class="clearfix"></div>
                     <ul class="list-inline intro-social-buttons">
                         {% for tab in page.tabs %}
                             <li>
@@ -123,7 +130,7 @@
 
         <div class="row">
             <div class="col-lg-6">
-                <h2>Connect to Start Bootstrap:</h2>
+                <h2>{{ page.title }}</h2>
             </div>
             <div class="col-lg-6">
                 <ul class="list-inline banner-social-buttons">

@@ -65,6 +65,22 @@ class LanguagePage
     /**
      * @var string
      *
+     * @ORM\Column(name="paddings", type="string", length=32)
+     */
+    private $paddings;
+    
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="align", type="string", length=32)
+     */
+    private $align;
+    
+    
+    
+    /**
+     * @var string
+     *
      * @ORM\Column(name="language", type="string", length=5)
      */
     private $language;
@@ -393,5 +409,53 @@ class LanguagePage
     public function getImageShowcase()
     {
         return $this->imageShowcase;
+    }
+
+    /**
+     * Set paddings
+     *
+     * @param string $paddings
+     *
+     * @return LanguagePage
+     */
+    public function setPaddings($paddings)
+    {
+        $this->paddings = $paddings;
+
+        return $this;
+    }
+
+    /**
+     * Get paddings
+     *
+     * @return string
+     */
+    public function getPaddings()
+    {
+        return $this->paddings;
+    }
+
+    /**
+     * Set align
+     *
+     * @param string $align
+     *
+     * @return LanguagePage
+     */
+    public function setAlign($align)
+    {
+        $this->align = $align;
+
+        return $this;
+    }
+
+    /**
+     * Get align
+     *
+     * @return string
+     */
+    public function getAlign()
+    {
+        return $this->align;
     }
 }
